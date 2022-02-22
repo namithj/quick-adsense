@@ -37,7 +37,7 @@ function quick_adsense_adstxt_adsense_admin_notice( $is_ajax = false ) {
 				if ( ! isset( $adstxt_new_adsense_entries ) || ( false === $adstxt_new_adsense_entries ) ) {
 					$adstxt_new_adsense_entries = quick_adsense_adstxt_adsense_get_status();
 				}
-				if ( false !== $adstxt_new_adsense_entries ) {
+				if ( ( false !== $adstxt_new_adsense_entries ) && is_array( $adstxt_new_adsense_entries ) ) {
 					set_transient( 'quick_adsense_adstxt_adsense_autocheck_content', $adstxt_new_adsense_entries, DAY_IN_SECONDS );
 					$screen = get_current_screen();
 					echo wp_kses(
