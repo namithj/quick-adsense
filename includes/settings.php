@@ -46,10 +46,10 @@ add_action(
 	function ( $hook ) {
 		global $wp_scripts;
 		if ( ( 'toplevel_page_quick-adsense' === $hook ) && ( current_user_can( 'manage_options' ) ) ) {
-			wp_enqueue_script( 'quick-adsense-chart-scripts', plugins_url( '../assets/js/Chart.bundle.min.js', __FILE__ ), [ 'jquery', 'jquery-ui-core', 'jquery-ui-accordion', 'jquery-ui-dialog' ], '2.7.0', false );
-			wp_enqueue_style( 'quick-adsense-jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/' . $wp_scripts->registered['jquery-ui-core']->ver . '/themes/smoothness/jquery-ui.css', [], $wp_scripts->registered['jquery-ui-core']->ver );
-			wp_enqueue_style( 'quick-adsense-admin-styles', plugins_url( '../assets/css/admin.css', __FILE__ ), [], '2.8.0' );
-			wp_enqueue_script( 'quick-adsense-admin-scripts', plugins_url( '../assets/js/admin.js', __FILE__ ), [ 'jquery', 'jquery-ui-core', 'jquery-ui-tabs', 'wp-util' ], '2.8.0', false );
+			wp_enqueue_script( 'quick-adsense-chart-scripts', plugins_url( '../assets/js/chart.min.js', __FILE__ ), [ 'jquery', 'jquery-ui-core', 'jquery-ui-accordion', 'jquery-ui-dialog' ], '3.7.1', false );
+			wp_enqueue_style( 'quick-adsense-jquery-ui-styles', plugins_url( '../assets/css/jquery-ui.min.css', __FILE__ ), [], '1.9.1' );
+			wp_enqueue_style( 'quick-adsense-admin-styles', plugins_url( '../assets/css/admin.css', __FILE__ ), [], '2.8.2' );
+			wp_enqueue_script( 'quick-adsense-admin-scripts', plugins_url( '../assets/js/admin.js', __FILE__ ), [ 'jquery', 'jquery-ui-core', 'jquery-ui-tabs', 'wp-util' ], '2.8.2', false );
 			wp_localize_script(
 				'quick-adsense-admin-scripts',
 				'quick_adsense',
@@ -130,18 +130,6 @@ add_action(
 					// phpcs:enable
 				},
 				'quick-adsense-widgets'
-			);
-			$settings['location'] = 'header_footer_codes';
-			add_settings_section(
-				'quick_adsense_header_footer_codes',
-				'',
-				function () use ( $settings ) {
-					// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-					// Contains textareas which need to allow output of scripts, iframes etc necessary to output ads and trackers.
-					echo quick_adsense_load_file( 'templates/section-header-footer.php', $settings );
-					// phpcs:enable
-				},
-				'quick-adsense-header-footer-codes'
 			);
 		}
 	}

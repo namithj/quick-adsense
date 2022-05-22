@@ -25,10 +25,7 @@ class QuickAdsenseAdWidget extends WP_Widget {
 			$widget_index = str_replace( [ 'AdsWidget', ' (Quick Adsense)' ], '', $args['widget_name'] );
 			if ( isset( $settings[ 'widget_ad_' . $widget_index . '_content' ] ) && ( '' !== $settings[ 'widget_ad_' . $widget_index . '_content' ] ) ) {
 				echo wp_kses( $args['before_widget'], quick_adsense_get_allowed_html() );
-				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-				// The widget content needs to allow output of scripts, iframes etc necessary to output ads and trackers.
-				echo $settings[ 'widget_ad_' . $widget_index . '_content' ];
-				// phpcs:enable
+				echo wp_kses( $settings[ 'widget_ad_' . $widget_index . '_content' ], quick_adsense_get_allowed_html() );
 				echo wp_kses( $args['after_widget'], quick_adsense_get_allowed_html() );
 			}
 		}

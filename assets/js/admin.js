@@ -123,18 +123,40 @@ jQuery(document).ready(function () {
 					jQuery('#quick_adsense_ad_stats_chart_wrapper canvas').attr('width', jQuery('#quick_adsense_ad_stats_chart_wrapper').width() + 'px');
 					jQuery('#quick_adsense_ad_stats_chart_wrapper canvas').attr('height', jQuery('#quick_adsense_ad_stats_chart_wrapper').height() + 'px');
 					if (jQuery('#quick_adsense_ad_stats_chart_data').length) {
+						const quick_adsense_ad_stats_chart_data = JSON.parse(jQuery('#quick_adsense_ad_stats_chart_data').val());
 						var quick_adsense_ad_stats_chart = new Chart(jQuery('#quick_adsense_ad_stats_chart'), {
 							type: 'line',
 							responsive: false,
 							data: {
 								datasets: [{
-									data: JSON.parse(jQuery('#quick_adsense_ad_stats_chart_data').val()),
+									label: 'Impressions',
+									data: quick_adsense_ad_stats_chart_data.map(function (item) {
+										return {
+											x: item.x,
+											y: item.y
+										};
+									}),
 									backgroundColor: '#EDF5FB',
-									borderColor: '#186EAE',/*E8EBEF*/
-									borderWidth: 1
+									borderColor: '#186EAE',
+									borderWidth: 1,
+									yAxisID: 'y',
+								},
+								{
+									label: 'Clicks',
+									data: quick_adsense_ad_stats_chart_data.map(function (item) {
+										return {
+											x: item.x,
+											y: item.y1
+										};
+									}),
+									backgroundColor: '#FC9DAF',
+									borderColor: '#E80534',
+									borderWidth: 1,
+									yAxisID: 'y',
 								}]
 							},
 							options: {
+								stacked: true,
 								title: {
 									display: false,
 									backgroundColor: '#EDF5FB'
@@ -143,8 +165,7 @@ jQuery(document).ready(function () {
 									display: false,
 								},
 								scales: {
-									xAxes: [{
-										type: "time",
+									x: {
 										display: true,
 										scaleLabel: {
 											display: true
@@ -156,8 +177,8 @@ jQuery(document).ready(function () {
 										ticks: {
 											display: true
 										}
-									}],
-									yAxes: [{
+									},
+									y: {
 										display: true,
 										scaleLabel: {
 											display: true
@@ -169,7 +190,7 @@ jQuery(document).ready(function () {
 										ticks: {
 											display: true
 										}
-									}]
+									}
 								},
 								tooltips: {
 									displayColors: false,
@@ -203,7 +224,7 @@ function quick_adsense_adstxt_adsense_auto_update() {
 		nonce: quick_adsense_adstxt_adsense.nonce,
 	}).done(function (result) {
 		jQuery('.quick_adsense_adstxt_adsense_notice').hide();
-	}.fail(function(result) {
+	}.fail(function (result) {
 		if ("undefined" !== typeof result) {
 			jQuery(result).dialog({
 				'modal': true,

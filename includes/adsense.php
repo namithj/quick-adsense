@@ -8,7 +8,7 @@
  */
 add_action(
 	'admin_enqueue_scripts',
-	function() {
+	function () {
 		if ( current_user_can( 'manage_options' ) ) {
 			wp_localize_script(
 				'jquery',
@@ -202,7 +202,7 @@ function quick_adsense_adstxt_adsense_extract_publisherids( $ad_code ) {
  */
 add_action(
 	'wp_ajax_quick_adsense_adstxt_adsense_admin_notice_dismiss',
-	function() {
+	function () {
 		if ( isset( $_POST['nonce'] ) && wp_verify_nonce( sanitize_key( $_POST['nonce'] ), 'quick-adsense-adstxt-adsense-nonce' ) && ( current_user_can( 'manage_options' ) ) ) {
 			update_option( 'quick_adsense_adstxt_adsense_admin_notice_dismissed', 'true' );
 			wp_send_json_success();
@@ -216,7 +216,7 @@ add_action(
  */
 add_action(
 	'wp_ajax_quick_adsense_adstxt_adsense_auto_update',
-	function() {
+	function () {
 		if ( isset( $_POST['nonce'] ) && wp_verify_nonce( sanitize_key( $_POST['nonce'] ), 'quick-adsense-adstxt-adsense-nonce' ) && ( current_user_can( 'manage_options' ) ) ) {
 			$adstxt_new_adsense_entries = quick_adsense_adstxt_adsense_get_status();
 			$file_handler               = new QuickAdsense\FileHandler( 'ads.txt' );
@@ -247,4 +247,3 @@ add_action(
 		wp_send_json_error();
 	}
 );
-

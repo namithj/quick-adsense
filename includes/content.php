@@ -4,38 +4,6 @@ $quick_adsense_ads_id        = [];
 $quick_adsense_begin_end     = 0;
 
 /**
- * Hook into the header to embed the Header tracking or ad code.
- */
-add_action(
-	'wp_head',
-	function() {
-		$settings = get_option( 'quick_adsense_settings' );
-		if ( isset( $settings['header_embed_code'] ) && ( '' !== $settings['header_embed_code'] ) ) {
-			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-			// Need to allow output of scripts, iframes etc necessary to output ads and trackers.
-			echo $settings['header_embed_code'];
-			// phpcs:enable
-		}
-	}
-);
-
-/**
- * Hook into the footer to embed the Footer tracking or ad code.
- */
-add_action(
-	'wp_footer',
-	function() {
-		$settings = get_option( 'quick_adsense_settings' );
-		if ( isset( $settings['footer_embed_code'] ) && ( '' !== $settings['footer_embed_code'] ) ) {
-			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-			// Need to allow output of scripts, iframes etc necessary to output ads and trackers.
-			echo $settings['footer_embed_code'];
-			// phpcs:enable
-		}
-	}
-);
-
-/**
  * Filter the post content to embed ads.
  */
 add_filter(
