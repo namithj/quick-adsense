@@ -42,16 +42,14 @@ function quick_adsense_adstxt_adsense_admin_notice( $is_ajax = false ) {
 				if ( ( false !== $adstxt_new_adsense_entries ) && is_array( $adstxt_new_adsense_entries ) ) {
 					set_transient( 'quick_adsense_adstxt_adsense_autocheck_content', $adstxt_new_adsense_entries, DAY_IN_SECONDS );
 					$screen = get_current_screen();
-					echo wp_kses(
-						quick_adsense_load_file(
-							'templates/block-adsense-adstxt-notice.php',
-							[
-								'screen_id' => $screen->id,
-								'is_ajax'   => $is_ajax,
-								'adstxt_new_adsense_entries' => implode( '<br />', $adstxt_new_adsense_entries ),
-							]
-						),
-						quick_adsense_get_allowed_html()
+					quick_adsense_load_file(
+						'templates/block-adsense-adstxt-notice.php',
+						[
+							'screen_id'                  => $screen->id,
+							'is_ajax'                    => $is_ajax,
+							'adstxt_new_adsense_entries' => implode( '<br />', $adstxt_new_adsense_entries ),
+						],
+						true
 					);
 				} else {
 					set_transient( 'quick_adsense_adstxt_adsense_autocheck_content', 'CHECKED', DAY_IN_SECONDS );
@@ -231,14 +229,11 @@ add_action(
 					wp_send_json_success();
 				} else {
 					wp_send_json_error(
-						wp_kses(
-							quick_adsense_load_file(
-								'templates/block-adsense-adstxt-update-failed.php',
-								[
-									'content' => $adstxt_updated_content,
-								]
-							),
-							quick_adsense_get_allowed_html()
+						quick_adsense_load_file(
+							'templates/block-adsense-adstxt-update-failed.php',
+							[
+								'content' => $adstxt_updated_content,
+							]
 						)
 					);
 				}

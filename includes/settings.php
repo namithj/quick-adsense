@@ -29,10 +29,7 @@ add_action(
 			'manage_options',
 			'quick-adsense',
 			function () {
-				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-				// Contains textareas which need to allow output of scripts, iframes etc necessary to output ads and trackers.
-				echo quick_adsense_load_file( 'templates/page-settings.php' );
-				// phpcs:enable
+				quick_adsense_load_file( 'templates/page-settings.php', [], true );
 			}
 		);
 	}
@@ -100,10 +97,7 @@ add_action(
 				'quick_adsense_general',
 				'',
 				function () use ( $settings ) {
-					echo wp_kses(
-						quick_adsense_load_file( 'templates/section-general.php', $settings ),
-						quick_adsense_get_allowed_html()
-					);
+					quick_adsense_load_file( 'templates/section-general.php', $settings, true );
 				},
 				'quick-adsense-general'
 			);
@@ -112,10 +106,7 @@ add_action(
 				'quick_adsense_onpost',
 				'',
 				function () use ( $settings ) {
-					// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-					// Contains textareas which need to allow output of scripts, iframes etc necessary to output ads and trackers.
-					echo quick_adsense_load_file( 'templates/section-onpost-content.php', $settings );
-					// phpcs:enable
+					quick_adsense_load_file( 'templates/section-onpost-content.php', $settings, true );
 				},
 				'quick-adsense-onpost'
 			);
@@ -124,12 +115,18 @@ add_action(
 				'quick_adsense_widgets',
 				'',
 				function () use ( $settings ) {
-					// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-					// Contains textareas which need to allow output of scripts, iframes etc necessary to output ads and trackers.
-					echo quick_adsense_load_file( 'templates/section-widgets.php', $settings );
-					// phpcs:enable
+					quick_adsense_load_file( 'templates/section-widgets.php', $settings, true );
 				},
 				'quick-adsense-widgets'
+			);
+			$settings['location'] = 'header_footer_codes';
+			add_settings_section(
+				'quick_adsense_header_footer_codes',
+				'',
+				function () use ( $settings ) {
+					quick_adsense_load_file( 'templates/section-header-footer.php', $settings, true );
+				},
+				'quick-adsense-header-footer-codes'
 			);
 		}
 	}

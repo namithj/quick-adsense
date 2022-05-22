@@ -7,6 +7,7 @@
 				<li><a href="#tabs-settings">Settings</a></li>
 				<li><a href="#tabs-post-body-ads">Ads on Post Body</a></li>
 				<li><a href="#tabs-sidebar-widget-ads">Sidebar Widget</a></li>
+				<li><a href="#tabs-header-footer-codes">Header / Footer Codes</a></li>
 			</ul>
 			<div id="tabs-settings">
 				<div id="quick_adsense_top_sections_wrapper">

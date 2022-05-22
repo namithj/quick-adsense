@@ -6,20 +6,8 @@
 	<div class="clear"></div>
 </div>
 <?php
-echo wp_kses(
-	quick_adsense_load_file( 'templates/block-general-adsense.php', $args ),
-	quick_adsense_get_allowed_html()
-);
-echo wp_kses(
-	quick_adsense_load_file( 'templates/block-general-appearance.php', $args ),
-	quick_adsense_get_allowed_html()
-);
-echo wp_kses(
-	quick_adsense_load_file( 'templates/block-general-assign-position.php', $args ),
-	quick_adsense_get_allowed_html()
-);
-echo wp_kses(
-	quick_adsense_load_file( 'templates/block-general-quicktag.php', $args ),
-	quick_adsense_get_allowed_html()
-);
+quick_adsense_load_file( 'templates/block-general-adsense.php', $args, true );
+quick_adsense_load_file( 'templates/block-general-appearance.php', $args, true );
+quick_adsense_load_file( 'templates/block-general-assign-position.php', $args, true );
+quick_adsense_load_file( 'templates/block-general-quicktag.php', $args, true );
 ?>

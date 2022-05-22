@@ -66,10 +66,7 @@
 			<?php
 			for ( $i = 1; $i <= 3; $i++ ) {
 				$args['adunit_index'] = $i;
-				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-				// Contains a textarea which need to allow output of scripts, iframes etc necessary to output ads and trackers.
-				echo quick_adsense_load_file( 'templates/adunit-widget.php', $args );
-				// phpcs:enable
+				quick_adsense_load_file( 'templates/adunit-widget.php', $args, true );
 			}
 			?>
 		</div>
@@ -77,10 +74,7 @@
 			<?php
 			for ( $i = 4; $i <= 10; $i++ ) {
 				$args['adunit_index'] = $i;
-				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-				// Contains a textarea which need to allow output of scripts, iframes etc necessary to output ads and trackers.
-				echo quick_adsense_load_file( 'templates/adunit-widget.php', $args );
-				// phpcs:enable
+				quick_adsense_load_file( 'templates/adunit-widget.php', $args, true );
 			}
 			?>
 		</div>
