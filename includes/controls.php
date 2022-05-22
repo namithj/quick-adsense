@@ -170,6 +170,7 @@ function quick_adsense_get_allowed_html() {
 		'h4'         => $common_html_attributes,
 		'h5'         => $common_html_attributes,
 		'h6'         => $common_html_attributes,
+		'hr'         => $common_html_attributes,
 		'i'          => $common_html_attributes,
 		'img'        => $common_html_attributes,
 		'label'      => $common_html_attributes,
