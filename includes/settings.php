@@ -131,6 +131,18 @@ add_action(
 				},
 				'quick-adsense-widgets'
 			);
+			$settings['location'] = 'header_footer_codes';
+			add_settings_section(
+				'quick_adsense_header_footer_codes',
+				'',
+				function () use ( $settings ) {
+					// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+					// Contains textareas which need to allow output of scripts, iframes etc necessary to output ads and trackers.
+					echo quick_adsense_load_file( 'templates/section-header-footer.php', $settings );
+					// phpcs:enable					
+				},
+				'quick-adsense-header-footer-codes'
+			);
 		}
 	}
 );
