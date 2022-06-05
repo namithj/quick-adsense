@@ -8,10 +8,12 @@
  */
 function quick_adsense_load_file( $file, $args = [], $echo = false ) {
 	if ( ( '' !== $file ) && file_exists( dirname( __FILE__ ) . '/' . $file ) ) {
-		//phpcs:disable WordPress.PHP.DontExtract.extract_extract
-		// Usage of extract() is necessary in this content to simulate templating functionality.
-		extract( $args );
-		//phpcs:enable
+		if ( is_array( $args ) ) {
+			//phpcs:disable WordPress.PHP.DontExtract.extract_extract
+			// Usage of extract() is necessary in this content to simulate templating functionality.
+			extract( $args );
+			//phpcs:enable
+		}
 		ob_start();
 		include dirname( __FILE__ ) . '/' . $file;
 		$content = ob_get_contents();

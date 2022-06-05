@@ -1,3 +1,9 @@
+<?php
+/**
+ * This file contains the javascript code for stat collection related functions.
+ */
+
+?>
 jQuery(document).ready(function() {
 	jQuery(".<?php echo esc_js( quick_adsense_get_value( $args, 'target' ) ); ?>").click(function() {
 		jQuery.post(

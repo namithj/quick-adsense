@@ -5,7 +5,7 @@
  * Description: Quick Adsense offers a quicker & flexible way to insert Google Adsense or any Ads code into a blog post.
  * Author: namithjawahar
  * Author URI: https://smartlogix.co.in/
- * Version: 2.8.6
+ * Version: 2.8.7
  */
 require_once dirname( __FILE__ ) . '/includes/loader.php';
 require_once dirname( __FILE__ ) . '/includes/countries.php';

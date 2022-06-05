@@ -6,7 +6,7 @@
 			echo wp_kses(
 				quickadsense_get_control(
 					'checkbox',
-					'<b>Show Quicktag Buttons on the HTML Edit Post SubPanel</b>',
+					'<b>Show Quicktag Buttons on the HTML Edit Post SubPanel (Classic Editor)</b>',
 					'quick_adsense_settings_enable_quicktag_buttons',
 					'quick_adsense_settings[enable_quicktag_buttons]',
 					quick_adsense_get_value( $args, 'enable_quicktag_buttons' ),

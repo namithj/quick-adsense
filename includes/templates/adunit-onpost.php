@@ -3,20 +3,20 @@
 	<div class="quick_adsense_onpost_adunits_label">Ads<?php echo esc_attr( $adunit_index ); ?></div>
 	<div class="quick_adsense_onpost_adunits_control">
 		<?php
-		echo wp_kses(
-			quickadsense_get_control(
-				'textarea',
-				'',
-				'quick_adsense_settings_onpost_ad_' . $adunit_index . '_content',
-				'quick_adsense_settings[onpost_ad_' . $adunit_index . '_content]',
-				quick_adsense_get_value( $args, 'onpost_ad_' . $adunit_index . '_content' ),
-				null,
-				'input',
-				'display: block; margin: 0 0 10px 0',
-				'Enter Code'
-			),
-			quick_adsense_get_allowed_html()
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+		// This textarea needs to allow output of scripts, iframes etc necessary to output ads and trackers.
+		echo quickadsense_get_control(
+			'textarea',
+			'',
+			'quick_adsense_settings_onpost_ad_' . $adunit_index . '_content',
+			'quick_adsense_settings[onpost_ad_' . $adunit_index . '_content]',
+			quick_adsense_get_value( $args, 'onpost_ad_' . $adunit_index . '_content' ),
+			null,
+			'input',
+			'display: block; margin: 0 0 10px 0',
+			'Enter Code'
 		);
+		// phpcs:enable
 		?>
 		<p class="quick_adsense_onpost_adunits_styling_controls">
 			Alignment
