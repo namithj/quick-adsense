@@ -97,8 +97,20 @@ try {
 	rmSync( workDir, { recursive: true, force: true } );
 }
 
-if ( ! pluginEntries.includes( 'quick-adsense/quick-adsense.php' ) ) {
-	fail( 'plugin zip does not contain quick-adsense/quick-adsense.php' );
+// Files quick-adsense.php requires unconditionally at load. If packaging drops
+// them the plugin fatals the moment Playground activates it, so assert their
+// presence here rather than discovering it in the browser.
+const REQUIRED_PLUGIN_FILES = [
+	'quick-adsense/quick-adsense.php',
+	'quick-adsense/includes/loader.php',
+	'quick-adsense/includes/vendor/MobileDetect/Mobile_Detect.php',
+	'quick-adsense/includes/vendor/GeoIP/GeoIPCountry.php',
+];
+
+for ( const required of REQUIRED_PLUGIN_FILES ) {
+	if ( ! pluginEntries.includes( required ) ) {
+		fail( `plugin zip does not contain ${ required }` );
+	}
 }
 if ( pluginEntries.some( ( entry ) => entry.startsWith( 'quick-adsense/tests/' ) || entry.startsWith( 'quick-adsense/scripts/' ) ) ) {
 	fail( 'plugin zip contains development-only tests or Playground scripts' );

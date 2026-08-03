@@ -1,19 +1,26 @@
-.git
-.github
-.vscode
-.cache
-.distignore
-.gitattributes
-.gitignore
-bin
-build
-composer.json
-composer.lock
-node_modules
-phpcs.xml
-phpcs.xml.dist
-phpunit.xml
-phpunit.xml.dist
-scripts
-tests
-vendor
+# Paths excluded from the distributed plugin.
+#
+# Every pattern is anchored with a leading slash so it matches only at the
+# repository root. rsync — used by bin/build-release.sh and by the WordPress.org
+# deploy action — matches an unanchored pattern at *any* depth, so a bare
+# "vendor" also strips includes/vendor, the plugin's own bundled Mobile_Detect
+# and GeoIP libraries, and the plugin then fatals on activation.
+/.git
+/.github
+/.vscode
+/.cache
+/.distignore
+/.gitattributes
+/.gitignore
+/bin
+/build
+/composer.json
+/composer.lock
+/node_modules
+/phpcs.xml
+/phpcs.xml.dist
+/phpunit.xml
+/phpunit.xml.dist
+/scripts
+/tests
+/vendor

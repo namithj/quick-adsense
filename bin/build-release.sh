@@ -35,4 +35,24 @@ if [[ "${ZIP_VERSION}" != "${VERSION}" || "${ZIP_README_TAG}" != "${VERSION}" ]]
 	exit 1
 fi
 
+# Every runtime file must survive packaging. rsync matches an unanchored
+# .distignore pattern at any depth, so a bare "vendor" entry silently strips
+# includes/vendor as well — and the plugin then fatals on activation with the
+# zip still looking plausible. Compare the shipped directories file by file.
+ZIP_ENTRIES="$( unzip -Z1 "${ZIP_PATH}" )"
+MISSING=0
+
+while IFS= read -r relative_path; do
+	if ! grep -qxF "${PLUGIN_SLUG}/${relative_path}" <<< "${ZIP_ENTRIES}"; then
+		echo "Missing from the release zip: ${relative_path}" >&2
+		MISSING=$(( MISSING + 1 ))
+	fi
+done < <( cd "${ROOT}" && find includes assets -type f | sort )
+
+if (( MISSING > 0 )); then
+	echo "${MISSING} runtime file(s) were dropped during packaging — check .distignore." >&2
+	exit 1
+fi
+
 echo "Built ${ZIP_PATH}"
+echo "Verified ${VERSION} and $( grep -c . <<< "${ZIP_ENTRIES}" ) entries, including every file under includes/ and assets/."
