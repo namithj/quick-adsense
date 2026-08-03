@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#
+# Package a plugin zip and generated blueprint into an offline Playground bundle.
+#
+# Usage: bin/build-playground-bundle.sh <plugin-zip> <output-bundle>
+
+set -euo pipefail
+
+if [[ $# -ne 2 ]]; then
+	echo "Usage: $0 <plugin-zip> <output-bundle>" >&2
+	exit 2
+fi
+
+PLUGIN_ZIP="$(realpath -m "$1")"
+OUTPUT_BUNDLE="$(realpath -m "$2")"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BUILD_ROOT="$(mktemp -d)"
+
+cleanup() {
+	rm -rf "${BUILD_ROOT}"
+}
+trap cleanup EXIT
+
+if [[ ! -f "${PLUGIN_ZIP}" ]]; then
+	echo "Plugin zip not found: ${PLUGIN_ZIP}" >&2
+	exit 1
+fi
+
+cd "${REPO_ROOT}"
+
+mkdir -p "$(dirname "${OUTPUT_BUNDLE}")"
+cp "${PLUGIN_ZIP}" "${BUILD_ROOT}/quick-adsense.zip"
+node scripts/playground-blueprint.mjs bundle "${BUILD_ROOT}/blueprint.json"
+
+rm -f "${OUTPUT_BUNDLE}"
+(cd "${BUILD_ROOT}" && zip -rq "${OUTPUT_BUNDLE}" blueprint.json quick-adsense.zip)
+ZIP_ENTRIES="$(unzip -Z1 "${OUTPUT_BUNDLE}")"
+
+for required_file in blueprint.json quick-adsense.zip; do
+	if ! grep -qxF "${required_file}" <<< "${ZIP_ENTRIES}"; then
+		echo "Playground bundle is missing ${required_file}." >&2
+		exit 1
+	fi
+done
+
+echo "Built ${OUTPUT_BUNDLE}"

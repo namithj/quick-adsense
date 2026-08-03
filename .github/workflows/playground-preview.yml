@@ -1,8 +1,12 @@
 name: Playground Preview
 
+# Posts a one-click Playground link on every pull request. pull_request_target
+# supplies comment permission but never checks out or executes untrusted PR code;
+# the URL points Playground at the contributor's branch instead.
+
 on:
-  pull_request:
-    branches: [main]
+  pull_request_target:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
@@ -10,24 +14,72 @@ permissions:
 
 jobs:
   preview:
+    name: Post preview link
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout base repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
         with:
-          fetch-depth: 0
-      - name: Build plugin archive
-        run: bash bin/build-release.sh "${RUNNER_TEMP}/dist"
-      - uses: actions/upload-artifact@v7
+          node-version: 22
+
+      - name: Build Playground URL for the PR branch
+        id: url
+        shell: bash
+        env:
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          if [[ -z "${HEAD_REPO}" || -z "${HEAD_REF}" ]]; then
+            echo "Pull request head is unavailable; skipping." >&2
+            exit 1
+          fi
+          URL="$(node scripts/playground-blueprint.mjs branch-url "${HEAD_REPO}" "${HEAD_REF}")"
+          printf '%s' "${URL}" > playground-url.txt
+          echo "Built preview URL for ${HEAD_REPO}@${HEAD_REF}"
+
+      - name: Comment preview link on the pull request
+        uses: actions/github-script@v9
         with:
-          name: quick-adsense-playground-plugin
-          path: ${{ runner.temp }}/dist/*.zip
-      - uses: actions/github-script@v9
-        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const body = 'A release-equivalent Quick AdSense zip is available in this run\'s `quick-adsense-playground-plugin` artifact for WordPress Playground testing.';
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body,
-            });
+            const fs = require('fs');
+            const url = fs.readFileSync('playground-url.txt', 'utf8').trim();
+            const marker = '<!-- quick-adsense-playground-preview -->';
+            const body = [
+              marker,
+              '### Live preview',
+              '',
+              `[Open this pull request in WordPress Playground](${url})`,
+              '',
+              'Boots WordPress with this branch of Quick Adsense active and dummy ads',
+              'already configured for automatic, manual, widget, header and footer',
+              'rendering paths.',
+              '',
+              '<sub>The preview is built from the branch head and refreshes on each push.</sub>',
+            ].join('\n');
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number, per_page: 100 },
+            );
+            const existing = comments.find(
+              (comment) => comment.user?.type === 'Bot' && comment.body?.includes(marker),
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+              return;
+            }
+
+            await github.rest.issues.createComment({ owner, repo, issue_number, body });

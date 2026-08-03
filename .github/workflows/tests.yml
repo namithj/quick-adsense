@@ -57,3 +57,29 @@ jobs:
         run: composer test
       - name: Run AJAX tests
         run: composer test:ajax
+
+  playground-bundle:
+    name: Playground bundle
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Build release zip
+        run: bash bin/build-release.sh "${RUNNER_TEMP}/dist"
+
+      - name: Build Playground bundle
+        run: |
+          ZIP="$(find "${RUNNER_TEMP}/dist" -name 'quick-adsense-*.zip' | head -n 1)"
+          bash bin/build-playground-bundle.sh "${ZIP}" "${RUNNER_TEMP}/quick-adsense-playground.zip"
+
+      - name: Smoke test Playground bundle
+        run: node scripts/test-playground.mjs "${RUNNER_TEMP}/quick-adsense-playground.zip"

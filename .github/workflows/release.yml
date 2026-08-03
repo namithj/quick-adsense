@@ -3,41 +3,146 @@ name: Release
 on:
   push:
     tags: ['v*']
+  release:
+    types: [published]
   workflow_dispatch:
+    inputs:
+      version:
+        description: Version tag to preview (for example v2.8.7)
+        required: true
+        type: string
 
 permissions:
   contents: write
 
 jobs:
   release:
+    name: Build and Release
     runs-on: ubuntu-latest
+    env:
+      SLUG: quick-adsense
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout release ref
+        uses: actions/checkout@v7
         with:
+          ref: ${{ github.event.release.tag_name || inputs.version || github.ref }}
           fetch-depth: 0
-      - uses: shivammathur/setup-php@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           tools: composer
           coverage: none
-      - run: composer install --no-progress --prefer-dist --no-interaction
-      - run: composer test:characterization
-      - run: composer lint:release
-      - name: Build archive
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Sync version from tag
+        shell: bash
+        env:
+          TAG_REF: ${{ github.event.release.tag_name || inputs.version || github.ref_name }}
+        run: |
+          VERSION="${TAG_REF#v}"
+          bash bin/set-version.sh "${VERSION}"
+          if ! git diff --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -am "chore: sync version to ${VERSION}"
+          fi
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction
+
+      - name: Verify ad-code compatibility
+        run: composer test:characterization
+
+      - name: Verify coding standards
+        run: composer lint:release
+
+      - name: Build release zip
         shell: bash
         run: |
           bash bin/build-release.sh "${RUNNER_TEMP}/dist"
-          ZIP="$(find "${RUNNER_TEMP}/dist" -name 'quick-adsense-*.zip' | head -n 1)"
-          cp "${ZIP}" "${RUNNER_TEMP}/quick-adsense.zip"
-      - name: Upload manual preview
+          ZIP="$(find "${RUNNER_TEMP}/dist" -name "${SLUG}-*.zip" | head -n 1)"
+          cp "${ZIP}" "${RUNNER_TEMP}/${SLUG}.zip"
+
+      - name: Build Playground bundle
+        run: bash bin/build-playground-bundle.sh "${RUNNER_TEMP}/${SLUG}.zip" "${RUNNER_TEMP}/${SLUG}-playground.zip"
+
+      - name: Smoke test Playground bundle
+        run: node scripts/test-playground.mjs "${RUNNER_TEMP}/${SLUG}-playground.zip"
+
+      - name: Upload manual-run artifacts
         if: ${{ github.event_name == 'workflow_dispatch' }}
         uses: actions/upload-artifact@v7
         with:
           name: quick-adsense-release-preview
-          path: ${{ runner.temp }}/quick-adsense.zip
-      - name: Publish GitHub release asset
+          path: |
+            ${{ runner.temp }}/quick-adsense.zip
+            ${{ runner.temp }}/quick-adsense-playground.zip
+
+      - name: Create or update GitHub release
         if: ${{ github.event_name != 'workflow_dispatch' }}
         uses: softprops/action-gh-release@v3
         with:
-          files: ${{ runner.temp }}/quick-adsense.zip
+          tag_name: ${{ github.event.release.tag_name || github.ref_name }}
+          files: |
+            ${{ runner.temp }}/quick-adsense.zip
+            ${{ runner.temp }}/quick-adsense-playground.zip
           generate_release_notes: true
+
+      - name: Generate release Playground URL
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        shell: bash
+        env:
+          TAG_REF: ${{ github.event.release.tag_name || inputs.version || github.ref_name }}
+        run: |
+          PLAYGROUND_URL="$(node scripts/playground-blueprint.mjs release-url \
+            "${GITHUB_REPOSITORY}" \
+            "${TAG_REF}")"
+          echo "PLAYGROUND_URL=${PLAYGROUND_URL}" >> "${GITHUB_ENV}"
+
+      - name: Add Playground link to release description
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        uses: actions/github-script@v9
+        env:
+          TAG_REF: ${{ github.event.release.tag_name || inputs.version || github.ref_name }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const startMarker = '<!-- quick-adsense-playground:start -->';
+            const endMarker = '<!-- quick-adsense-playground:end -->';
+            const section = [
+              startMarker,
+              '## Live demo',
+              '',
+              `[Try this release in WordPress Playground](${process.env.PLAYGROUND_URL})`,
+              '',
+              'The demo boots WordPress with Quick Adsense active and visible dummy',
+              'creatives for automatic, manual, widget, header and footer paths.',
+              endMarker,
+            ].join('\n');
+            const markerPattern = new RegExp(
+              `\\n?${startMarker}[\\s\\S]*?${endMarker}\\n?`,
+              'g',
+            );
+            const { owner, repo } = context.repo;
+            const release = context.payload.release || (
+              await github.rest.repos.getReleaseByTag({
+                owner,
+                repo,
+                tag: process.env.TAG_REF,
+              })
+            ).data;
+            const preservedBody = (release.body || '').replace(markerPattern, '').trimEnd();
+            const body = preservedBody ? `${preservedBody}\n\n${section}` : section;
+
+            await github.rest.repos.updateRelease({
+              owner,
+              repo,
+              release_id: Number(release.id),
+              body,
+            });

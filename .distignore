@@ -14,5 +14,6 @@ phpcs.xml
 phpcs.xml.dist
 phpunit.xml
 phpunit.xml.dist
+scripts
 tests
 vendor
