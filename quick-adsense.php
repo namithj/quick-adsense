@@ -17,6 +17,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Plugin version.
+ *
+ * Kept in step with the plugin header and the readme Stable tag by
+ * bin/set-version.sh, which the release pipeline runs from the pushed tag.
+ * Used to cache-bust the plugin's own admin assets.
+ */
+define( 'QUICK_ADSENSE_VERSION', '2.9.1' );
+
 require_once __DIR__ . '/includes/loader.php';
 require_once __DIR__ . '/includes/countries.php';
 require_once __DIR__ . '/includes/defaults.php';

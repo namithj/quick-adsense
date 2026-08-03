@@ -187,8 +187,8 @@ add_action(
 		if ( ( 'toplevel_page_quick-adsense' === $hook ) && ( current_user_can( 'manage_options' ) ) ) {
 			wp_enqueue_script( 'quick-adsense-chart-scripts', plugins_url( '../assets/js/chart.min.js', __FILE__ ), [ 'jquery', 'jquery-ui-core', 'jquery-ui-accordion', 'jquery-ui-dialog' ], '3.7.1', false );
 			wp_enqueue_style( 'quick-adsense-jquery-ui-styles', plugins_url( '../assets/css/jquery-ui.min.css', __FILE__ ), [], '1.9.1' );
-			wp_enqueue_style( 'quick-adsense-admin-styles', plugins_url( '../assets/css/admin.css', __FILE__ ), [], '2.8.2' );
-			wp_enqueue_script( 'quick-adsense-admin-scripts', plugins_url( '../assets/js/admin.js', __FILE__ ), [ 'jquery', 'jquery-ui-core', 'jquery-ui-tabs', 'wp-util' ], '2.8.2', false );
+			wp_enqueue_style( 'quick-adsense-admin-styles', plugins_url( '../assets/css/admin.css', __FILE__ ), [], QUICK_ADSENSE_VERSION );
+			wp_enqueue_script( 'quick-adsense-admin-scripts', plugins_url( '../assets/js/admin.js', __FILE__ ), [ 'jquery', 'jquery-ui-core', 'jquery-ui-tabs', 'wp-util' ], QUICK_ADSENSE_VERSION, false );
 			wp_localize_script(
 				'quick-adsense-admin-scripts',
 				'quick_adsense',

@@ -1,26 +1,70 @@
 name: Release
 
+# The whole release pipeline, driven by one pushed tag.
+#
+#   push tag v2.9.2
+#     -> version-sync.yml   writes 2.9.2 into every published file, commits it,
+#                           and moves the tag onto that commit
+#     -> build              builds the release zip and Playground bundle from
+#                           the synced commit, publishes the GitHub release and
+#                           adds the Playground demo link to its notes
+#     -> publish-fair.yml   publishes release metadata to the FAIR network
+#
+# Every artifact therefore carries the tagged version, because the zips are
+# built from the synced commit rather than from the tag as pushed.
+#
+# Publishing to WordPress.org is deliberately NOT part of this pipeline: SVN is
+# a release repository and a push there is public and awkward to undo, so it is
+# run by hand from deploy.yml. Nothing is lost by doing so — deploy.yml checks
+# out the same synced tag and refuses to run unless the tree it finds carries
+# that tag's version.
+
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to (re)release, for example v2.9.2'
+        required: true
+        type: string
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: release-${{ inputs.tag || github.ref_name }}
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  release:
-    name: Build and Release
+  version:
+    name: Sync version
+    permissions:
+      contents: write
+    uses: ./.github/workflows/version-sync.yml
+    with:
+      # `inputs` is empty for a tag push, so this resolves to the pushed tag.
+      version: ${{ inputs.tag || github.ref_name }}
+      tag: ${{ inputs.tag || github.ref_name }}
+
+  build:
+    name: Build and publish release
+    needs: version
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       SLUG: quick-adsense
+      TAG: ${{ inputs.tag || github.ref_name }}
+      VERSION: ${{ needs.version.outputs.version }}
+
     steps:
-      - name: Checkout release ref
+      # Built from the commit the sync produced, by SHA, so this cannot pick up
+      # a stale copy of the tag from a caching layer.
+      - name: Checkout synced commit
         uses: actions/checkout@v7
         with:
+          ref: ${{ needs.version.outputs.sha }}
           fetch-depth: 0
 
       - name: Setup PHP
@@ -35,14 +79,14 @@ jobs:
         with:
           node-version: 22
 
-      - name: Set plugin version from tag
-        env:
-          TAG_REF: ${{ github.ref_name }}
-        run: bash bin/set-version.sh "${TAG_REF#v}"
+      - name: Verify the checked-out tree carries the tagged version
+        run: bash bin/set-version.sh --check "${VERSION}"
 
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --no-interaction
 
+      # A broken release is worse than a late one: the suite that guarantees
+      # existing users' ad code still renders runs before anything is published.
       - name: Verify ad-code compatibility
         run: composer test:characterization
 
@@ -54,7 +98,10 @@ jobs:
         run: |
           bash bin/build-release.sh "${RUNNER_TEMP}/dist"
           ZIP="$(find "${RUNNER_TEMP}/dist" -name "${SLUG}-*.zip" | head -n 1)"
+          # Release assets use a stable, version-less name so blueprint URLs and
+          # download links stay predictable across releases.
           cp "${ZIP}" "${RUNNER_TEMP}/${SLUG}.zip"
+          echo "Release asset: ${RUNNER_TEMP}/${SLUG}.zip (built from ${ZIP##*/})"
 
       - name: Build Playground bundle
         run: bash bin/build-playground-bundle.sh "${RUNNER_TEMP}/${SLUG}.zip" "${RUNNER_TEMP}/${SLUG}-playground.zip"
@@ -62,10 +109,10 @@ jobs:
       - name: Smoke test Playground bundle
         run: node scripts/test-playground.mjs "${RUNNER_TEMP}/${SLUG}-playground.zip"
 
-      - name: Create GitHub release
+      - name: Create or update GitHub release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ inputs.tag || github.ref_name }}
           files: |
             ${{ runner.temp }}/quick-adsense.zip
             ${{ runner.temp }}/quick-adsense-playground.zip
@@ -73,18 +120,14 @@ jobs:
 
       - name: Generate release Playground URL
         shell: bash
-        env:
-          TAG_REF: ${{ github.ref_name }}
         run: |
           PLAYGROUND_URL="$(node scripts/playground-blueprint.mjs release-url \
             "${GITHUB_REPOSITORY}" \
-            "${TAG_REF}")"
+            "${TAG}")"
           echo "PLAYGROUND_URL=${PLAYGROUND_URL}" >> "${GITHUB_ENV}"
 
       - name: Add Playground link to release description
         uses: actions/github-script@v9
-        env:
-          TAG_REF: ${{ github.ref_name }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -109,9 +152,10 @@ jobs:
               await github.rest.repos.getReleaseByTag({
                 owner,
                 repo,
-                tag: process.env.TAG_REF,
+                tag: process.env.TAG,
               })
             ).data;
+            // Regenerated notes are preserved; only the marked section is replaced.
             const preservedBody = (release.body || '').replace(markerPattern, '').trimEnd();
             const body = preservedBody ? `${preservedBody}\n\n${section}` : section;
 
@@ -122,23 +166,27 @@ jobs:
               body,
             });
 
+      - name: Summary
+        shell: bash
+        run: |
+          {
+            echo "### Release ${TAG}"
+            echo
+            echo "- Version: \`${VERSION}\`"
+            echo "- Built from: \`${{ needs.version.outputs.sha }}\`"
+            echo "- [Try it in WordPress Playground](${PLAYGROUND_URL})"
+            echo
+            echo "WordPress.org is not published automatically. To ship this"
+            echo "release there, run the **Deploy to WordPress.org** workflow"
+            echo "with tag \`${TAG}\` — untick *Dry run* to commit to SVN."
+          } >> "${GITHUB_STEP_SUMMARY}"
+
   publish-fair:
     name: Publish FAIR metadata
-    needs: release
-    if: ${{ vars.FAIR_DID != '' }}
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout release tag
-        uses: actions/checkout@v7
-
-      - name: Publish to FAIR
-        uses: fairpm/fair-pulse@v1
-        with:
-          version: ${{ github.ref_name }}
-          artifact-name: quick-adsense.zip
-          upload-metadata: 'true'
-        env:
-          FAIR_VERIFICATION_KEY_PRIVATE: ${{ secrets.FAIR_VERIFICATION_KEY_PRIVATE }}
-          FAIR_VERIFICATION_KEY_PUBLIC: ${{ secrets.FAIR_VERIFICATION_KEY_PUBLIC }}
-          FAIR_DID: ${{ vars.FAIR_DID }}
+    needs: [version, build]
+    permissions:
+      contents: write
+    uses: ./.github/workflows/publish-fair.yml
+    with:
+      tag: ${{ inputs.tag || github.ref_name }}
+    secrets: inherit

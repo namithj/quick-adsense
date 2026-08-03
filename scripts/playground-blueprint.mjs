@@ -4,6 +4,7 @@
  * Commands:
  *   bundle <output-path>                     Blueprint referencing a bundled zip.
  *   release-url <owner/repo> <tag>           Playground URL for a published release.
+ *   branch-url <owner/repo> <branch>         Playground URL for a branch / PR head.
  */
 
 import { writeFile } from 'node:fs/promises';
@@ -223,7 +224,20 @@ async function main() {
 		return;
 	}
 
-	throw new Error( 'Usage: playground-blueprint.mjs <bundle|release-url> [arguments]' );
+	if ( command === 'branch-url' ) {
+		const [ repository, branch ] = args;
+		if ( ! repository || ! branch ) {
+			throw new Error( 'Usage: playground-blueprint.mjs branch-url <owner/repository> <branch>' );
+		}
+		// github-proxy.com is the proxy WordPress Playground uses to turn a GitHub
+		// branch into an installable plugin zip; it is what makes pull request
+		// previews work without a published release.
+		const url = `https://github-proxy.com/proxy/?repo=${ encodeURIComponent( repository ) }&branch=${ encodeURIComponent( branch ) }`;
+		process.stdout.write( toPlaygroundUrl( createBlueprint( { pluginResource: { resource: 'url', url } } ) ) );
+		return;
+	}
+
+	throw new Error( 'Usage: playground-blueprint.mjs <bundle|release-url|branch-url> [arguments]' );
 }
 
 if ( import.meta.url === `file://${ process.argv[ 1 ] }` ) {

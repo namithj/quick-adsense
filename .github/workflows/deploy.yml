@@ -1,72 +1,112 @@
 name: Deploy to WordPress.org
 
+# Publishes a released tag to the WordPress.org SVN repository.
+#
+# Manual by design: WordPress.org treats SVN as a release repository, so a push
+# there is public and awkward to undo. Runs as a dry run unless explicitly told
+# otherwise.
+#
+# Being manual does not mean the version is guessed. release.yml has already
+# rewritten the version into the plugin header, the QUICK_ADSENSE_VERSION
+# constant and readme.txt and moved the tag onto that commit, so checking out
+# the tag yields the synced tree. This workflow asserts that before touching
+# SVN: if the tag's files do not read the tag's version, it fails instead of
+# publishing a release WordPress.org would serve under the wrong number.
+#
+# Requires the repository secrets SVN_USERNAME and SVN_PASSWORD.
+#
+# There is no build step (no package.json), so the checkout is deployed as-is;
+# .distignore decides what is excluded.
+
 on:
-  push:
-    tags: ['v*']
   workflow_dispatch:
     inputs:
-      version:
-        description: Release version to deploy (x.y.z)
+      tag:
+        description: 'Release tag to publish, for example v2.9.2'
         required: true
         type: string
       dry-run:
-        description: Dry run (skip SVN commit)
-        type: boolean
+        description: 'Dry run (skip the SVN commit)'
+        required: false
         default: true
+        type: boolean
 
 permissions:
   contents: read
 
 jobs:
   deploy:
+    name: Publish to WordPress.org
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout tagged release
-        if: github.event_name == 'push'
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-      - name: Checkout manually selected release
-        if: github.event_name == 'workflow_dispatch'
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          ref: v${{ inputs.version }}
-      - name: Resolve deploy version
-        run: |
-          if [[ "${GITHUB_EVENT_NAME}" == 'workflow_dispatch' ]]; then
-            VERSION="${{ inputs.version }}"
-          else
-            VERSION="${GITHUB_REF_NAME#v}"
-          fi
 
-          echo "DEPLOY_VERSION=${VERSION}" >> "${GITHUB_ENV}"
-      - uses: shivammathur/setup-php@v2
+    steps:
+      # The tag, not a branch: release.yml points it at the commit whose files
+      # carry this version.
+      - name: Checkout the release tag
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           tools: composer
           coverage: none
-      - name: Set plugin version from resolved version
-        run: bash bin/set-version.sh "${DEPLOY_VERSION}"
-      - run: composer install --no-progress --prefer-dist --no-interaction
-      - run: composer test:characterization
-      - run: composer lint:release
-      - name: Deploy from tag push
-        if: github.event_name == 'push'
+
+      # WordPress.org serves whatever Stable tag says, so a tree whose three
+      # version values disagree — with each other or with the tag — must never
+      # reach SVN.
+      - name: Verify the tag's files carry the tag's version
+        shell: bash
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          VERSION="${TAG#v}"
+
+          if ! bash bin/set-version.sh --check "${VERSION}"; then
+            echo "::error::${TAG} does not carry version ${VERSION}. Re-run the Release workflow for ${TAG} to sync it, then deploy again." >&2
+            exit 1
+          fi
+
+          echo "DEPLOY_VERSION=${VERSION}" >> "${GITHUB_ENV}"
+          echo "Deploying version ${VERSION} from ${TAG}."
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction
+
+      # Never ship a release that fails its own standards or compatibility gate.
+      - name: Verify ad-code compatibility
+        run: composer test:characterization
+
+      - name: Verify coding standards
+        run: composer lint:release
+
+      - name: Deploy to WordPress.org
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: quick-adsense
-        with:
-          dry-run: false
-      - name: Deploy from manual trigger
-        if: github.event_name == 'workflow_dispatch'
-        uses: 10up/action-wordpress-plugin-deploy@stable
-        env:
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SLUG: quick-adsense
-          VERSION: ${{ inputs.version }}
+          VERSION: ${{ env.DEPLOY_VERSION }}
         with:
           dry-run: ${{ inputs.dry-run }}
+
+      - name: Summary
+        shell: bash
+        env:
+          TAG: ${{ inputs.tag }}
+          DRY_RUN: ${{ inputs.dry-run }}
+        run: |
+          {
+            echo "### WordPress.org deploy"
+            echo
+            echo "- Tag: \`${TAG}\`"
+            echo "- Version: \`${DEPLOY_VERSION}\`"
+            echo "- Dry run: \`${DRY_RUN}\`"
+            if [[ "${DRY_RUN}" == 'true' ]]; then
+              echo
+              echo "Nothing was committed to SVN. Re-run with *Dry run* unticked to publish."
+            fi
+          } >> "${GITHUB_STEP_SUMMARY}"

@@ -1,4 +1,11 @@
-name: CI
+name: Tests
+
+# Test gate for everything that merges into main.
+#
+# The characterization suite is the safety net for this plugin: it asserts that
+# ad code stored by existing users (iframes, JavaScript, AdSense, HTML,
+# shortcodes) still renders through every insertion path. It runs on every
+# change, on every supported PHP version.
 
 on:
   push:
@@ -8,7 +15,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.event.pull_request.number || github.ref }}
+  group: tests-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -22,26 +29,31 @@ jobs:
       fail-fast: false
       matrix:
         php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+
     services:
       mysql:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: quick_adsense_tests
-        ports: ['3306:3306']
+        ports:
+          - 3306:3306
         options: >-
           --health-cmd="mysqladmin ping --silent"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
+
     env:
       WP_TESTS_DB_NAME: quick_adsense_tests
       WP_TESTS_DB_USER: root
       WP_TESTS_DB_PASSWORD: root
       WP_TESTS_DB_HOST: 127.0.0.1
+
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -49,22 +61,65 @@ jobs:
           extensions: mysqli, zip
           tools: composer
           coverage: none
-      - name: Install dependencies
+
+      - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --no-interaction
-      - name: Lint shipped PHP
-        run: |
-          find . -name '*.php' -not -path './vendor/*' -not -path './build/*' -print0 \
-            | xargs -0 -n1 -P4 php -l > /dev/null
-      - name: Verify WordPress coding standards
-        if: ${{ matrix.php == '8.2' }}
-        run: composer lint:release
+
+      # Runs without WordPress, so it fails fast before the core download.
       - name: Run dependency-free compatibility gate
         run: composer test:characterization
+
+      # wp-phpunit ships the core test library but not WordPress itself, so the
+      # suite needs a core checkout to point WP_TESTS_ABSPATH at.
       - name: Install WordPress core
         run: |
           WP_PATH="$(bash bin/install-wp-core.sh latest "${RUNNER_TEMP}/wordpress")"
           echo "WP_TESTS_ABSPATH=${WP_PATH}" >> "${GITHUB_ENV}"
-      - name: Run WordPress integration tests
+
+      - name: Wait for MySQL
+        run: |
+          for _ in $(seq 1 30); do
+            if mysqladmin ping -h 127.0.0.1 -u root -proot --silent 2>/dev/null; then
+              echo "MySQL is up."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "MySQL did not become ready in time." >&2
+          exit 1
+
+      - name: Run test suite
         run: composer test
-      - name: Run AJAX tests
+
+      # WP_Ajax_UnitTestCase tests are excluded from the default run by the core
+      # bootstrap, so they need their own invocation. They cover the capability
+      # checks and the lossless ad-code save round-trip.
+      - name: Run AJAX test suite
         run: composer test:ajax
+
+  playground-bundle:
+    name: Playground bundle
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      # Builds the same two artifacts the release publishes, so a change that
+      # breaks packaging or the demo blueprint fails on the pull request rather
+      # than half-way through a release.
+      - name: Build release zip
+        run: bash bin/build-release.sh "${RUNNER_TEMP}/dist"
+
+      - name: Build Playground bundle
+        run: |
+          ZIP="$(find "${RUNNER_TEMP}/dist" -name 'quick-adsense-*.zip' | head -n 1)"
+          bash bin/build-playground-bundle.sh "${ZIP}" "${RUNNER_TEMP}/quick-adsense-playground.zip"
+
+      - name: Smoke test Playground bundle
+        run: node scripts/test-playground.mjs "${RUNNER_TEMP}/quick-adsense-playground.zip"

@@ -1,0 +1,106 @@
+name: Playground Preview
+
+# Posts a one-click WordPress Playground link on every pull request, booting the
+# PR's branch with dummy creatives already configured.
+#
+# This matters for an ad plugin specifically: almost every change here affects
+# markup that only appears once ad code is stored and a page is rendered. A
+# reviewer can see the actual output instead of inferring it from a diff.
+#
+# pull_request_target is used so the comment step has a token that can write to
+# PRs from forks. It deliberately does NOT check out or execute PR code — it only
+# reads the head repo/ref strings to build a URL, so untrusted code never runs.
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: playground-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  preview:
+    name: Post preview link
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks out the base repository (trusted), not the pull request head.
+      - name: Checkout base repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Build Playground URL for the PR branch
+        shell: bash
+        env:
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          if [[ -z "${HEAD_REPO}" || -z "${HEAD_REF}" ]]; then
+            echo "Pull request head is unavailable; skipping." >&2
+            exit 1
+          fi
+          # Written to a file rather than a step output to avoid any shell
+          # quoting of the base64 blueprint fragment.
+          node scripts/playground-blueprint.mjs branch-url "${HEAD_REPO}" "${HEAD_REF}" > playground-url.txt
+          echo "Built preview URL for ${HEAD_REPO}@${HEAD_REF}"
+
+      - name: Comment preview link on the pull request
+        uses: actions/github-script@v9
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const url = fs.readFileSync('playground-url.txt', 'utf8').trim();
+            const marker = '<!-- quick-adsense-playground-preview -->';
+            const body = [
+              marker,
+              '### Live preview',
+              '',
+              `[Open this pull request in WordPress Playground](${url})`,
+              '',
+              'Boots WordPress with this branch of Quick Adsense active and dummy',
+              'creatives already configured for the automatic, manual, widget, header',
+              'and footer paths, so the rendered ad output can be checked directly.',
+              '',
+              '<sub>The preview is built from the branch head and refreshes on each push.</sub>',
+            ].join('\n');
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number, per_page: 100 },
+            );
+            const existing = comments.find(
+              (comment) =>
+                comment.user?.type === 'Bot' && comment.body?.includes(marker),
+            );
+
+            // Updated in place so a long-running PR does not accumulate one
+            // preview comment per push.
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+              return;
+            }
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number,
+              body,
+            });
