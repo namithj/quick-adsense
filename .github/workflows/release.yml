@@ -24,16 +24,20 @@ jobs:
       - run: composer test:characterization
       - run: composer lint:release
       - name: Build archive
-        run: bash bin/build-release.sh "${RUNNER_TEMP}/dist"
+        shell: bash
+        run: |
+          bash bin/build-release.sh "${RUNNER_TEMP}/dist"
+          ZIP="$(find "${RUNNER_TEMP}/dist" -name 'quick-adsense-*.zip' | head -n 1)"
+          cp "${ZIP}" "${RUNNER_TEMP}/quick-adsense.zip"
       - name: Upload manual preview
         if: ${{ github.event_name == 'workflow_dispatch' }}
         uses: actions/upload-artifact@v7
         with:
           name: quick-adsense-release-preview
-          path: ${{ runner.temp }}/dist/*.zip
+          path: ${{ runner.temp }}/quick-adsense.zip
       - name: Publish GitHub release asset
         if: ${{ github.event_name != 'workflow_dispatch' }}
         uses: softprops/action-gh-release@v3
         with:
-          files: ${{ runner.temp }}/dist/*.zip
+          files: ${{ runner.temp }}/quick-adsense.zip
           generate_release_notes: true

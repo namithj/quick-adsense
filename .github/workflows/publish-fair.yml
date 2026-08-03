@@ -1,0 +1,44 @@
+name: Publish FAIR Metadata
+
+# Publishes release metadata to the FAIR package manager network, so the plugin
+# is discoverable outside the WordPress.org directory.
+#
+# Requires the FAIR_VERIFICATION_KEY_PRIVATE / FAIR_VERIFICATION_KEY_PUBLIC
+# secrets and the FAIR_DID repository variable. The job is skipped when the DID
+# is not configured, so forks and fresh clones do not fail on it.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version tag (for example v2.8.7)
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ vars.FAIR_DID != '' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Publish to FAIR
+        uses: fairpm/fair-pulse@v1
+        with:
+          version: ${{ inputs.version }}
+          # Matches the stable asset name produced by release.yml.
+          artifact-name: quick-adsense.zip
+          upload-metadata: 'true'
+        env:
+          FAIR_VERIFICATION_KEY_PRIVATE: ${{ secrets.FAIR_VERIFICATION_KEY_PRIVATE }}
+          FAIR_VERIFICATION_KEY_PUBLIC: ${{ secrets.FAIR_VERIFICATION_KEY_PUBLIC }}
+          FAIR_DID: ${{ vars.FAIR_DID }}
