@@ -23,6 +23,8 @@ jobs:
           php-version: '8.2'
           tools: composer
           coverage: none
+      - name: Verify version metadata is in sync
+        run: bash bin/set-version.sh --check-current
       - run: composer install --no-progress --prefer-dist --no-interaction
       - run: composer test:characterization
       - run: composer lint:release
