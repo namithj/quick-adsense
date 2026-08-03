@@ -1,0 +1,59 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit:
+    name: PHPUnit — PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: quick_adsense_tests
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      WP_TESTS_DB_NAME: quick_adsense_tests
+      WP_TESTS_DB_USER: root
+      WP_TESTS_DB_PASSWORD: root
+      WP_TESTS_DB_HOST: 127.0.0.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli, zip
+          tools: composer
+          coverage: none
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction
+      - name: Run dependency-free compatibility gate
+        run: composer test:characterization
+      - name: Install WordPress core
+        run: |
+          WP_PATH="$(bash bin/install-wp-core.sh latest "${RUNNER_TEMP}/wordpress")"
+          echo "WP_TESTS_ABSPATH=${WP_PATH}" >> "${GITHUB_ENV}"
+      - name: Run WordPress integration tests
+        run: composer test
+      - name: Run AJAX tests
+        run: composer test:ajax

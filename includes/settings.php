@@ -1,7 +1,146 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * The plugin settings page.
  */
+
+/**
+ * Return the option keys whose values are executable ad or tracking snippets.
+ *
+ * @return string[] Ad-code option keys.
+ */
+function quick_adsense_get_ad_code_fields() {
+	$fields = [ 'header_embed_code', 'footer_embed_code' ];
+	for ( $index = 1; $index <= 10; $index++ ) {
+		$fields[] = 'onpost_ad_' . $index . '_content';
+		$fields[] = 'widget_ad_' . $index . '_content';
+	}
+	return $fields;
+}
+
+/**
+ * Return every supported settings key.
+ *
+ * @return array<string, bool> Key lookup table.
+ */
+function quick_adsense_get_allowed_setting_fields() {
+	$fields = array_fill_keys( array_keys( quick_adsense_get_defaults() ), true );
+	foreach ( quick_adsense_get_ad_code_fields() as $field ) {
+		$fields[ $field ] = true;
+	}
+
+	foreach ( [ 'widget_enable_global_style', 'widget_global_alignment', 'widget_global_margin' ] as $field ) {
+		$fields[ $field ] = true;
+	}
+
+	$advanced_suffixes = [
+		'hide_device_mobile',
+		'hide_device_tablet',
+		'hide_device_desktop',
+		'hide_visitor_searchengine',
+		'hide_visitor_indirect',
+		'hide_visitor_direct',
+		'hide_visitor_bot',
+		'hide_visitor_knownbrowser',
+		'hide_visitor_unknownbrowser',
+		'hide_visitor_guest',
+		'hide_visitor_loggedin',
+		'limit_visitor_country',
+		'enable_stats',
+	];
+	for ( $index = 1; $index <= 10; $index++ ) {
+		foreach ( $advanced_suffixes as $suffix ) {
+			$fields[ 'onpost_ad_' . $index . '_' . $suffix ] = true;
+		}
+	}
+
+	return $fields;
+}
+
+/**
+ * Sanitize settings without transforming administrator-authorized ad code.
+ *
+ * WordPress options.php unslashes request data before the Settings API invokes
+ * this callback. Ad code is therefore stored as received here and otherwise
+ * treated as opaque. Users who cannot publish unfiltered HTML may edit ordinary
+ * settings, but cannot replace or erase a previously stored executable snippet.
+ *
+ * @param mixed $input Submitted option value.
+ * @return array Sanitized settings.
+ */
+function quick_adsense_sanitize_settings( $input ) {
+	if ( ! is_array( $input ) ) {
+		return [];
+	}
+
+	$allowed         = quick_adsense_get_allowed_setting_fields();
+	$code_fields     = quick_adsense_get_ad_code_fields();
+	$existing        = get_option( 'quick_adsense_settings', [] );
+	$existing        = is_array( $existing ) ? $existing : [];
+	$may_update_code = current_user_can( 'manage_options' ) && current_user_can( 'unfiltered_html' );
+	$sanitized       = [];
+
+	foreach ( $input as $field => $value ) {
+		if ( ! is_string( $field ) || ! isset( $allowed[ $field ] ) ) {
+			continue;
+		}
+
+		if ( in_array( $field, $code_fields, true ) ) {
+			if ( $may_update_code && is_string( $value ) ) {
+				$sanitized[ $field ] = $value;
+			} elseif ( array_key_exists( $field, $existing ) ) {
+				$sanitized[ $field ] = $existing[ $field ];
+			}
+			continue;
+		}
+
+		if ( preg_match( '/_limit_visitor_country$/', $field ) ) {
+			if ( is_array( $value ) ) {
+				$countries           = array_map(
+					static function ( $country ) {
+						return strtoupper( sanitize_text_field( $country ) );
+					},
+					$value
+				);
+				$sanitized[ $field ] = array_values( array_unique( preg_grep( '/^[A-Z]{2}$/', $countries ) ) );
+			}
+			continue;
+		}
+
+		if ( preg_match( '/(^enable_|^disable_|_enable_|_hide_)/', $field ) ) {
+			$sanitized[ $field ] = '1';
+			continue;
+		}
+
+		if ( ! is_scalar( $value ) ) {
+			continue;
+		}
+
+		if ( 'max_ads_per_page' === $field || 0 === strpos( $field, 'ad_' ) ) {
+			$sanitized[ $field ] = (string) min( 10, absint( $value ) );
+		} elseif ( false !== strpos( $field, '_alignment' ) ) {
+			$sanitized[ $field ] = (string) max( 1, min( 4, absint( $value ) ) );
+		} elseif ( false !== strpos( $field, '_margin' ) || 0 === strpos( $field, 'position_' ) ) {
+			$sanitized[ $field ] = (string) min( 10000, absint( $value ) );
+		} else {
+			$sanitized[ $field ] = sanitize_text_field( $value );
+		}
+	}
+
+	if ( ! $may_update_code ) {
+		foreach ( $code_fields as $field ) {
+			if ( array_key_exists( $field, $existing ) ) {
+				$sanitized[ $field ] = $existing[ $field ];
+			}
+		}
+	}
+
+	delete_transient( 'quick_adsense_adstxt_adsense_autocheck_content' );
+	return $sanitized;
+}
 
 /**
  * Add a settings page link to the plugin listing in the plugins admin page.
@@ -72,10 +211,10 @@ add_action(
 			register_setting(
 				'quick_adsense_settings',
 				'quick_adsense_settings',
-				function ( $input ) {
-					delete_transient( 'quick_adsense_adstxt_adsense_autocheck_content' );
-					return $input;
-				}
+				[
+					'type'              => 'array',
+					'sanitize_callback' => 'quick_adsense_sanitize_settings',
+				]
 			);
 			$settings                      = get_option( 'quick_adsense_settings' );
 			$settings['alignment_options'] = [
@@ -151,8 +290,11 @@ add_action(
 	'wp_ajax_quick_adsense_onpost_ad_reset_stats',
 	function () {
 		if ( isset( $_POST['nonce'] ) && wp_verify_nonce( sanitize_key( $_POST['nonce'] ), 'quick-adsense-nonce' ) && ( isset( $_POST['index'] ) ) && ( current_user_can( 'manage_options' ) ) ) {
-			delete_option( 'quick_adsense_onpost_ad_' . sanitize_key( $_POST['index'] ) . '_stats' );
-			wp_send_json_success();
+			$index = quick_adsense_validate_ad_index( sanitize_text_field( wp_unslash( $_POST['index'] ) ) );
+			if ( false !== $index ) {
+				delete_option( 'quick_adsense_onpost_ad_' . $index . '_stats' );
+				wp_send_json_success();
+			}
 		}
 		wp_send_json_error();
 	}
@@ -163,7 +305,11 @@ add_action(
 	'wp_ajax_quick_adsense_onpost_ad_get_stats_chart',
 	function () {
 		if ( isset( $_POST['nonce'] ) && wp_verify_nonce( sanitize_key( $_POST['nonce'] ), 'quick-adsense-nonce' ) && ( isset( $_POST['index'] ) ) && ( current_user_can( 'manage_options' ) ) ) {
-			$stats      = get_option( 'quick_adsense_onpost_ad_' . sanitize_key( $_POST['index'] ) . '_stats' );
+			$index = quick_adsense_validate_ad_index( sanitize_text_field( wp_unslash( $_POST['index'] ) ) );
+			if ( false === $index ) {
+				wp_send_json_error();
+			}
+			$stats      = get_option( 'quick_adsense_onpost_ad_' . $index . '_stats' );
 			$stats_data = [];
 			for ( $i = 0; $i < 30; $i++ ) {
 				$clicks      = 0;

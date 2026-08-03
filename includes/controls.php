@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Function to return the markup to display an HTML user input element.
  *
@@ -15,83 +19,91 @@
  * @return string the markup for the HTML element.
  */
 function quickadsense_get_control( $type, $label, $id, $name, $value = '', $data = null, $class = 'input widefat', $style = '', $placeholder = '' ) {
-	$output = '';
+	$output     = '';
+	$label_html = wp_kses(
+		$label,
+		[
+			'b' => [
+				'id' => [],
+			],
+		]
+	);
 	switch ( $type ) {
 		case 'hidden':
-			$output .= '<input type="text" id="' . $id . '" name="' . $name . '" value="' . $value . '" style="display: none;" />';
+			$output .= '<input type="text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" style="display: none;" />';
 			break;
 		case 'text':
 			if ( '' !== $label ) {
-				$output .= '<label for="' . $name . '">' . $label . '</label>';
+				$output .= '<label for="' . esc_attr( $id ) . '">' . $label_html . '</label>';
 			}
-			$output .= '<input type="text" id="' . $id . '" name="' . $name . '" value="' . $value . '" class="multilanguage-input ' . $class . '" style="' . $style . '" placeholder="' . $placeholder . '" />';
+			$output .= '<input type="text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" class="multilanguage-input ' . esc_attr( $class ) . '" style="' . esc_attr( $style ) . '" placeholder="' . esc_attr( $placeholder ) . '" />';
 			break;
 		case 'password':
 			if ( '' !== $label ) {
-				$output .= '<label for="' . $name . '">' . $label . '</label>';
+				$output .= '<label for="' . esc_attr( $id ) . '">' . $label_html . '</label>';
 			}
-			$output .= '<input type="password" id="' . $id . '" name="' . $name . '" value="' . $value . '" class="multilanguage-input ' . $class . '" style="' . $style . '" placeholder="' . $placeholder . '" />';
+			$output .= '<input type="password" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" class="multilanguage-input ' . esc_attr( $class ) . '" style="' . esc_attr( $style ) . '" placeholder="' . esc_attr( $placeholder ) . '" />';
 			break;
 		case 'number':
 			if ( '' !== $label ) {
-				$output .= '<label for="' . $name . '">' . $label . '</label>';
+				$output .= '<label for="' . esc_attr( $id ) . '">' . $label_html . '</label>';
 			}
-			$output .= '<input type="number" id="' . $id . '" name="' . $name . '" value="' . $value . '" class="multilanguage-input ' . $class . '" style="' . $style . '" placeholder="' . $placeholder . '" />';
+			$output .= '<input type="number" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" class="multilanguage-input ' . esc_attr( $class ) . '" style="' . esc_attr( $style ) . '" placeholder="' . esc_attr( $placeholder ) . '" />';
 			break;
 		case 'checkbox':
-			$output .= '<input type="checkbox" id="' . $id . '" name="' . $name . '" value="1" class="input" ' . checked( $value, 1, false ) . '  style="' . $style . '" />';
+			$output .= '<input type="checkbox" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="1" class="input" ' . checked( $value, 1, false ) . ' style="' . esc_attr( $style ) . '" />';
 			if ( '' !== $label ) {
-				$output .= '<label for="' . $name . '">' . $label . '</label>';
+				$output .= '<label for="' . esc_attr( $id ) . '">' . $label_html . '</label>';
 			}
 			break;
 		case 'textarea':
 			if ( '' !== $label ) {
-				$output .= '<label for="' . $name . '">' . $label . '</label><br />';
+				$output .= '<label for="' . esc_attr( $id ) . '">' . $label_html . '</label><br />';
 			}
-			$output .= '<textarea id="' . $id . '" name="' . $name . '" class="multilanguage-input ' . $class . '" class="multilanguage-input ' . $class . '" style="height: 100px; ' . $style . '"  placeholder="' . $placeholder . '">' . $value . '</textarea>';
+			$output .= '<textarea id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" class="multilanguage-input ' . esc_attr( $class ) . '" style="height: 100px; ' . esc_attr( $style ) . '" placeholder="' . esc_attr( $placeholder ) . '">' . esc_textarea( $value ) . '</textarea>';
 			break;
 		case 'textarea-big':
 			if ( '' !== $label ) {
-				$output .= '<label for="' . $name . '">' . $label . '</label><br />';
+				$output .= '<label for="' . esc_attr( $id ) . '">' . $label_html . '</label><br />';
 			}
-			$output .= '<textarea id="' . $id . '" name="' . $name . '" class="multilanguage-input ' . $class . '" class="multilanguage-input ' . $class . '" style="height: 300px; ' . $style . '"  placeholder="' . $placeholder . '">' . $value . '</textarea>';
+			$output .= '<textarea id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" class="multilanguage-input ' . esc_attr( $class ) . '" style="height: 300px; ' . esc_attr( $style ) . '" placeholder="' . esc_attr( $placeholder ) . '">' . esc_textarea( $value ) . '</textarea>';
 			break;
 		case 'select':
 			if ( '' !== $label ) {
-				$output .= '<label for="' . $name . '">' . $label . '</label>';
+				$output .= '<label for="' . esc_attr( $id ) . '">' . $label_html . '</label>';
 			}
-			$output .= '<select id="' . $id . '" name="' . $name . '" class="' . $class . '" style="' . $style . '" >';
+			$output .= '<select id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" class="' . esc_attr( $class ) . '" style="' . esc_attr( $style ) . '" >';
 			if ( $data ) {
 				foreach ( $data as $option ) {
 					$metadata = '';
 					if ( isset( $option['metadata'] ) && is_array( $option['metadata'] ) ) {
 						foreach ( $option['metadata'] as $key => $metavalue ) {
-							$metadata .= 'data-' . $key . '="' . $metavalue . '"';
+							$metadata .= ' data-' . esc_attr( $key ) . '="' . esc_attr( $metavalue ) . '"';
 						}
 					}
-					$output .= '<option ' . $metadata . ' value="' . $option['value'] . '" ' . selected( $value, $option['value'], false ) . '>' . $option['text'] . '</option>';
+					$output .= '<option' . $metadata . ' value="' . esc_attr( $option['value'] ) . '" ' . selected( $value, $option['value'], false ) . '>' . esc_html( $option['text'] ) . '</option>';
 				}
 			}
 			$output .= '</select>';
 			break;
 		case 'upload':
 			if ( '' !== $label ) {
-				$output .= '<label for="' . $name . '">' . $label . '</label><br />';
+				$output .= '<label for="' . esc_attr( $id ) . '">' . $label_html . '</label><br />';
 			}
-			$output .= '<input type="text" id="' . $id . '" name="' . $name . '" value="' . $value . '" class="' . $class . '" class="width: 74%;" style="' . $style . '" />';
-			$output .= '<input type="button" value="Upload Image" class="quick_adsense_uploader_button" id="upload_image_button" class="width: 25%;" />';
+			$output .= '<input type="text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" class="' . esc_attr( $class ) . '" style="width: 74%; ' . esc_attr( $style ) . '" />';
+			$output .= '<input type="button" value="Upload Image" class="quick_adsense_uploader_button" id="upload_image_button" style="width: 25%;" />';
 			break;
 		case 'multiselect':
 			if ( '' !== $label ) {
-				$output .= '<label for="' . $name . '">' . $label . '</label><br />';
+				$output .= '<label for="' . esc_attr( $id ) . '">' . $label_html . '</label><br />';
 			}
-			$output .= '<select id="' . $id . '" name="' . $name . '" class="' . $class . '" multiple="multiple" style="height: 120px; ' . $style . '" >';
+			$output .= '<select id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" class="' . esc_attr( $class ) . '" multiple="multiple" style="height: 120px; ' . esc_attr( $style ) . '" >';
 			if ( $data ) {
 				foreach ( $data as $option ) {
 					if ( is_array( $value ) && in_array( $option['value'], $value, true ) ) {
-						$output .= '<option value="' . $option['value'] . '" selected="selected">' . $option['text'] . '</option>';
+						$output .= '<option value="' . esc_attr( $option['value'] ) . '" selected="selected">' . esc_html( $option['text'] ) . '</option>';
 					} else {
-						$output .= '<option value="' . $option['value'] . '">' . $option['text'] . '</option>';
+						$output .= '<option value="' . esc_attr( $option['value'] ) . '">' . esc_html( $option['text'] ) . '</option>';
 					}
 				}
 			}
@@ -113,6 +125,22 @@ function quick_adsense_get_value( $data, $field_name, $default = '' ) {
 		return $data[ $field_name ];
 	}
 	return $default;
+}
+
+/**
+ * Output an administrator-authorized ad snippet without changing its bytes.
+ *
+ * Ad snippets are executable by design and are protected at the settings-save
+ * capability boundary. Escaping or KSES filtering here would corrupt valid
+ * provider HTML and JavaScript.
+ *
+ * @param mixed $code Stored ad code.
+ */
+function quick_adsense_echo_ad_code( $code ) {
+	if ( is_string( $code ) ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Opaque administrator-authorized ad code; see function contract.
+		echo $code;
+	}
 }
 
 /**

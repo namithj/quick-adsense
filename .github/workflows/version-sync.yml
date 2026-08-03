@@ -1,0 +1,20 @@
+name: Version Sync
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Verify tag and files agree
+        env:
+          TAG: ${{ github.ref_name }}
+        run: bash bin/set-version.sh --check "${TAG#v}"

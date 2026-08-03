@@ -1,11 +1,15 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Quicktag Integration.
  */
 
 add_action(
 	'admin_enqueue_scripts',
-	function() {
+	function () {
 		$settings = get_option( 'quick_adsense_settings' );
 		if ( isset( $settings['enable_quicktag_buttons'] ) && ( $settings['enable_quicktag_buttons'] ) ) {
 			$args = [

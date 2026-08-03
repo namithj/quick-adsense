@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Adsense specific features.
  */
@@ -87,18 +91,16 @@ function quick_adsense_adstxt_adsense_get_status() {
 							$adstxt_new_adsense_entries[] = 'google.com, ' . $adsense_publisher_id . ', DIRECT, f08c47fec0942fa0';
 						}
 					}
-				} else {
-					if ( is_array( $adsense_publisher_ids ) && ( count( $adsense_publisher_ids ) > 0 ) ) {
-						foreach ( $adsense_publisher_ids as $adsense_publisher_id ) {
-							$entry_exists = false;
-							foreach ( $adstxt_existing_adsense_entries as $adstxt_existing_adsense_entry ) {
-								if ( strpos( $adstxt_existing_adsense_entry, $adsense_publisher_id ) !== false ) {
-									$entry_exists = true;
-								}
+				} elseif ( is_array( $adsense_publisher_ids ) && ( count( $adsense_publisher_ids ) > 0 ) ) {
+					foreach ( $adsense_publisher_ids as $adsense_publisher_id ) {
+						$entry_exists = false;
+						foreach ( $adstxt_existing_adsense_entries as $adstxt_existing_adsense_entry ) {
+							if ( strpos( $adstxt_existing_adsense_entry, $adsense_publisher_id ) !== false ) {
+								$entry_exists = true;
 							}
-							if ( false === $entry_exists ) {
-								$adstxt_new_adsense_entries[] = 'google.com, ' . $adsense_publisher_id . ', DIRECT, f08c47fec0942fa0';
-							}
+						}
+						if ( false === $entry_exists ) {
+							$adstxt_new_adsense_entries[] = 'google.com, ' . $adsense_publisher_id . ', DIRECT, f08c47fec0942fa0';
 						}
 					}
 				}

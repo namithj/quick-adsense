@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
 <div id="quick_adsense_top_sections_wrapper">
 	<div class="quick_adsense_block">
 		<label>Header Embed Code</label>
@@ -10,7 +15,7 @@
 				'',
 				'quick_adsense_settings_header_embed_code',
 				'quick_adsense_settings[header_embed_code]',
-				quick_adsense_get_value( $args, 'header_embed_code' )
+				quick_adsense_get_value( $quick_adsense_template_args, 'header_embed_code' )
 			);
 			// phpcs:enable
 			?>
@@ -26,7 +31,7 @@
 				'',
 				'quick_adsense_settings_footer_embed_code',
 				'quick_adsense_settings[footer_embed_code]',
-				quick_adsense_get_value( $args, 'footer_embed_code' )
+				quick_adsense_get_value( $quick_adsense_template_args, 'footer_embed_code' )
 			);
 			// phpcs:enable
 			?>

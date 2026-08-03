@@ -1,0 +1,20 @@
+Third-party software and data
+=============================
+
+Quick Adsense includes the following redistributable components. These files
+are excluded from first-party formatting because changing generated or upstream
+code would make upgrades and source comparison harder.
+
+* Chart.js 3.7.1 — MIT License. Copyright Chart.js contributors. Preferred
+  source: https://github.com/chartjs/Chart.js/tree/v3.7.1
+* jQuery UI CSS 1.13.1 — MIT License. Copyright OpenJS Foundation and other
+  contributors. Preferred source: https://github.com/jquery/jquery-ui/tree/1.13.1
+* Mobile Detect 2.8.33 — MIT License. Copyright Serban Ghita, Nick Ilyin and
+  contributors. Preferred source:
+  https://github.com/serbanghita/Mobile-Detect/tree/2.8.33
+  The bundled license is at includes/vendor/MobileDetect/LICENSE.txt.
+* iriven GeoIPCountry and generated GeoIP data — GPL-3.0. Preferred source:
+  https://github.com/iriven/GeoIPCountry
+  The bundled license is at includes/vendor/GeoIP/LICENSE.
+
+The plugin itself is licensed under GPL-2.0-or-later; see LICENSE.

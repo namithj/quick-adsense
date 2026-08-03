@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
 <div id="quick_adsense_block_bottom" class="quick_adsense_block" style="margin: 30px 0 0;">
 	<div class="quick_adsense_block_labels" style="width: auto;">
 		<span>Adsense Codes - Ads on Post Body</span>
@@ -16,7 +21,7 @@
 					'',
 					'quick_adsense_settings_onpost_enable_global_style',
 					'quick_adsense_settings[onpost_enable_global_style]',
-					quick_adsense_get_value( $args, 'onpost_enable_global_style' ),
+					quick_adsense_get_value( $quick_adsense_template_args, 'onpost_enable_global_style' ),
 					null,
 					'input',
 					'margin: -3px 10px 0 0;'
@@ -33,8 +38,8 @@
 					'',
 					'quick_adsense_settings_onpost_global_alignment',
 					'quick_adsense_settings[onpost_global_alignment]',
-					quick_adsense_get_value( $args, 'onpost_global_alignment' ),
-					quick_adsense_get_value( $args, 'alignment_options' ),
+					quick_adsense_get_value( $quick_adsense_template_args, 'onpost_global_alignment' ),
+					quick_adsense_get_value( $quick_adsense_template_args, 'alignment_options' ),
 					'input',
 					'margin: -6px 20px 0 10px; width: 73px;'
 				),
@@ -49,7 +54,7 @@
 					'',
 					'quick_adsense_settings_onpost_global_margin',
 					'quick_adsense_settings[onpost_global_margin]',
-					quick_adsense_get_value( $args, 'onpost_global_margin' ),
+					quick_adsense_get_value( $quick_adsense_template_args, 'onpost_global_margin' ),
 					null,
 					'input',
 					'margin: -1px 10px 0 10px; width: 62px;'
@@ -64,22 +69,22 @@
 	<div id="quick_adsense_onpost_content_adunits_wrapper">
 		<div id="quick_adsense_onpost_content_adunits_initial_wrapper">
 			<?php
-			for ( $i = 1; $i <= 3; $i++ ) {
-				$args['adunit_index'] = $i;
+			for ( $quick_adsense_i = 1; $quick_adsense_i <= 3; $quick_adsense_i++ ) {
+				$quick_adsense_template_args['adunit_index'] = $quick_adsense_i;
 				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 				// Contains a textarea which need to allow output of scripts, iframes etc necessary to output ads and trackers.
-				echo quick_adsense_load_file( 'templates/adunit-onpost.php', $args );
+				echo quick_adsense_load_file( 'templates/adunit-onpost.php', $quick_adsense_template_args );
 				// phpcs:enable
 			}
 			?>
 		</div>
 		<div id="quick_adsense_onpost_content_adunits_all_wrapper" style="display: none;">
 			<?php
-			for ( $i = 4; $i <= 10; $i++ ) {
-				$args['adunit_index'] = $i;
+			for ( $quick_adsense_i = 4; $quick_adsense_i <= 10; $quick_adsense_i++ ) {
+				$quick_adsense_template_args['adunit_index'] = $quick_adsense_i;
 				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 				// Contains a textarea which need to allow output of scripts, iframes etc necessary to output ads and trackers.
-				echo quick_adsense_load_file( 'templates/adunit-onpost.php', $args );
+				echo quick_adsense_load_file( 'templates/adunit-onpost.php', $quick_adsense_template_args );
 				// phpcs:enable
 			}
 			?>

@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * The Quickadsense widgets.
  */
@@ -25,7 +29,7 @@ class QuickAdsenseAdWidget extends WP_Widget {
 			$widget_index = str_replace( [ 'AdsWidget', ' (Quick Adsense)' ], '', $args['widget_name'] );
 			if ( isset( $settings[ 'widget_ad_' . $widget_index . '_content' ] ) && ( '' !== $settings[ 'widget_ad_' . $widget_index . '_content' ] ) ) {
 				echo wp_kses( $args['before_widget'], quick_adsense_get_allowed_html() );
-				echo wp_kses( $settings[ 'widget_ad_' . $widget_index . '_content' ], quick_adsense_get_allowed_html() );
+				quick_adsense_echo_ad_code( $settings[ 'widget_ad_' . $widget_index . '_content' ] );
 				echo wp_kses( $args['after_widget'], quick_adsense_get_allowed_html() );
 			}
 		}
@@ -57,7 +61,7 @@ class QuickAdsenseAdWidget extends WP_Widget {
 
 add_action(
 	'widgets_init',
-	function() {
+	function () {
 		$settings = get_option( 'quick_adsense_settings' );
 		for ( $i = 1; $i <= 10; $i++ ) {
 			if ( isset( $settings[ 'widget_ad_' . $i . '_content' ] ) && ( '' !== $settings[ 'widget_ad_' . $i . '_content' ] ) ) {

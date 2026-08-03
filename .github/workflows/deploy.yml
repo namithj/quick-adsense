@@ -1,0 +1,36 @@
+name: Deploy to WordPress.org
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: Dry run (skip SVN commit)
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+          coverage: none
+      - run: composer install --no-progress --prefer-dist --no-interaction
+      - run: composer test:characterization
+      - run: composer lint:release
+      - name: Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: quick-adsense
+        with:
+          dry-run: ${{ inputs.dry-run }}

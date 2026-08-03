@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $quick_adsense_ads_displayed = 0;
 $quick_adsense_ads_id        = [];
 $quick_adsense_begin_end     = 0;
@@ -8,10 +12,10 @@ $quick_adsense_begin_end     = 0;
  */
 add_action(
 	'wp_head',
-	function() {
+	function () {
 		$settings = get_option( 'quick_adsense_settings' );
 		if ( isset( $settings['header_embed_code'] ) && ( '' !== $settings['header_embed_code'] ) ) {
-			echo wp_kses( $settings['header_embed_code'], quick_adsense_get_allowed_html() );
+			quick_adsense_echo_ad_code( $settings['header_embed_code'] );
 		}
 	}
 );
@@ -21,10 +25,10 @@ add_action(
  */
 add_action(
 	'wp_footer',
-	function() {
+	function () {
 		$settings = get_option( 'quick_adsense_settings' );
 		if ( isset( $settings['footer_embed_code'] ) && ( '' !== $settings['footer_embed_code'] ) ) {
-			echo wp_kses( $settings['footer_embed_code'], quick_adsense_get_allowed_html() );
+			quick_adsense_echo_ad_code( $settings['footer_embed_code'] );
 		}
 	}
 );
@@ -34,7 +38,7 @@ add_action(
  */
 add_filter(
 	'the_content',
-	function( $content ) {
+	function ( $content ) {
 		global $quick_adsense_ads_displayed;
 		global $quick_adsense_ads_id;
 		global $quick_adsense_begin_end;
@@ -55,7 +59,7 @@ add_filter(
 		if ( $quick_adsense_ads_displayed >= $quick_adsense_ads_to_display ) {
 			$content = quick_adsense_content_clean_tags( $content );
 			return $content;
-		};
+		}
 		/* End Enforce Max Ads Per Page Rule */
 
 		/* Begin Check for Available Ad Blocks */
@@ -73,7 +77,7 @@ add_filter(
 		if ( ! count( $quick_adsense_ads_id ) ) {
 			$content = quick_adsense_content_clean_tags( $content );
 			return $content;
-		};
+		}
 		/* End Check for Available Ad Blocks */
 
 		/* Begin Insert StandIns for all Ad Blocks */
@@ -119,45 +123,45 @@ add_filter(
 			} else {
 				$quick_adsense_ad_beginning_of_post_stand_in = $cusads . $quick_adsense_ad_beginning_of_post;
 				array_push( $quick_adsense_ads_id_cus, $quick_adsense_ad_beginning_of_post );
-			};
+			}
 			if ( 0 === $quick_adsense_ad_after_more_tag ) {
 				$quick_adsense_ad_after_more_tag_stand_in = $cusrnd;
 			} else {
 				$quick_adsense_ad_after_more_tag_stand_in = $cusads . $quick_adsense_ad_after_more_tag;
 				array_push( $quick_adsense_ads_id_cus, $quick_adsense_ad_after_more_tag );
-			};
+			}
 			if ( 0 === $quick_adsense_ad_middle_of_post ) {
 				$quick_adsense_ad_middle_of_post_stand_in = $cusrnd;
 			} else {
 				$quick_adsense_ad_middle_of_post_stand_in = $cusads . $quick_adsense_ad_middle_of_post;
 				array_push( $quick_adsense_ads_id_cus, $quick_adsense_ad_middle_of_post );
-			};
+			}
 			if ( 0 === $quick_adsense_ad_before_last_para ) {
 				$quick_adsense_ad_before_last_para_stand_in = $cusrnd;
 			} else {
 				$quick_adsense_ad_before_last_para_stand_in = $cusads . $quick_adsense_ad_before_last_para;
 				array_push( $quick_adsense_ads_id_cus, $quick_adsense_ad_before_last_para );
-			};
+			}
 			if ( 0 === $quick_adsense_ad_end_of_post ) {
 				$quick_adsense_ad_end_of_post_stand_in = $cusrnd;
 			} else {
 				$quick_adsense_ad_end_of_post_stand_in = $cusads . $quick_adsense_ad_end_of_post;
 				array_push( $quick_adsense_ads_id_cus, $quick_adsense_ad_end_of_post );
-			};
+			}
 			for ( $i = 1; $i <= 3; $i++ ) {
 				if ( 0 === $quick_adsense_ad_after_para[ $i ] ) {
 					$quick_adsense_ad_after_para_stand_in[ $i ] = $cusrnd;
 				} else {
 					$quick_adsense_ad_after_para_stand_in[ $i ] = $cusads . $quick_adsense_ad_after_para[ $i ];
 					array_push( $quick_adsense_ads_id_cus, $quick_adsense_ad_after_para[ $i ] );
-				};
+				}
 			}
 			if ( 0 === $quick_adsense_ad_after_image ) {
 				$quick_adsense_ad_after_image_stand_in = $cusrnd;
 			} else {
 				$quick_adsense_ad_after_image_stand_in = $cusads . $quick_adsense_ad_after_image;
 				array_push( $quick_adsense_ads_id_cus, $quick_adsense_ad_after_image );
-			};
+			}
 
 			if ( $quick_adsense_enable_position_middle_of_post && ( strpos( $content, '<!--OffMiddle-->' ) === false ) ) {
 				if ( substr_count( strtolower( $content ), '</p>' ) >= 2 ) {
@@ -258,7 +262,7 @@ add_filter(
 						if ( $quick_adsense_ads_displayed >= $quick_adsense_ads_to_display || ! count( $quick_adsense_ads_id ) ) {
 							$content = quick_adsense_content_clean_tags( $content );
 							return $content;
-						};
+						}
 						$quick_adsense_begin_end = $i;
 						if ( ! $showall && $ismany ) {
 							break;
@@ -280,7 +284,7 @@ add_filter(
 					if ( ( $quick_adsense_ads_displayed >= $quick_adsense_ads_to_display ) || ! count( $quick_adsense_ads_id ) ) {
 						$content = quick_adsense_content_clean_tags( $content );
 						return $content;
-					};
+					}
 				} else {
 					$j++;
 				}
@@ -301,7 +305,7 @@ add_filter(
 				if ( ( $quick_adsense_ads_displayed >= $quick_adsense_ads_to_display ) || ! count( $quick_adsense_ads_id ) ) {
 					$content = quick_adsense_content_clean_tags( $content );
 					return $content;
-				};
+				}
 			}
 		}
 		if ( ( strpos( $content, '<!--' . $cusrnd . '-->' ) !== false ) && ( $showall || ! $ismany ) ) {
@@ -322,7 +326,7 @@ add_filter(
 				if ( ( $quick_adsense_ads_displayed >= $quick_adsense_ads_to_display ) || ! count( $quick_adsense_ads_id ) ) {
 					$content = quick_adsense_content_clean_tags( $content );
 					return $content;
-				};
+				}
 			}
 		}
 
@@ -345,11 +349,11 @@ add_filter(
 				$quick_adsense_ads_id_tmp = quick_adsense_content_del_element( $quick_adsense_ads_id_tmp, 0 );
 				if ( -1 !== $tmp ) {
 					$quick_adsense_ads_displayed++;
-				};
+				}
 				if ( $quick_adsense_ads_displayed >= $quick_adsense_ads_to_display || ! count( $quick_adsense_ads_id_tmp ) ) {
 					$content = quick_adsense_content_clean_tags( $content );
 					return $content;
-				};
+				}
 			}
 		}
 		/* End Replace StandIns for all Ad Blocks */
@@ -422,7 +426,7 @@ function quick_adsense_content_clean_tags( $content, $trimonly = false ) {
 	for ( $i = 1; $i <= 10; $i++ ) {
 		array_push( $quicktags, 'CusAds' . $i );
 		array_push( $quicktags, 'Ads' . $i );
-	};
+	}
 	foreach ( $quicktags as $quicktag ) {
 		if ( ( strpos( $content, '<!--' . $quicktag . '-->' ) !== false ) || ( 'EmptyClear' === $quicktag ) ) {
 			if ( $trimonly ) {
@@ -527,16 +531,12 @@ function quick_adsense_advanced_postads_isactive( $settings, $index ) {
 		if ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_direct' ] ) ) {
 			return false;
 		}
-	} else {
-		if ( preg_match( '/www\.google.*|search\.msn.*|search\.yahoo.*|www\.bing.*|msxml\.excite\.com|search.lycos\.com|www\.alltheweb\.com|search\.aol\.com|ask\.com|www\.hotbot\.com|www\.metacrawler\.com|search\.netscape\.com|go\.google\.com|dpxml\.webcrawler\.com|search\.earthlink\.net|www\.ask\.co\.uk/i', $referer ) ) {
-			if ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_searchengine' ] ) ) {
-				return false;
-			}
-		} else {
-			if ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_indirect' ] ) ) {
-				return false;
-			}
+	} elseif ( preg_match( '/www\.google.*|search\.msn.*|search\.yahoo.*|www\.bing.*|msxml\.excite\.com|search.lycos\.com|www\.alltheweb\.com|search\.aol\.com|ask\.com|www\.hotbot\.com|www\.metacrawler\.com|search\.netscape\.com|go\.google\.com|dpxml\.webcrawler\.com|search\.earthlink\.net|www\.ask\.co\.uk/i', $referer ) ) {
+		if ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_searchengine' ] ) ) {
+			return false;
 		}
+	} elseif ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_indirect' ] ) ) {
+			return false;
 	}
 	// End Visitor Source.
 	// Begin Visitor Type.
@@ -544,10 +544,8 @@ function quick_adsense_advanced_postads_isactive( $settings, $index ) {
 		if ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_loggedin' ] ) ) {
 			return false;
 		}
-	} else {
-		if ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_guest' ] ) ) {
+	} elseif ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_guest' ] ) ) {
 			return false;
-		}
 	}
 	if ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_bot' ] ) && $mobile_detect->is( 'Bot' ) ) {
 		return false;
@@ -562,10 +560,8 @@ function quick_adsense_advanced_postads_isactive( $settings, $index ) {
 			if ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_knownbrowser' ] ) ) {
 				return false;
 			}
-		} else {
-			if ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_unknownbrowser' ] ) ) {
+		} elseif ( isset( $settings[ 'onpost_ad_' . $index . '_hide_visitor_unknownbrowser' ] ) ) {
 				return false;
-			}
 		}
 	}
 	// End Visitor Type.
@@ -624,7 +620,7 @@ function quick_adsense_postads_update_impressions( $index ) {
  */
 add_action(
 	'wp_enqueue_scripts',
-	function() {
+	function () {
 		wp_enqueue_script( 'jquery' );
 		wp_add_inline_script(
 			'jquery',
@@ -643,15 +639,39 @@ add_action(
 
 add_action( 'wp_ajax_quick_adsense_onpost_ad_click', 'quick_adsense_onpost_ad_click' );
 add_action( 'wp_ajax_nopriv_quick_adsense_onpost_ad_click', 'quick_adsense_onpost_ad_click' );
+
+/**
+ * Validate an ad slot before using it in a settings or statistics option key.
+ *
+ * @param mixed $value Candidate ad index.
+ * @return int|false An index from 1 through 10, or false.
+ */
+function quick_adsense_validate_ad_index( $value ) {
+	if ( ! is_scalar( $value ) ) {
+		return false;
+	}
+
+	return filter_var(
+		$value,
+		FILTER_VALIDATE_INT,
+		[
+			'options' => [
+				'min_range' => 1,
+				'max_range' => 10,
+			],
+		]
+	);
+}
+
 /**
  * Ajax handler for "quick_adsense_onpost_ad_click" action which updates the ad click stats.
  */
 function quick_adsense_onpost_ad_click() {
 	if ( isset( $_POST['quick_adsense_nonce'] ) && wp_verify_nonce( sanitize_key( $_POST['quick_adsense_nonce'] ), 'quick-adsense-stats' ) ) {
 		if ( isset( $_POST['quick_adsense_onpost_ad_index'] ) ) {
-			$index    = sanitize_key( $_POST['quick_adsense_onpost_ad_index'] );
+			$index    = quick_adsense_validate_ad_index( sanitize_text_field( wp_unslash( $_POST['quick_adsense_onpost_ad_index'] ) ) );
 			$settings = get_option( 'quick_adsense_settings' );
-			if ( isset( $settings ) && isset( $settings[ 'onpost_ad_' . $index . '_enable_stats' ] ) ) {
+			if ( false !== $index && isset( $settings ) && isset( $settings[ 'onpost_ad_' . $index . '_enable_stats' ] ) ) {
 				$stats = get_option( 'quick_adsense_onpost_ad_' . $index . '_stats' );
 				if ( isset( $stats ) && is_array( $stats ) ) {
 					if ( isset( $stats[ gmdate( 'dmY' ) ] ) ) {
@@ -682,4 +702,3 @@ function quick_adsense_onpost_ad_click() {
 	}
 	wp_send_json_error();
 }
-

@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
 <div class="wrap">
 	<h2 id="quick_adsense_title">Quick Adsense Settings <span style="font-size: 14px;">(Version 2.8)</span></h2>
 	<form id="quick_adsense_settings_form" method="post" action="options.php" name="wp_auto_commenter_form" style="display: none;">

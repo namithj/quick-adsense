@@ -1,0 +1,33 @@
+name: Playground Preview
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Build plugin archive
+        run: bash bin/build-release.sh "${RUNNER_TEMP}/dist"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: quick-adsense-playground-plugin
+          path: ${{ runner.temp }}/dist/*.zip
+      - uses: actions/github-script@v9
+        with:
+          script: |
+            const body = 'A release-equivalent Quick AdSense zip is available in this run\'s `quick-adsense-playground-plugin` artifact for WordPress Playground testing.';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });

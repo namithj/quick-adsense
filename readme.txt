@@ -1,9 +1,12 @@
 === Quick Adsense ===
 Contributors: namithjawahar
-Tags: WordPress Plugin, adsense, google adsense, random adsense, random ads, advertising, adsense insertion, ad manager, ad, yahoo, google, ads, text insertion, widget, sidebar, admin, posts, plugin
-Requires at least: 5.0
-Tested up to: 6.0
+Tags: adsense, advertising, ad manager, widgets, monetization
+Requires at least: 6.3
+Requires PHP: 7.4
+Tested up to: 7.0
 Stable tag: 2.8.7
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Quick Adsense offers a quicker & flexible way to insert Google Adsense or any Ads code into a blog post.
 
@@ -31,9 +34,9 @@ Here are some **features** that come with this plugin:
 1. Disable Ads on-the-fly, simply insert &lt;!--NoAds--&gt;, &lt;!--OffDef--&gt;, &lt;!--OffWidget--&gt;, &lt;!--OffBegin--&gt; ... and more to a post to accomplish this.
 1. The above Tags can be inserted into a post easily via the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
 
-Sign up for a [Google Adsense Account](http://adsense.google.com/) to generate revenue from your blog, if you don't have one.
+Sign up for a [Google Adsense Account](https://adsense.google.com/) to generate revenue from your blog, if you don't have one.
 
-[Installation](http://wordpress.org/extend/plugins/quick-adsense/installation/) | [Screen Shots](http://wordpress.org/extend/plugins/quick-adsense/screenshots/) | [Plugin Homepage](http://quickadsense.com/)
+[Installation](https://wordpress.org/plugins/quick-adsense/#installation) | [Screen Shots](https://wordpress.org/plugins/quick-adsense/#screenshots) | [Plugin Homepage](https://quickadsense.com/)
 
 == Screenshots ==
 
@@ -49,7 +52,7 @@ Sign up for a [Google Adsense Account](http://adsense.google.com/) to generate r
 
 == Frequently Asked Questions ==
 
-Please feedback to [http://quickadsense.com/](http://quickadsense.com/) for any bug you might have found, or any suggestion you like to add. 
+Please send feedback through the [Quick Adsense support forum](https://wordpress.org/support/plugin/quick-adsense/) for any bug you find or suggestion you would like to add.
 
 == Change Log ==
 = 2.6 =
@@ -185,8 +188,8 @@ Please feedback to [http://quickadsense.com/](http://quickadsense.com/) for any 
 * Initial public release. 
 * Date: 21-Sep-2009
 
-== Privacy Policy ==
+== Privacy ==
 
-Users privacy is very important to us and we make extra effort not to collect data about the users to the maximum extend possible.
-However to provide enhanced functionality we utilize the APIs from different third party services as listed below and the usage of those API are in accordance with their privacy policies.
+Quick Adsense does not send telemetry or site data to its authors. Optional ad click and impression statistics are stored locally in the WordPress database for up to 30 days.
 
+The administrator-provided ad and tracking snippets execute in visitors' browsers and may contact the third-party providers selected by the site owner. Those providers may collect data under their own terms and privacy policies. Site owners are responsible for choosing, configuring, disclosing, and obtaining any consent required for those snippets.

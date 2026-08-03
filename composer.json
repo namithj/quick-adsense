@@ -1,0 +1,44 @@
+{
+    "name": "namithj/quick-adsense",
+    "description": "Quick Adsense offers a flexible way to insert ad code into WordPress content.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=7.4.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.13",
+        "wp-coding-standards/wpcs": "^3.4.1",
+        "yoast/phpunit-polyfills": "^1.1.0",
+        "wp-phpunit/wp-phpunit": "~7.0.0",
+        "phpunit/phpunit": "^9.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "platform": {
+            "php": "7.4.0"
+        }
+    },
+    "scripts": {
+        "format": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf --report=summary,source",
+        "lint": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --report=summary,source",
+        "lint:release": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --no-cache --report=summary,source",
+        "test:characterization": "@php tests/characterization.php",
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php ./vendor/phpunit/phpunit/phpunit --exclude-group ajax"
+        ],
+        "test:ajax": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php ./vendor/phpunit/phpunit/phpunit --group ajax"
+        ],
+        "test:all": [
+            "@test:characterization",
+            "@test",
+            "@test:ajax"
+        ],
+        "build": "bin/build-release.sh"
+    }
+}

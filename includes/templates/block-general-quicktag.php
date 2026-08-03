@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
 <div class="quick_adsense_block">
 	<div class="quick_adsense_block_labels">Quicktag</div>
 	<div class="quick_adsense_block_controls">
@@ -9,7 +14,7 @@
 					'<b>Show Quicktag Buttons on the HTML Edit Post SubPanel (Classic Editor)</b>',
 					'quick_adsense_settings_enable_quicktag_buttons',
 					'quick_adsense_settings[enable_quicktag_buttons]',
-					quick_adsense_get_value( $args, 'enable_quicktag_buttons' ),
+					quick_adsense_get_value( $quick_adsense_template_args, 'enable_quicktag_buttons' ),
 					null,
 					'input',
 					'margin: -1px 10px 0 0;'
@@ -26,7 +31,7 @@
 					'Hide <b>&lt;!--RndAds--&gt;</b> from Quicktag Buttons',
 					'quick_adsense_settings_disable_randomads_quicktag_button',
 					'quick_adsense_settings[disable_randomads_quicktag_button]',
-					quick_adsense_get_value( $args, 'disable_randomads_quicktag_button' ),
+					quick_adsense_get_value( $quick_adsense_template_args, 'disable_randomads_quicktag_button' ),
 					null,
 					'input',
 					'margin: -1px 10px 0 0;'
@@ -43,7 +48,7 @@
 					'Hide <b>&lt;!--NoAds--&gt;</b>, <b>&lt;!--OffDef--&gt;</b>, <b>&lt;!--OffWidget--&gt;</b> from Quicktag Buttons',
 					'quick_adsense_settings_disable_disablead_quicktag_buttons',
 					'quick_adsense_settings[disable_disablead_quicktag_buttons]',
-					quick_adsense_get_value( $args, 'disable_disablead_quicktag_buttons' ),
+					quick_adsense_get_value( $quick_adsense_template_args, 'disable_disablead_quicktag_buttons' ),
 					null,
 					'input',
 					'margin: -1px 10px 0 0;'
@@ -60,7 +65,7 @@
 					'Hide <b>&lt;!--OffBegin--&gt;</b>, <b>&lt;!--OffMiddle--&gt;</b>, <b>&lt;!--OffEnd--&gt;</b>, <b>&lt;!--OffAfMore--&gt;</b>, <b>&lt;!--OffBfLastPara--&gt;</b> from Quicktag Buttons',
 					'quick_adsense_settings_disable_positionad_quicktag_buttons',
 					'quick_adsense_settings[disable_positionad_quicktag_buttons]',
-					quick_adsense_get_value( $args, 'disable_positionad_quicktag_buttons' ),
+					quick_adsense_get_value( $quick_adsense_template_args, 'disable_positionad_quicktag_buttons' ),
 					null,
 					'input',
 					'margin: -1px 10px 0 0;'

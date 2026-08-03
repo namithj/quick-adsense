@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Return the content of the File after processing.
  *
@@ -7,15 +11,12 @@
  * @param boolean $echo Choose whether to echo or return the output.
  */
 function quick_adsense_load_file( $file, $args = [], $echo = false ) {
-	if ( ( '' !== $file ) && file_exists( dirname( __FILE__ ) . '/' . $file ) ) {
-		if ( is_array( $args ) ) {
-			//phpcs:disable WordPress.PHP.DontExtract.extract_extract
-			// Usage of extract() is necessary in this content to simulate templating functionality.
-			extract( $args );
-			//phpcs:enable
-		}
+	$base_path = __DIR__ . DIRECTORY_SEPARATOR;
+	$file_path = is_string( $file ) ? realpath( $base_path . $file ) : false;
+	if ( false !== $file_path && 0 === strpos( $file_path, $base_path ) && 'php' === pathinfo( $file_path, PATHINFO_EXTENSION ) ) {
+		$quick_adsense_template_args = is_array( $args ) ? $args : [];
 		ob_start();
-		include dirname( __FILE__ ) . '/' . $file;
+		include $file_path;
 		$content = ob_get_contents();
 		ob_end_clean();
 		if ( $echo ) {

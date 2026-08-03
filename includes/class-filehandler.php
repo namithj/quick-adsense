@@ -1,6 +1,10 @@
 <?php
 namespace QuickAdsense;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * FileHandler acts as a wrapper for the WordPress Filesystem API
  */
@@ -46,10 +50,26 @@ class FileHandler {
 		if ( get_filesystem_method() === 'direct' ) {
 			$this->file_credentials = request_filesystem_credentials( '', '', false, false, [] );
 			if ( WP_Filesystem( $this->file_credentials ) ) {
-				$this->file_path     = $wp_filesystem->abspath() . $file_path;
 				$this->wp_filesystem = $wp_filesystem;
+				$this->file_path     = $this->resolve_path( $file_path );
 			}
 		}
+	}
+
+	/**
+	 * Resolve a site-root-relative path without permitting traversal.
+	 *
+	 * @param string $file_path Site-root-relative path.
+	 * @return string|false Safe absolute path, or false.
+	 */
+	private function resolve_path( $file_path ) {
+		if ( ! is_string( $file_path ) || '' === $file_path || false !== strpos( str_replace( '\\', '/', $file_path ), '../' ) ) {
+			return false;
+		}
+
+		$root = trailingslashit( wp_normalize_path( $this->wp_filesystem->abspath() ) );
+		$path = wp_normalize_path( $root . ltrim( $file_path, '/\\' ) );
+		return 0 === strpos( $path, $root ) ? $path : false;
 	}
 
 	/**
@@ -64,9 +84,9 @@ class FileHandler {
 			if ( '' === $file_path ) {
 				$file_path = $this->file_path;
 			} else {
-				$file_path = $this->wp_filesystem->abspath() . $file_path;
+				$file_path = $this->resolve_path( $file_path );
 			}
-			if ( file_exists( $file_path ) ) {
+			if ( false !== $file_path && $this->wp_filesystem->exists( $file_path ) ) {
 				return true;
 			}
 		}
@@ -85,9 +105,9 @@ class FileHandler {
 			if ( '' === $file_path ) {
 				$file_path = $this->file_path;
 			} else {
-				$file_path = $this->wp_filesystem->abspath() . $file_path;
+				$file_path = $this->resolve_path( $file_path );
 			}
-			return $this->wp_filesystem->get_contents( $file_path );
+			return false !== $file_path ? $this->wp_filesystem->get_contents( $file_path ) : false;
 		}
 		return false;
 	}
@@ -105,12 +125,12 @@ class FileHandler {
 			if ( '' === $file_path ) {
 				$file_path = $this->file_path;
 			} else {
-				$file_path = $this->wp_filesystem->abspath() . $file_path;
+				$file_path = $this->resolve_path( $file_path );
 			}
 			if ( '' === $file_content ) {
 				$file_content = $this->file_content;
 			}
-			return $this->wp_filesystem->put_contents( $file_path, $file_content, FS_CHMOD_FILE );
+			return false !== $file_path && $this->wp_filesystem->put_contents( $file_path, $file_content, FS_CHMOD_FILE );
 		}
 		return false;
 	}
@@ -127,11 +147,10 @@ class FileHandler {
 			if ( '' === $file_path ) {
 				$file_path = $this->file_path;
 			} else {
-				$file_path = $this->wp_filesystem->abspath() . $file_path;
+				$file_path = $this->resolve_path( $file_path );
 			}
-			return $this->wp_filesystem->delete( $file_path, false, 'f' );
+			return false !== $file_path && $this->wp_filesystem->delete( $file_path, false, 'f' );
 		}
 		return false;
 	}
 }
-

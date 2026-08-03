@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * The default settings for the plugin.
  */
@@ -70,7 +74,7 @@ function quick_adsense_get_defaults() {
  */
 add_action(
 	'init',
-	function() {
+	function () {
 		$settings = get_option( 'quick_adsense_settings' );
 		if ( isset( $settings ) && is_array( $settings ) ) {
 			// Existing 2.1+ User.
