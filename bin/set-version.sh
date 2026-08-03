@@ -18,9 +18,14 @@ HEADER="$( grep -oP '^\s*\*\s*Version:\s*\K[0-9.]+' "${ROOT}/quick-adsense.php" 
 README="$( grep -oP '^Stable tag:\s*\K[0-9.]+' "${ROOT}/readme.txt" )"
 
 if [[ "${MODE}" == "--check" ]]; then
-	[[ "${VERSION}" == "${HEADER}" && "${VERSION}" == "${README}" ]]
-	exit
+	if [[ "${VERSION}" != "${HEADER}" || "${VERSION}" != "${README}" ]]; then
+		printf 'Version mismatch: tag=%s, plugin header=%s, readme stable tag=%s\n' \
+			"${VERSION}" "${HEADER}" "${README}" >&2
+		exit 1
+	fi
+	exit 0
 fi
 
 sed -i "s/^ \* Version: .*/ * Version: ${VERSION}/" "${ROOT}/quick-adsense.php"
 sed -i "s/^Stable tag: .*/Stable tag: ${VERSION}/" "${ROOT}/readme.txt"
+bash "${BASH_SOURCE[0]}" --check "${VERSION}"

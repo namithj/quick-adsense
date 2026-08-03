@@ -55,6 +55,11 @@ Sign up for a [Google Adsense Account](https://adsense.google.com/) to generate 
 Please send feedback through the [Quick Adsense support forum](https://wordpress.org/support/plugin/quick-adsense/) for any bug you find or suggestion you would like to add.
 
 == Change Log ==
+= 2.9.1 =
+* Modernized plugin security and WordPress compatibility while preserving existing HTML, JavaScript and script-based ad codes.
+* Fixed escaped markup in administration labels and restored selectable widget ad units.
+* Added automated compatibility tests, release packaging, FAIR metadata publishing and WordPress Playground demos.
+
 = 2.6 =
 * Vi Integration Removed
 * Plugin Ownership Change

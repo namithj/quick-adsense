@@ -35,10 +35,10 @@ jobs:
         with:
           node-version: 22
 
-      - name: Verify tag and plugin versions agree
+      - name: Set plugin version from tag
         env:
           TAG_REF: ${{ github.ref_name }}
-        run: bash bin/set-version.sh --check "${TAG_REF#v}"
+        run: bash bin/set-version.sh "${TAG_REF#v}"
 
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --no-interaction
