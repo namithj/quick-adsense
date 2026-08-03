@@ -3,14 +3,10 @@ name: Release
 on:
   push:
     tags: ['v*']
-  release:
-    types: [published]
-  workflow_dispatch:
-    inputs:
-      version:
-        description: Version tag to preview (for example v2.8.7)
-        required: true
-        type: string
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -25,7 +21,6 @@ jobs:
       - name: Checkout release ref
         uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.release.tag_name || inputs.version || github.ref }}
           fetch-depth: 0
 
       - name: Setup PHP
@@ -40,18 +35,10 @@ jobs:
         with:
           node-version: 22
 
-      - name: Sync version from tag
-        shell: bash
+      - name: Verify tag and plugin versions agree
         env:
-          TAG_REF: ${{ github.event.release.tag_name || inputs.version || github.ref_name }}
-        run: |
-          VERSION="${TAG_REF#v}"
-          bash bin/set-version.sh "${VERSION}"
-          if ! git diff --quiet; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git commit -am "chore: sync version to ${VERSION}"
-          fi
+          TAG_REF: ${{ github.ref_name }}
+        run: bash bin/set-version.sh --check "${TAG_REF#v}"
 
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --no-interaction
@@ -75,30 +62,19 @@ jobs:
       - name: Smoke test Playground bundle
         run: node scripts/test-playground.mjs "${RUNNER_TEMP}/${SLUG}-playground.zip"
 
-      - name: Upload manual-run artifacts
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: quick-adsense-release-preview
-          path: |
-            ${{ runner.temp }}/quick-adsense.zip
-            ${{ runner.temp }}/quick-adsense-playground.zip
-
-      - name: Create or update GitHub release
-        if: ${{ github.event_name != 'workflow_dispatch' }}
+      - name: Create GitHub release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ github.event.release.tag_name || github.ref_name }}
+          tag_name: ${{ github.ref_name }}
           files: |
             ${{ runner.temp }}/quick-adsense.zip
             ${{ runner.temp }}/quick-adsense-playground.zip
           generate_release_notes: true
 
       - name: Generate release Playground URL
-        if: ${{ github.event_name != 'workflow_dispatch' }}
         shell: bash
         env:
-          TAG_REF: ${{ github.event.release.tag_name || inputs.version || github.ref_name }}
+          TAG_REF: ${{ github.ref_name }}
         run: |
           PLAYGROUND_URL="$(node scripts/playground-blueprint.mjs release-url \
             "${GITHUB_REPOSITORY}" \
@@ -106,10 +82,9 @@ jobs:
           echo "PLAYGROUND_URL=${PLAYGROUND_URL}" >> "${GITHUB_ENV}"
 
       - name: Add Playground link to release description
-        if: ${{ github.event_name != 'workflow_dispatch' }}
         uses: actions/github-script@v9
         env:
-          TAG_REF: ${{ github.event.release.tag_name || inputs.version || github.ref_name }}
+          TAG_REF: ${{ github.ref_name }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -130,7 +105,7 @@ jobs:
               'g',
             );
             const { owner, repo } = context.repo;
-            const release = context.payload.release || (
+            const release = (
               await github.rest.repos.getReleaseByTag({
                 owner,
                 repo,
@@ -146,3 +121,24 @@ jobs:
               release_id: Number(release.id),
               body,
             });
+
+  publish-fair:
+    name: Publish FAIR metadata
+    needs: release
+    if: ${{ vars.FAIR_DID != '' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v7
+
+      - name: Publish to FAIR
+        uses: fairpm/fair-pulse@v1
+        with:
+          version: ${{ github.ref_name }}
+          artifact-name: quick-adsense.zip
+          upload-metadata: 'true'
+        env:
+          FAIR_VERIFICATION_KEY_PRIVATE: ${{ secrets.FAIR_VERIFICATION_KEY_PRIVATE }}
+          FAIR_VERIFICATION_KEY_PUBLIC: ${{ secrets.FAIR_VERIFICATION_KEY_PUBLIC }}
+          FAIR_DID: ${{ vars.FAIR_DID }}
