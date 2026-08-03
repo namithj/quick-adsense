@@ -3,6 +3,10 @@ name: Deploy to WordPress.org
 on:
   workflow_dispatch:
     inputs:
+      version:
+        description: Release version to deploy (x.y.z)
+        required: true
+        type: string
       dry-run:
         description: Dry run (skip SVN commit)
         type: boolean
@@ -18,13 +22,14 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          ref: v${{ inputs.version }}
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           tools: composer
           coverage: none
-      - name: Verify version metadata is in sync
-        run: bash bin/set-version.sh --check-current
+      - name: Set plugin version from workflow input
+        run: bash bin/set-version.sh "${{ inputs.version }}"
       - run: composer install --no-progress --prefer-dist --no-interaction
       - run: composer test:characterization
       - run: composer lint:release
@@ -34,5 +39,6 @@ jobs:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: quick-adsense
+          VERSION: ${{ inputs.version }}
         with:
           dry-run: ${{ inputs.dry-run }}
