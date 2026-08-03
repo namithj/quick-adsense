@@ -1,6 +1,8 @@
 name: Deploy to WordPress.org
 
 on:
+  push:
+    tags: ['v*']
   workflow_dispatch:
     inputs:
       version:
@@ -19,21 +21,47 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout tagged release
+        if: github.event_name == 'push'
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Checkout manually selected release
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: v${{ inputs.version }}
+      - name: Resolve deploy version
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == 'workflow_dispatch' ]]; then
+            VERSION="${{ inputs.version }}"
+          else
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+
+          echo "DEPLOY_VERSION=${VERSION}" >> "${GITHUB_ENV}"
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           tools: composer
           coverage: none
-      - name: Set plugin version from workflow input
-        run: bash bin/set-version.sh "${{ inputs.version }}"
+      - name: Set plugin version from resolved version
+        run: bash bin/set-version.sh "${DEPLOY_VERSION}"
       - run: composer install --no-progress --prefer-dist --no-interaction
       - run: composer test:characterization
       - run: composer lint:release
-      - name: Deploy
+      - name: Deploy from tag push
+        if: github.event_name == 'push'
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: quick-adsense
+        with:
+          dry-run: false
+      - name: Deploy from manual trigger
+        if: github.event_name == 'workflow_dispatch'
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
