@@ -9,6 +9,7 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.13",
         "wp-coding-standards/wpcs": "^3.4.1",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
         "yoast/phpunit-polyfills": "^4.0.0",
         "wp-phpunit/wp-phpunit": "~7.0.0",
         "phpunit/phpunit": "^9.6"
@@ -26,16 +27,21 @@
         "lint": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --report=summary,source",
         "lint:release": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --no-cache --report=summary,source",
         "test:characterization": "@php tests/characterization.php",
+        "test:configs": [
+            "Composer\\Config::disableProcessTimeout",
+            "bash bin/test-user-configs.sh"
+        ],
         "test": [
             "Composer\\Config::disableProcessTimeout",
-            "@php ./vendor/phpunit/phpunit/phpunit --exclude-group ajax"
+            "bash bin/phpunit.sh --exclude-group ajax,user-configs"
         ],
         "test:ajax": [
             "Composer\\Config::disableProcessTimeout",
-            "@php ./vendor/phpunit/phpunit/phpunit --group ajax"
+            "bash bin/phpunit.sh --group ajax --exclude-group user-configs"
         ],
         "test:all": [
             "@test:characterization",
+            "@test:configs",
             "@test",
             "@test:ajax"
         ],

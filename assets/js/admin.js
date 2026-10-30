@@ -81,7 +81,11 @@ jQuery(document).ready(function () {
 		});
 	});
 
-	jQuery('#quick_adsense_settings_form').fadeIn();
+	jQuery('#quick_adsense_settings_tabs').fadeIn();
+
+	jQuery('.quick_adsense_backup_restore_form').on('submit', function () {
+		return window.confirm('Restore this backup? Your current settings are backed up first.');
+	});
 	if (window.location.href.indexOf('#quick_adsense_adstxt_adsense_auto_update') > -1) {
 		quick_adsense_adstxt_adsense_auto_update();
 	}

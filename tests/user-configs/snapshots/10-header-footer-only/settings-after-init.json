@@ -1,0 +1,6 @@
+{
+    "enable_on_posts": "1",
+    "footer_embed_code": "<!-- QAFX:medianet -->\n<div id=\"123456789\">\n<script type=\"text/javascript\">\n    try {\n        window._mNHandle.queue.push(function (){\n            window._mNDetails.loadTag(\"123456789\", \"300x250\", \"123456789\");\n            var label = \"it's a \\\"quoted\\\" label\";\n        });\n    }\n    catch (error) {}\n</script>\n</div>",
+    "header_embed_code": "<!-- QAFX:adsense-auto-ads -->\n<script async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3333333333333333\" crossorigin=\"anonymous\"></script>\n<!-- QAFX:analytics-gtag -->\n<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-QAFIXTURE1\"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n  gtag('config', 'G-QAFIXTURE1');\n</script>",
+    "max_ads_per_page": "3"
+}

@@ -4,16 +4,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="wrap">
-	<h2 id="quick_adsense_title">Quick Adsense Settings <span style="font-size: 14px;">(Version 2.8)</span></h2>
-	<form id="quick_adsense_settings_form" method="post" action="options.php" name="wp_auto_commenter_form" style="display: none;">
-		<?php settings_fields( 'quick_adsense_settings' ); ?>
-		<div id="quick_adsense_settings_tabs">
-			<ul>
-				<li><a href="#tabs-settings">Settings</a></li>
-				<li><a href="#tabs-post-body-ads">Ads on Post Body</a></li>
-				<li><a href="#tabs-sidebar-widget-ads">Sidebar Widget</a></li>
-				<li><a href="#tabs-header-footer-codes">Header / Footer Codes</a></li>
-			</ul>
+	<h2 id="quick_adsense_title">Quick Adsense Settings <span style="font-size: 14px;">(Version <?php echo esc_html( QUICK_ADSENSE_VERSION ); ?>)</span></h2>
+	<div id="quick_adsense_settings_tabs" style="display: none;">
+		<ul>
+			<li><a href="#tabs-settings">Settings</a></li>
+			<li><a href="#tabs-post-body-ads">Ads on Post Body</a></li>
+			<li><a href="#tabs-sidebar-widget-ads">Sidebar Widget</a></li>
+			<li><a href="#tabs-header-footer-codes">Header / Footer Codes</a></li>
+			<li><a href="#tabs-backups">Backups</a></li>
+		</ul>
+		<form id="quick_adsense_settings_form" method="post" action="options.php" name="wp_auto_commenter_form">
+			<?php settings_fields( 'quick_adsense_settings' ); ?>
 			<div id="tabs-settings">
 				<div id="quick_adsense_top_sections_wrapper">
 					<?php do_settings_sections( 'quick-adsense-general' ); ?>
@@ -32,6 +33,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php do_settings_sections( 'quick-adsense-header-footer-codes' ); ?>
 				<?php submit_button( 'Save Changes' ); ?>
 			</div>
-		</div>	
-	</form>
+		</form>
+		<div id="tabs-backups">
+			<?php
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+			// The template escapes everything itself; forms and inputs are not in the allowed HTML list, so it is not passed through wp_kses.
+			echo quick_adsense_load_file( 'templates/block-general-backups.php' );
+			// phpcs:enable
+			?>
+		</div>
+	</div>
 </div>

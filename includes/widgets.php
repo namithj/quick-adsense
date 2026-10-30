@@ -25,7 +25,7 @@ class QuickAdsenseAdWidget extends WP_Widget {
 	public function widget( $args, $instance ) {
 		$content  = get_the_content();
 		$settings = get_option( 'quick_adsense_settings' );
-		if ( ( strpos( $content, '<!--OffAds-->' ) === false ) && ( strpos( $content, '<!--OffWidget-->' ) === false ) && ! ( is_home() && $settings['disable_widgets_on_homepage'] ) ) {
+		if ( ( strpos( $content, '<!--OffAds-->' ) === false ) && ( strpos( $content, '<!--OffWidget-->' ) === false ) && ! ( is_home() && ( $settings['disable_widgets_on_homepage'] ?? null ) ) ) {
 			$widget_index = str_replace( [ 'AdsWidget', ' (Quick Adsense)' ], '', $args['widget_name'] );
 			if ( isset( $settings[ 'widget_ad_' . $widget_index . '_content' ] ) && ( '' !== $settings[ 'widget_ad_' . $widget_index . '_content' ] ) ) {
 				echo wp_kses( $args['before_widget'], quick_adsense_get_allowed_html() );

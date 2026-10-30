@@ -1,0 +1,19 @@
+== init-notices ==
+(none)
+== admin-notices ==
+(none)
+== quicktags ==
+
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_1", "Ads1", "\n<!--Ads1-->\n", "", "", "Ads1", 201);
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_2", "Ads2", "\n<!--Ads2-->\n", "", "", "Ads2", 201);
+	QTags.addButton("quick_adsense_quicktag_noads", "NoAds", "\n<!--NoAds-->\n", "", "", "No Ads", 201);
+	QTags.addButton("quick_adsense_quicktag_offdef", "OffDef", "\n<!--OffDef-->\n", "", "", "No Def", 201);
+	QTags.addButton("quick_adsense_quicktag_offwidget", "OffWidget", "\n<!--OffWidget-->\n", "", "", "No AdWidgets", 201);
+
+== adstxt-publisher-ids ==
+[
+    "pub-1111111111111111"
+]
+
+== widget-init-notices ==
+(none)

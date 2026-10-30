@@ -1,0 +1,73 @@
+== content ==
+<div class="dab521de65f9250b4cca7383feef67dc" data-index="1" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:gam-gpt -->
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script>
+  window.googletag = window.googletag || {cmd: []};
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/1234567/qa-fixture', [300, 250], 'div-gpt-ad-qa-1').addService(googletag.pubads());
+    googletag.enableServices();
+  });
+</script>
+<div id="div-gpt-ad-qa-1" style="min-width:300px;min-height:250px;"><script>googletag.cmd.push(function() { googletag.display('div-gpt-ad-qa-1'); });</script></div>
+</div>
+<p>P1 Alpha foxtrot kilo delta india bravo golf lima.</p>
+<p>P2 Bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha.</p><div class="dab521de65f9250b4cca7383feef67dc" data-index="4" style="float: none; margin:10px 0 10px 0; text-align:center;">
+
+<!-- QAFX:nasty -->
+
+</textarea><script>var p = 'C:\\ads\\x'; var q = "say \"hi\"";</script>
+<div title="a &amp; b" data-x='it"s'>ünï 漢字 🚀 &amp; "q" 's' \o/</div>
+[gallery]
+<?php echo "not executed"; ?>
+
+</div>
+
+<p>P3 Charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie.</p>
+<div class="dab521de65f9250b4cca7383feef67dc" data-index="5" style="float: none; margin:10px 0 10px 0; text-align:center;">
+  
+ 
+</div>
+
+<p>P4 Delta india bravo golf lima echo juliet charlie hotel alpha.</p>
+<h2>First heading</h2>
+<p>P5 Echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo.</p>
+<p>P6 Foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot.</p><div class="dab521de65f9250b4cca7383feef67dc" data-index="2" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:amazon-iframe -->
+<iframe src="https://ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ac&ref=qf_sp_asin_til&ad_type=product_link&tracking_id=qa-20" width="120" height="240" scrolling="no" frameborder="0" style="border:none;"></iframe>
+</div>
+
+<ul>
+<li>List item one</li>
+<li>List item two</li>
+<li>List item three</li>
+</ul>
+<p>P7 Golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf.</p>
+<p>P8 Hotel alpha foxtrot kilo delta india bravo.</p>
+
+<p>P9 India bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot.</p>
+<h2>Second heading</h2>
+<p>P10 Juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel.</p>
+<p>P11 Kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo.</p>
+<p>P12 Lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf.</p><div class="dab521de65f9250b4cca7383feef67dc" data-index="3" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:medianet -->
+<div id="123456789">
+<script type="text/javascript">
+    try {
+        window._mNHandle.queue.push(function (){
+            window._mNDetails.loadTag("123456789", "300x250", "123456789");
+            var label = "it's a \"quoted\" label";
+        });
+    }
+    catch (error) {}
+</script>
+</div>
+</div>
+
+<div style="font-size: 0px; height: 0px; line-height: 0px; margin: 0; padding: 0; clear: both;"></div>
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: (none)
