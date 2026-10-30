@@ -80,7 +80,7 @@ class QA_Snapshot_Store {
 
 		if ( $this->update ) {
 			$existing = is_file( $path ) ? file_get_contents( $path ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-			if ( $existing !== $actual ) {
+			if ( $existing !== $actual && ( null === $existing || self::normalise_core_formatting( $existing ) !== self::normalise_core_formatting( $actual ) ) ) {
 				if ( ! is_dir( dirname( $path ) ) ) {
 					mkdir( dirname( $path ), 0777, true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
 				}
@@ -95,6 +95,9 @@ class QA_Snapshot_Store {
 		}
 		$expected = file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		if ( $expected === $actual ) {
+			return null;
+		}
+		if ( self::normalise_core_formatting( $expected ) === self::normalise_core_formatting( $actual ) ) {
 			return null;
 		}
 		return 'Snapshot mismatch: ' . $relative . self::changed_sections( $expected, $actual ) . "\n" . self::diff( $expected, $actual );
@@ -135,6 +138,46 @@ class QA_Snapshot_Store {
 			return [];
 		}
 		return $stale;
+	}
+
+	/**
+	 * Level out two WordPress-core formatting details that changed in WP 7.2.
+	 *
+	 * 1. The attribute order of core's sidebar wrapper (before_widget), for
+	 *    example id-then-class versus class-then-id.
+	 * 2. The newline core used to put before inline script data, which shows up
+	 *    as a blank line right after a "== name ==" section header.
+	 *
+	 * Neither is visitor-visible and neither is produced by the plugin. Nothing
+	 * else is normalised.
+	 *
+	 * @param string $text Snapshot or actual text.
+	 * @return string
+	 */
+	private static function normalise_core_formatting( $text ) {
+		$text = preg_replace_callback(
+			'/<([a-zA-Z][a-zA-Z0-9-]*)((?:\s+[a-zA-Z_:-]+="[^"]*")+)\s*>/',
+			static function ( $m ) {
+				if ( ! preg_match_all( '/([a-zA-Z_:-]+)="([^"]*)"/', $m[2], $found, PREG_SET_ORDER ) ) {
+					return $m[0];
+				}
+				$attrs = [];
+				foreach ( $found as $pair ) {
+					$attrs[ $pair[1] ] = $pair[2];
+				}
+				if ( ! isset( $attrs['id'], $attrs['class'] ) || 0 !== strpos( $attrs['class'], 'widget ' ) ) {
+					return $m[0];
+				}
+				ksort( $attrs );
+				$out = '<' . $m[1];
+				foreach ( $attrs as $name => $value ) {
+					$out .= ' ' . $name . '="' . $value . '"';
+				}
+				return $out . '>';
+			},
+			$text
+		);
+		return preg_replace( '/^(== [a-z-]+ ==\n)\n/m', '$1', $text );
 	}
 
 	/**

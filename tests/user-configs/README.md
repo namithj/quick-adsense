@@ -144,6 +144,12 @@ survives core's filters byte-identical.
 * **A missing snapshot fails.** Create it with `QA_UPDATE_SNAPSHOTS=1`.
 * **A mismatch fails** with a unified diff of the part that changed.
 * `QA_UPDATE_SNAPSHOTS=1` is **forbidden in CI**; the workflow sets it to `0`.
+* Two WordPress-core formatting details are normalised at comparison time (and
+  update mode does not rewrite a snapshot that differs only by them): the
+  attribute order of core's sidebar wrapper (`id`/`class`), and the blank line
+  core used to put before inline script data (right after a `== name ==`
+  header). Both changed in WP 7.2, are not visitor-visible and are not produced
+  by the plugin, so snapshots stay valid on WP 6.7, 7.1 and 7.2+.
 * Every release plan has a section "Intended snapshot changes". A regenerated
   snapshot that is not listed there is a release blocker, and the commit or PR
   description must quote that section.
