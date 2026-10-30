@@ -5,6 +5,7 @@
 # deploy action — matches an unanchored pattern at *any* depth, so a bare
 # "vendor" also strips includes/vendor, the plugin's own bundled Mobile_Detect
 # and GeoIP libraries, and the plugin then fatals on activation.
+/.ai
 /.git
 /.github
 /.vscode
@@ -19,6 +20,7 @@
 /node_modules
 /phpcs.xml
 /phpcs.xml.dist
+/.phpunit.result.cache
 /phpunit.xml
 /phpunit.xml.dist
 /scripts

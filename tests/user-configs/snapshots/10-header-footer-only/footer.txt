@@ -1,0 +1,19 @@
+== footer ==
+<!-- QAFX:medianet -->
+<div id="123456789">
+<script type="text/javascript">
+    try {
+        window._mNHandle.queue.push(function (){
+            window._mNDetails.loadTag("123456789", "300x250", "123456789");
+            var label = "it's a \"quoted\" label";
+        });
+    }
+    catch (error) {}
+</script>
+</div>
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: (none)

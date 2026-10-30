@@ -23,12 +23,21 @@ permissions:
 
 jobs:
   phpunit:
-    name: PHPUnit — PHP ${{ matrix.php }}
+    name: PHPUnit — PHP ${{ matrix.php }} / WP ${{ matrix.wp }}
     runs-on: ubuntu-latest
+    # Trunk is reported but never fails the workflow.
+    continue-on-error: ${{ matrix.wp == 'trunk' }}
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        wp: ['6.7', 'latest', 'trunk']
+        exclude:
+          # WordPress 6.7 does not support PHP 8.4 or newer.
+          - php: '8.4'
+            wp: '6.7'
+          - php: '8.5'
+            wp: '6.7'
 
     services:
       mysql:
@@ -69,11 +78,33 @@ jobs:
       - name: Run dependency-free compatibility gate
         run: composer test:characterization
 
+      # wp-phpunit must match the WordPress core under test: 6.7 uses ~6.7.0,
+      # latest uses the current release from WordPress.org, trunk uses dev-master.
+      - name: Install the matching wp-phpunit
+        env:
+          WP_CELL: ${{ matrix.wp }}
+        run: |
+          case "${WP_CELL}" in
+            trunk)
+              CONSTRAINT='dev-master'
+              ;;
+            latest)
+              CURRENT="$(curl -fsSL https://api.wordpress.org/core/version-check/1.7/ | php -r '$d = json_decode( file_get_contents( "php://stdin" ), true ); echo $d["offers"][0]["current"];')"
+              CONSTRAINT="~$(cut -d. -f1,2 <<<"${CURRENT}").0"
+              ;;
+            *)
+              CONSTRAINT="~${WP_CELL}.0"
+              ;;
+          esac
+          echo "wp-phpunit constraint: ${CONSTRAINT}"
+          composer require --dev --no-update --no-interaction "wp-phpunit/wp-phpunit:${CONSTRAINT}" \
+            && composer update wp-phpunit/wp-phpunit --with-dependencies --no-interaction --no-progress
+
       # wp-phpunit ships the core test library but not WordPress itself, so the
       # suite needs a core checkout to point WP_TESTS_ABSPATH at.
       - name: Install WordPress core
         run: |
-          WP_PATH="$(bash bin/install-wp-core.sh latest "${RUNNER_TEMP}/wordpress")"
+          WP_PATH="$(bash bin/install-wp-core.sh "${{ matrix.wp }}" "${RUNNER_TEMP}/wordpress")"
           echo "WP_TESTS_ABSPATH=${WP_PATH}" >> "${GITHUB_ENV}"
 
       - name: Wait for MySQL
@@ -87,6 +118,15 @@ jobs:
           done
           echo "MySQL did not become ready in time." >&2
           exit 1
+
+      # R00 safety net: 20 realistic user configurations, run one after another
+      # against golden-master snapshots taken on v2.9.4 (tests/user-configs/).
+      # Any change to what an existing user sees, or to what is stored in their
+      # database, fails here. Snapshots are never regenerated in CI.
+      - name: User-config regression (20 configs)
+        env:
+          QA_UPDATE_SNAPSHOTS: '0'
+        run: composer test:configs
 
       - name: Run test suite
         run: composer test

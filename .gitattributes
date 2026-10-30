@@ -7,6 +7,7 @@ composer.json export-ignore
 composer.lock export-ignore
 phpunit.xml.dist export-ignore
 phpcs.xml.dist export-ignore
+/.ai export-ignore
 /.github export-ignore
 /.vscode export-ignore
 /bin export-ignore
@@ -15,3 +16,7 @@ phpcs.xml.dist export-ignore
 /vendor export-ignore
 /.cache export-ignore
 /build export-ignore
+
+# Golden-master snapshots hold exact bytes, including carriage returns from ad
+# code. Never let Git normalise their line endings.
+/tests/user-configs/snapshots/** -text linguist-generated

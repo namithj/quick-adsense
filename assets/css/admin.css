@@ -1,4 +1,4 @@
-#quick_adsense_settings_form .ui-tabs .ui-tabs-nav {
+#quick_adsense_settings_tabs.ui-tabs .ui-tabs-nav {
 	background: none;
 	border-radius: 0;
 	border-top: none;
@@ -6,19 +6,19 @@
 	border-right: none;
 }
 
-#quick_adsense_settings_form #quick_adsense_settings_tabs {
+#quick_adsense_settings_tabs {
 	background: none;
 	border: none;
 }
 
-#quick_adsense_settings_form #quick_adsense_settings_tabs .ui-tabs-nav li {
+#quick_adsense_settings_tabs .ui-tabs-nav li {
 	background: #F1F1F1;
 	border-radius: 0;
 	margin-left: 4px;
 	margin-right: 4px;
 }
 
-#quick_adsense_settings_form #quick_adsense_settings_tabs .ui-tabs-nav li a {
+#quick_adsense_settings_tabs .ui-tabs-nav li a {
 	background: #E5E5E5;
 	border-bottom: none;
 	font-weight: 600;
@@ -26,12 +26,12 @@
 	padding: 7px 25px 8px 25px;
 }
 
-#quick_adsense_settings_form #quick_adsense_settings_tabs .ui-tabs-nav li a:focus {
+#quick_adsense_settings_tabs .ui-tabs-nav li a:focus {
     border: none;
     box-shadow: none;
 }
 
-#quick_adsense_settings_form #quick_adsense_settings_tabs .ui-tabs-nav li.ui-tabs-active a { 
+#quick_adsense_settings_tabs .ui-tabs-nav li.ui-tabs-active a { 
 	background: #F1F1F1;
 }
 

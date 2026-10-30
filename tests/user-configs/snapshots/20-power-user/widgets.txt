@@ -1,0 +1,31 @@
+== widgets ==
+-- single-long / qa-sidebar-1 --
+<!-- QAFX:widget-1 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0111111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script><!-- QAFX:widget-2 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0211111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+-- single-long / qa-sidebar-2 --
+<div id="adswidget3-quick-adsense-2" class="widget widget_adswidget3-quick-adsense"><!-- QAFX:widget-3 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0311111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><div id="adswidget4-quick-adsense-2" class="widget widget_adswidget4-quick-adsense"><!-- QAFX:widget-4 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0411111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+-- home / qa-sidebar-1 --
+<!-- QAFX:widget-1 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0111111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script><!-- QAFX:widget-2 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0211111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+-- home / qa-sidebar-2 --
+<div id="adswidget3-quick-adsense-2" class="widget widget_adswidget3-quick-adsense"><!-- QAFX:widget-3 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0311111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><div id="adswidget4-quick-adsense-2" class="widget widget_adswidget4-quick-adsense"><!-- QAFX:widget-4 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0411111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: {"ad_1":{"D-5":{"i":210,"c":10},"D-4":{"i":208,"c":8},"D-3":{"i":206,"c":6},"D-2":{"i":204,"c":4},"D-1":{"i":202,"c":2}}}
