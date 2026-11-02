@@ -1,0 +1,39 @@
+== widgets ==
+-- single-long / qa-sidebar-1 --
+<!-- QAFX:widget-1 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0111111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script><!-- QAFX:widget-2 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0211111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script><!-- QAFX:widget-3 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0311111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+-- single-long / qa-sidebar-2 --
+<div id="adswidget4-quick-adsense-2" class="widget widget_adswidget4-quick-adsense"><!-- QAFX:widget-4 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0411111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><div id="adswidget5-quick-adsense-2" class="widget widget_adswidget5-quick-adsense"><!-- QAFX:widget-5 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0511111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><div id="adswidget6-quick-adsense-2" class="widget widget_adswidget6-quick-adsense"><!-- QAFX:widget-6 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0611111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+-- home / qa-sidebar-1 --
+<!-- QAFX:widget-1 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0111111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script><!-- QAFX:widget-2 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0211111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script><!-- QAFX:widget-3 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0311111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+-- home / qa-sidebar-2 --
+<div id="adswidget4-quick-adsense-2" class="widget widget_adswidget4-quick-adsense"><!-- QAFX:widget-4 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0411111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><div id="adswidget5-quick-adsense-2" class="widget widget_adswidget5-quick-adsense"><!-- QAFX:widget-5 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0511111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><div id="adswidget6-quick-adsense-2" class="widget widget_adswidget6-quick-adsense"><!-- QAFX:widget-6 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0611111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: (none)

@@ -82,6 +82,10 @@ jobs:
       - name: Verify the checked-out tree carries the tagged version
         run: bash bin/set-version.sh --check "${VERSION}"
 
+      # Release gate: fails when readme.txt "Tested up to" is behind the current WordPress major.
+      - name: Verify "Tested up to" covers the current WordPress release
+        run: bash bin/check-tested-up-to.sh
+
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --no-interaction
 

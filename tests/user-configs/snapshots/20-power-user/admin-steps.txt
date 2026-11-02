@@ -1,0 +1,35 @@
+== init-notices ==
+(none)
+== admin-notices ==
+(none)
+== quicktags ==
+
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_1", "Ads1", "\n<!--Ads1-->\n", "", "", "Ads1", 201);
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_2", "Ads2", "\n<!--Ads2-->\n", "", "", "Ads2", 201);
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_3", "Ads3", "\n<!--Ads3-->\n", "", "", "Ads3", 201);
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_4", "Ads4", "\n<!--Ads4-->\n", "", "", "Ads4", 201);
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_5", "Ads5", "\n<!--Ads5-->\n", "", "", "Ads5", 201);
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_6", "Ads6", "\n<!--Ads6-->\n", "", "", "Ads6", 201);
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_7", "Ads7", "\n<!--Ads7-->\n", "", "", "Ads7", 201);
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_8", "Ads8", "\n<!--Ads8-->\n", "", "", "Ads8", 201);
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_9", "Ads9", "\n<!--Ads9-->\n", "", "", "Ads9", 201);
+	QTags.addButton("quick_adsense_quicktag_onpost_ad_10", "Ads10", "\n<!--Ads10-->\n", "", "", "Ads10", 201);
+	QTags.addButton("quick_adsense_quicktag_randomads", "RndAds", "\n<!--RndAds-->\n", "", "", "Random Ads", 201);
+	QTags.addButton("quick_adsense_quicktag_noads", "NoAds", "\n<!--NoAds-->\n", "", "", "No Ads", 201);
+	QTags.addButton("quick_adsense_quicktag_offdef", "OffDef", "\n<!--OffDef-->\n", "", "", "No Def", 201);
+	QTags.addButton("quick_adsense_quicktag_offwidget", "OffWidget", "\n<!--OffWidget-->\n", "", "", "No AdWidgets", 201);
+	QTags.addButton("quick_adsense_quicktag_offbegin", "OffBegin", "\n<!--OffBegin-->\n", "", "", "Disable Beginning of Post Ads", 201);
+	QTags.addButton("quick_adsense_quicktag_offmiddle", "OffMiddle", "\n<!--OffMiddle-->\n", "", "", "Disable Middle of Post Ads", 201);
+	QTags.addButton("quick_adsense_quicktag_offend", "OffEnd", "\n<!--OffEnd-->\n", "", "", "Disable End of Post Ads", 201);
+	QTags.addButton("quick_adsense_quicktag_offafmore", "OffAfMore", "\n<!--OffAfMore-->\n", "", "", "OffAfMore", 201);
+	QTags.addButton("quick_adsense_quicktag_offbflastpara", "OffBfLastPara", "\n<!--OffBfLastPara-->\n", "", "", "OffBfLastPara", 201);
+
+== adstxt-publisher-ids ==
+{
+    "0": "pub-1111111111111111",
+    "1": "pub-2222222222222222",
+    "4": "3333333333333333"
+}
+
+== widget-init-notices ==
+(none)

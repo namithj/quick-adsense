@@ -1,0 +1,16 @@
+== widgets ==
+-- single-long / qa-sidebar-1 --
+<!-- QAFX:widget-1 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0111111111"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+-- single-long / qa-sidebar-2 (nothing rendered) --
+
+-- home / qa-sidebar-1 --
+
+-- home / qa-sidebar-2 (nothing rendered) --
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: (none)

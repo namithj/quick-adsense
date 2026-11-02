@@ -1,0 +1,28 @@
+== widgets ==
+-- single-long / qa-sidebar-1 --
+
+<!-- QAFX:nasty -->
+<!--Ads2-->
+</textarea><script>var p = 'C:\\ads\\x'; var q = "say \"hi\"";</script>
+<div title="a &amp; b" data-x='it"s'>ünï 漢字 🚀 &amp; "q" 's' \o/</div>
+[gallery]
+<?php echo "not executed"; ?>
+
+-- single-long / qa-sidebar-2 (nothing rendered) --
+
+-- home / qa-sidebar-1 --
+
+<!-- QAFX:nasty -->
+<!--Ads2-->
+</textarea><script>var p = 'C:\\ads\\x'; var q = "say \"hi\"";</script>
+<div title="a &amp; b" data-x='it"s'>ünï 漢字 🚀 &amp; "q" 's' \o/</div>
+[gallery]
+<?php echo "not executed"; ?>
+
+-- home / qa-sidebar-2 (nothing rendered) --
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: (none)

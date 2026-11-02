@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: Quick Adsense
+ * Plugin Name: Quick Adsense – Ad Manager & AdSense Ads
  * Plugin URI: https://github.com/namithj/quick-adsense
- * Description: Quick Adsense offers a quicker & flexible way to insert Google Adsense or any Ads code into a blog post.
+ * Description: Free, lightweight ad manager: place AdSense or any ad code in posts, widgets, header & footer. No upsells.
  * Author: namithjawahar
  * Author URI: https://smartlogix.co.in/
- * Version: 2.9.4
- * Requires at least: 6.3
+ * Version: 2.10.0
+ * Requires at least: 6.7
  * Requires PHP: 7.4
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * bin/set-version.sh, which the release pipeline runs from the pushed tag.
  * Used to cache-bust the plugin's own admin assets.
  */
-define( 'QUICK_ADSENSE_VERSION', '2.9.4' );
+define( 'QUICK_ADSENSE_VERSION', '2.10.0' );
 
 require_once __DIR__ . '/includes/loader.php';
 require_once __DIR__ . '/includes/countries.php';
@@ -36,6 +36,9 @@ require_once __DIR__ . '/includes/quicktags.php';
 require_once __DIR__ . '/includes/content.php';
 require_once __DIR__ . '/includes/adsense.php';
 require_once __DIR__ . '/includes/class-filehandler.php';
+require_once __DIR__ . '/includes/class-snapshots.php';
+require_once __DIR__ . '/includes/class-snapshotsadmin.php';
+require_once __DIR__ . '/includes/class-migrations.php';
 if ( ! class_exists( 'Mobile_Detect' ) ) {
 	require_once __DIR__ . '/includes/vendor/MobileDetect/Mobile_Detect.php';
 }

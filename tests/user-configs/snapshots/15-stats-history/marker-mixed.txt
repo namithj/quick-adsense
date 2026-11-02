@@ -1,0 +1,43 @@
+== content ==
+<p>P1 Alpha foxtrot kilo delta india bravo golf lima.</p>
+
+<p>P2 Bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha.</p>
+<div class="dab521de65f9250b4cca7383feef67dc" data-index="2" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:onpost-2 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0200000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<p>P3 Charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie.</p>
+<p>P4 Delta india bravo golf lima echo juliet charlie hotel alpha.</p>
+<h2>First heading</h2>
+<p>P5 Echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo.</p>
+<div class="dab521de65f9250b4cca7383feef67dc" data-index="3" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:onpost-3 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0300000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<p>P6 Foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot.</p>
+
+<ul>
+<li>List item one</li>
+<li>List item two</li>
+<li>List item three</li>
+</ul>
+<p>P7 Golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf.</p>
+<p>P8 Hotel alpha foxtrot kilo delta india bravo.</p>
+<p>P9 India bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot.</p>
+<h2>Second heading</h2>
+<p>P10 Juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel.</p>
+<p>P11 Kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo.</p>
+<p>P12 Lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf.</p>
+<div style="font-size: 0px; height: 0px; line-height: 0px; margin: 0; padding: 0; clear: both;"></div>
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: {"ad_1":{"D-30":{"i":130,"c":30},"D-29":{"i":129,"c":29},"D-28":{"i":128,"c":28},"D-27":{"i":127,"c":27},"D-26":{"i":126,"c":26},"D-25":{"i":125,"c":25},"D-24":{"i":124,"c":24},"D-23":{"i":123,"c":23},"D-22":{"i":122,"c":22},"D-21":{"i":121,"c":21},"D-20":{"i":120,"c":20},"D-19":{"i":119,"c":19},"D-18":{"i":118,"c":18},"D-17":{"i":117,"c":17},"D-16":{"i":116,"c":16},"D-15":{"i":115,"c":15},"D-14":{"i":114,"c":14},"D-13":{"i":113,"c":13},"D-12":{"i":112,"c":12},"D-11":{"i":111,"c":11},"D-10":{"i":110,"c":10},"D-9":{"i":109,"c":9},"D-8":{"i":108,"c":8},"D-7":{"i":107,"c":7},"D-6":{"i":106,"c":6},"D-5":{"i":105,"c":5},"D-4":{"i":104,"c":4},"D-3":{"i":103,"c":3},"D-2":{"i":102,"c":2},"D-1":{"i":101,"c":1}},"ad_2":{"keys":"not dmY dates any more (array_shift renumbers numeric keys)","entries":[{"i":387,"c":87},{"i":384,"c":84},{"i":381,"c":81},{"i":378,"c":78},{"i":375,"c":75},{"i":372,"c":72},{"i":369,"c":69},{"i":366,"c":66},{"i":363,"c":63},{"i":360,"c":60},{"i":357,"c":57},{"i":354,"c":54},{"i":351,"c":51},{"i":348,"c":48},{"i":345,"c":45},{"i":342,"c":42},{"i":339,"c":39},{"i":336,"c":36},{"i":333,"c":33},{"i":330,"c":30},{"i":327,"c":27},{"i":324,"c":24},{"i":321,"c":21},{"i":318,"c":18},{"i":315,"c":15},{"i":312,"c":12},{"i":309,"c":9},{"i":306,"c":6},{"i":303,"c":3},{"i":1,"c":0}]},"ad_3":{"D-0":{"i":1,"c":0}}}

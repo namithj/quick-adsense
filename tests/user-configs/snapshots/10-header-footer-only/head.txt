@@ -1,0 +1,17 @@
+== head ==
+<!-- QAFX:adsense-auto-ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3333333333333333" crossorigin="anonymous"></script>
+<!-- QAFX:analytics-gtag -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QAFIXTURE1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QAFIXTURE1');
+</script>
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: (none)

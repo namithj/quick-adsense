@@ -1,0 +1,20 @@
+== assets ==
+
+jQuery(document).ready(function() {
+	jQuery(".dab521de65f9250b4cca7383feef67dc").click(function() {
+		jQuery.post(
+			"http://example.org/wp-admin/admin-ajax.php", {
+				"action": "quick_adsense_onpost_ad_click",
+				"quick_adsense_onpost_ad_index": jQuery(this).attr("data-index"),
+				"quick_adsense_nonce": "{NONCE:quick-adsense-stats}",
+			}, function(response) { }
+		);
+	});
+});
+
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: {"ad_1":{"D-5":{"i":210,"c":10},"D-4":{"i":208,"c":8},"D-3":{"i":206,"c":6},"D-2":{"i":204,"c":4},"D-1":{"i":202,"c":2}}}

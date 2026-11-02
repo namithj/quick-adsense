@@ -1,0 +1,30 @@
+{
+    "is_active_widget": {
+        "adswidget1-quick-adsense": "qa-sidebar-1",
+        "adswidget10-quick-adsense": false,
+        "adswidget2-quick-adsense": "qa-sidebar-1",
+        "adswidget3-quick-adsense": "qa-sidebar-2",
+        "adswidget4-quick-adsense": "qa-sidebar-2",
+        "adswidget5-quick-adsense": false,
+        "adswidget6-quick-adsense": false,
+        "adswidget7-quick-adsense": false,
+        "adswidget8-quick-adsense": false,
+        "adswidget9-quick-adsense": false
+    },
+    "placements": {
+        "qa-sidebar-1": [
+            "adswidget1-quick-adsense-2",
+            "adswidget2-quick-adsense-2"
+        ],
+        "qa-sidebar-2": [
+            "adswidget3-quick-adsense-2",
+            "adswidget4-quick-adsense-2"
+        ]
+    },
+    "registered_id_bases": [
+        "adswidget1-quick-adsense",
+        "adswidget2-quick-adsense",
+        "adswidget3-quick-adsense",
+        "adswidget4-quick-adsense"
+    ]
+}

@@ -1,0 +1,52 @@
+== content ==
+</p><div class="dab521de65f9250b4cca7383feef67dc" data-index="1" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:onpost-1 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0100000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<p>P1 Alpha foxtrot kilo delta india bravo golf lima.</p>
+<p>P2 Bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha.</p>
+<p><!--OffAfMore--></p>
+<p>P3 Charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie.</p><div class="dab521de65f9250b4cca7383feef67dc" data-index="2" style="float: left; margin: 10px 10px 10px 0;">
+<!-- QAFX:onpost-2 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0200000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<p>P4 Delta india bravo golf lima echo juliet charlie hotel alpha.</p>
+<h2>First heading</h2>
+<p>P5 Echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo.</p>
+<p>P6 Foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot.</p>
+<ul>
+<li>List item one</li>
+<li>List item two</li>
+<li>List item three</li>
+</ul>
+<p>P7 Golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf.</p>
+<p>P8 Hotel alpha foxtrot kilo delta india bravo.</p>
+<p>P9 India bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot.</p>
+<h2>Second heading</h2>
+<p>P10 Juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel.</p>
+<p>P11 Kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo.</p>
+<div class="dab521de65f9250b4cca7383feef67dc" data-index="4" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:onpost-4 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0400000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<p>P12 Lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf.</p><div class="dab521de65f9250b4cca7383feef67dc" data-index="3" style="float: right; margin:10px 0 10px 10px;">
+<!-- QAFX:onpost-3 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0300000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<div style="font-size: 0px; height: 0px; line-height: 0px; margin: 0; padding: 0; clear: both;"></div>
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: (none)

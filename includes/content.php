@@ -49,7 +49,7 @@ add_filter(
 			return $content;
 		}
 		/* Begin Enforce Max Ads Per Page Rule */
-		$quick_adsense_ads_to_display = $settings['max_ads_per_page'];
+		$quick_adsense_ads_to_display = $settings['max_ads_per_page'] ?? null;
 		if ( strpos( $content, '<!--OffWidget-->' ) === false ) {
 			for ( $i = 1; $i <= 10; $i++ ) {
 				$widget_id                     = sanitize_title( str_replace( [ '(', ')' ], '', sprintf( 'AdsWidget%d (Quick Adsense)', $i ) ) );
@@ -84,6 +84,8 @@ add_filter(
 		$content = str_replace( '<p></p>', '##QA-TP1##', $content );
 		$content = str_replace( '<p>&nbsp;</p>', '##QA-TP2##', $content );
 		$offdef  = ( strpos( $content, '<!--OffDef-->' ) !== false );
+
+		$cusrnd = null; // Unset when OffDef is present; '<!---->' is what the undefined variable produced.
 		if ( ! $offdef ) {
 			$quick_adsense_ads_id_cus = [];
 			$cusads                   = 'CusAds';
@@ -471,7 +473,7 @@ function quick_adsense_content_replace_ads( $content, $quicktag, $ad_index ) {
 	if ( ( -1 !== $ad_index ) ) {
 		$onpost_ad_alignment = ( ( isset( $settings[ 'onpost_ad_' . $ad_index . '_alignment' ] ) ) ? $settings[ 'onpost_ad_' . $ad_index . '_alignment' ] : '' );
 		$onpost_ad_margin    = ( ( isset( $settings[ 'onpost_ad_' . $ad_index . '_margin' ] ) ) ? $settings[ 'onpost_ad_' . $ad_index . '_margin' ] : '' );
-		$onpost_ad_style     = sprintf( $onpost_ad_styles[ (int) $onpost_ad_alignment ], $onpost_ad_margin );
+		$onpost_ad_style     = sprintf( $onpost_ad_styles[ (int) $onpost_ad_alignment ] ?? '', $onpost_ad_margin );
 		$onpost_ad_code      = ( ( isset( $settings[ 'onpost_ad_' . $ad_index . '_content' ] ) ) ? $settings[ 'onpost_ad_' . $ad_index . '_content' ] : '' );
 		$onpost_ad_code      = '<div class="' . md5( get_bloginfo( 'url' ) ) . '" data-index="' . $ad_index . '" style="' . $onpost_ad_style . '">' . "\n" . $onpost_ad_code . "\n" . '</div>' . "\n";
 	} else {

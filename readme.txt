@@ -1,40 +1,64 @@
-=== Quick Adsense ===
+=== Quick Adsense – Ad Manager & AdSense Ads ===
 Contributors: namithjawahar
-Tags: adsense, advertising, ad manager, widgets, monetization
-Requires at least: 6.3
+Tags: adsense, ads, ad manager, ads.txt, advertising
+Requires at least: 6.7
 Requires PHP: 7.4
-Tested up to: 7.0
-Stable tag: 2.9.4
+Tested up to: 7.1
+Stable tag: 2.10.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Quick Adsense offers a quicker & flexible way to insert Google Adsense or any Ads code into a blog post.
+Free, lightweight ad manager: place AdSense or any ad code in posts, widgets, header & footer. No upsells. Your settings are always backed up.
 
 == Description ==
 
-**Quick Adsense** is an Ads management Wordpress plugin. It offers a quicker & flexible way to insert Adsense or any Ads code into a blog post. Besides, it can randomly place the Ads anywhere within a post. It comes with a simple setting page, and it does not overwhelm you with complicated customizable options. 
+**Quick Adsense** is a free, lightweight ad manager for WordPress. Paste your Google AdSense code, or the code from any other ad network, and choose where it appears: inside posts, in sidebar widgets, or in the header and footer of your site. There is no Pro version, no upsell and no revenue sharing.
 
-In general, placing Adsense randomly within a post is a good way to experiment a variety of ads formats & placements besides optimizing your Adsense. If you have many regular visitors who frequently revisit your blog, the **randomization** will likely catch their attention.
+It has a simple settings page, and it does not overwhelm you with complicated options. It can also place ads at random positions within a post, which is a good way to try different ad formats and placements.
 
-Here are some **features** that come with this plugin:
+= Features =
 
-1. Absolutely NO author revenue reward or revenue sharing from your Adsense or that kind of features.
-1. Default Ads positioning: Assign Ads to the beginning of post, assign Ads to the middle of post, assign Ads to the end of post, assign Ads after 'more' tag, assign Ads before last paragraph, assign Ads after certain paragraphs (3 options available) & assign Ads after certain images.
-1. Flexible Ads placement, insert Ads specifically or randomly anywhere within a post.
-1. Simple configuration interface, requires no coding knowledge: Just copy and paste AdSense code, tick & select options, the plugin will then do the rest for you.  
-1. Support any Ads code, not limited to Adsense code only.
-1. Display up to a maximum of 10 Ads on a page. Google allows publishers to place up to 3 Adsense for Content on a page. If you are using other Ads, you may display up to 10 Ads.
-1. Support up to a maximum of 10 Ads codes on Sidebar Widgets.
-1. Support up to a maximum of 10 Ads codes for specific placement & randomization within a post.
-1. Geotargeting : Limit Ads to Specific Countries.
-1. Device Targeting : Limit Ads to Specific Devices.
-1. Visitor Targeting : Limit Ads to Specific types / sources of Visitors.
-1. Ad Stats : Quick and easy way to judge your Ad performance.
-1. Insert Ads on-the-fly, simply insert &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt; ... , &lt;!--RndAds--&gt; to a post to accomplish this.
-1. Disable Ads on-the-fly, simply insert &lt;!--NoAds--&gt;, &lt;!--OffDef--&gt;, &lt;!--OffWidget--&gt;, &lt;!--OffBegin--&gt; ... and more to a post to accomplish this.
-1. The above Tags can be inserted into a post easily via the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
+1. 100% free. No Pro version, no upsells, and no author revenue share on your AdSense or other ads.
+1. Ads in the post body: up to 10 ad slots, each with its own code, alignment and margin.
+1. Ads in sidebar widgets: up to 10 widget slots. Each widget appears in Appearance - Widgets once its code is entered.
+1. Header and footer code boxes, for AdSense Auto ads, verification snippets and tracking code.
+1. Automatic positions: beginning of post, middle of post, end of post, after the "more" tag, before the last paragraph, after chosen paragraphs (3 options) and after images.
+1. Markers: insert a short tag into a post to place a chosen ad, a random ad, or to switch ads off for that post.
+1. Support for any ad code, not only AdSense. Display up to 10 ads on a page.
+1. Country targeting: limit ads to specific countries.
+1. Device targeting: limit ads to specific devices.
+1. Visitor targeting: limit ads to specific types or sources of visitors.
+1. Local ad stats: a quick way to judge how each ad performs, stored in your own database.
+1. ads.txt helper: check for, and add, the AdSense line when the file is writable.
+1. Settings backups and one-click restore.
 
-Sign up for a [Google Adsense Account](https://adsense.google.com/) to generate revenue from your blog, if you don't have one.
+Sign up for a [Google AdSense account](https://adsense.google.com/) to earn from your site, if you don't have one.
+
+= Your ads are safe =
+
+An update should never cost you your ad codes. Quick Adsense saves a copy of its settings automatically before every plugin update and before every restore, and you can make a backup yourself at any time. From the Backups tab of the Quick Adsense page you can restore a backup with one click, or download it as a JSON file. The five most recent backups are kept.
+
+Every release is tested against 20 real site configurations, with a wide range of saved ad codes, before it ships. The tests check that what your visitors see, and what is stored in your database, stays the same.
+
+= Markers =
+
+Markers are short HTML comments that you put in a post to control its ads. They are invisible to readers.
+
+* `<!--Ads1-->` to `<!--Ads10-->` place ad number 1 to 10 at that spot.
+* `<!--RndAds-->` places a randomly chosen ad at that spot.
+* `<!--NoAds-->` turns off all ads in the post.
+* `<!--OffDef-->` turns off the automatic positions, so that only the markers you placed show ads.
+* `<!--OffWidget-->` turns off the sidebar widget ads for that post.
+* `<!--OffBegin-->`, `<!--OffMiddle-->`, `<!--OffEnd-->`, `<!--OffAfMore-->` and `<!--OffBfLastPara-->` turn off the automatic ad at the beginning, middle or end of the post, after the "more" tag, or before the last paragraph.
+* `<!--OffAds-->` is an older marker that still works and turns off the ads in the post.
+
+= Quick Adsense and WP QUADS =
+
+WP QUADS - Quick AdSense Reloaded is a separate plugin. It began as a fork of Quick Adsense and is developed by a different team. This is the original Quick Adsense. The two plugins store their settings separately, so installing or removing one does not change the other.
+
+= Requirements =
+
+Quick Adsense 2.10 needs WordPress 6.7 or newer. Sites on older versions of WordPress keep using version 2.9.4.
 
 [Installation](https://wordpress.org/plugins/quick-adsense/#installation) | [Screen Shots](https://wordpress.org/plugins/quick-adsense/#screenshots) | [Plugin Homepage](https://quickadsense.com/)
 
@@ -47,14 +71,61 @@ Sign up for a [Google Adsense Account](https://adsense.google.com/) to generate 
 
 1. Unzip the downloaded plugin and upload the folder "quick-adsense" to the "/wp-content/plugins/" directory.
 1. Go to the plugin menu in WordPress and activate the plugin.
-1. Go to the "Settings-&gt;Quick Adsense" page and configure the options. Paste the Ads codes to the respective text box.
+1. Click the "Quick Adsense" item in the admin menu and configure the options. Paste the Ads codes to the respective text box.
 1. Optionally, insert the trigger Tags into a post via the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
 
 == Frequently Asked Questions ==
 
+= How do markers work? =
+
+A marker is an HTML comment such as `<!--Ads1-->` or `<!--RndAds-->` that you type into a post. When the post is shown, Quick Adsense replaces it with the ad you chose, or removes it if no ad is available. Markers that start with "Off", and `<!--NoAds-->`, switch ads off instead. See the Markers section of the description for the full list.
+
+= Should I use AdSense Auto ads or manual placement? =
+
+Both work. For Auto ads, paste the code Google gives you into the header code box on the Header / Footer Codes tab, and Google decides where ads appear. For manual placement, paste each ad unit into one of the slots on the Ads on Post Body tab or the Sidebar Widget tab, and choose where each one appears. You can use them together, but Google's own policies apply to the number of ads on a page.
+
+= How do I set up ads.txt? =
+
+The Settings tab can check your ads.txt file for your AdSense line and add it for you. This works when WordPress is able to write to the ads.txt file in your site's root folder. If the file is not writable, the plugin shows you the line to add by hand.
+
+= Do ads work with caching plugins? =
+
+Yes. Ads are inserted on the server into the post content, so a page cache stores the page together with its ads. After you change your settings, clear your page cache so that visitors see the change.
+
+= Does it work with the block editor? =
+
+Yes. Add a marker to a post with a Custom HTML block, or from the Code editor. The Quicktag buttons are part of the classic editor, so they only appear there. The automatic positions work in every editor, with no markers needed.
+
+= What about privacy? =
+
+Quick Adsense sends no telemetry or site data to its authors, and the ad statistics stay in your own database. The ad and tracking code you paste in runs in your visitors' browsers and may contact third parties, so you are responsible for choosing it, disclosing it and getting any consent it needs. See the Privacy section below.
+
+= How do backups and restore work? =
+
+Quick Adsense saves a copy of its settings before every plugin update and before every restore. You can also create a backup at any time. They are listed in the Backups tab of the Quick Adsense page, where you can restore or download them. The five most recent backups are kept. A restore first saves your current settings, then puts the chosen backup back exactly as it was. Widget placements are only restored if you tick "Also restore widget placements". Restoring needs an administrator account that is allowed to edit unfiltered HTML.
+
+= Is it really free? =
+
+Yes, 100%. There is no Pro version, no locked feature and no upsell, and the plugin takes no share of your ad revenue.
+
 Please send feedback through the [Quick Adsense support forum](https://wordpress.org/support/plugin/quick-adsense/) for any bug you find or suggestion you would like to add.
 
-== Change Log ==
+== Changelog ==
+= 2.10.0 =
+* New: automatic settings backups and one-click restore.
+* Updated listing.
+* Requires WordPress 6.7+.
+* Fixed PHP warnings on sites with incomplete settings; ad output is unchanged.
+
+= 2.9.4 =
+* Fix: the release package now includes the bundled Mobile Detect and GeoIP libraries again. Without them, 2.9.1 and 2.9.2 could fail with a fatal error on activation.
+
+= 2.9.3 =
+* Maintenance: the version number now comes from the release tag. No change to plugin behaviour.
+
+= 2.9.2 =
+* Maintenance: release and deployment pipeline fixes. No change to plugin behaviour.
+
 = 2.9.1 =
 * Modernized plugin security and WordPress compatibility while preserving existing HTML, JavaScript and script-based ad codes.
 * Fixed escaped markup in administration labels and restored selectable widget ad units.
@@ -161,7 +232,7 @@ Please send feedback through the [Quick Adsense support forum](https://wordpress
 * New functionality - Default Ads positioning: Assign Ads after certain paragraphs & assign Ads after certain images.
 * You can now disable AdsWidget (Sidebar Ads) on Homepage. 
 * Insert a &lt;!--OffDef--&gt; to temporary disable the default positioned Ads, so that you can insert the specific Ads or Random ad tags in the post.
-* Google allows publishers to place up to 3 Adsense for Content on a page. If you are using other Ads, you may now display up to 10 Ads.
+* You may now display up to 10 ads on a page.
 * Minor bug fix & code modifications.
 * Date: 09-Dec-2009
 
@@ -192,6 +263,11 @@ Please send feedback through the [Quick Adsense support forum](https://wordpress
 = 1.0 =
 * Initial public release. 
 * Date: 21-Sep-2009
+
+== Upgrade Notice ==
+
+= 2.10.0 =
+Requires WordPress 6.7 or newer. Adds automatic settings backups and one-click restore.
 
 == Privacy ==
 

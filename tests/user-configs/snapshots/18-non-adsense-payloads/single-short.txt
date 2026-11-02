@@ -1,0 +1,35 @@
+== content ==
+<div class="dab521de65f9250b4cca7383feef67dc" data-index="1" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:gam-gpt -->
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script>
+  window.googletag = window.googletag || {cmd: []};
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/1234567/qa-fixture', [300, 250], 'div-gpt-ad-qa-1').addService(googletag.pubads());
+    googletag.enableServices();
+  });
+</script>
+<div id="div-gpt-ad-qa-1" style="min-width:300px;min-height:250px;"><script>googletag.cmd.push(function() { googletag.display('div-gpt-ad-qa-1'); });</script></div>
+</div>
+<p>The only paragraph of the short post.</p><div class="dab521de65f9250b4cca7383feef67dc" data-index="3" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:medianet -->
+<div id="123456789">
+<script type="text/javascript">
+    try {
+        window._mNHandle.queue.push(function (){
+            window._mNDetails.loadTag("123456789", "300x250", "123456789");
+            var label = "it's a \"quoted\" label";
+        });
+    }
+    catch (error) {}
+</script>
+</div>
+</div>
+
+<div style="font-size: 0px; height: 0px; line-height: 0px; margin: 0; padding: 0; clear: both;"></div>
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: (none)

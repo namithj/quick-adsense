@@ -1,0 +1,36 @@
+== content ==
+<div class="dab521de65f9250b4cca7383feef67dc" data-index="2" style="float: none; margin:5px 0 5px 0; text-align:center;">
+<!-- QAFX:onpost-2 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0200000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<p>Before the more tag Bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha.</p>
+<p>Still before the more tag Charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie.</p><div class="dab521de65f9250b4cca7383feef67dc" data-index="1" style="float: left; margin: 0px 0px 0px 0;">
+<!-- QAFX:adsense-legacy -->
+<script type="text/javascript"><!--
+google_ad_client = "pub-2222222222222222";
+google_ad_slot = "2222222222";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+</div>
+
+<p><span id="more-{POST_ID}"></span></p><!--CusAds0-->
+<p>After the more tag Delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie hotel alpha foxtrot kilo delta.</p>
+<p>Final paragraph Echo juliet charlie hotel alpha foxtrot kilo delta india bravo golf lima echo juliet charlie.</p><div class="dab521de65f9250b4cca7383feef67dc" data-index="3" style="float: right; margin:10px 0 10px 10px;">
+<!-- QAFX:onpost-3 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0300000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<div style="font-size: 0px; height: 0px; line-height: 0px; margin: 0; padding: 0; clear: both;"></div>
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: (none)

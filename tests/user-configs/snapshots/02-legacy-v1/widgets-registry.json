@@ -1,0 +1,18 @@
+{
+    "is_active_widget": {
+        "adswidget1-quick-adsense": false,
+        "adswidget10-quick-adsense": false,
+        "adswidget2-quick-adsense": false,
+        "adswidget3-quick-adsense": false,
+        "adswidget4-quick-adsense": false,
+        "adswidget5-quick-adsense": false,
+        "adswidget6-quick-adsense": false,
+        "adswidget7-quick-adsense": false,
+        "adswidget8-quick-adsense": false,
+        "adswidget9-quick-adsense": false
+    },
+    "placements": [],
+    "registered_id_bases": [
+        "adswidget1-quick-adsense"
+    ]
+}

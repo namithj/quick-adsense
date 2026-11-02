@@ -1,0 +1,37 @@
+== content ==
+<div class="dab521de65f9250b4cca7383feef67dc" data-index="1" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:onpost-1 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0100000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<p>Intro to the image post Bravo golf lima echo juliet charlie hotel alpha foxtrot kilo.</p>
+<p><img src="https://example.org/wp-content/uploads/qa-1.jpg" alt="one" width="300" height="200" /></p><div class="dab521de65f9250b4cca7383feef67dc" data-index="3" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:onpost-3 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0300000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<p>Between one and two Charlie hotel alpha foxtrot kilo delta india bravo.</p>
+<p><a href="https://example.org/qa-2-full.jpg"><img src="https://example.org/wp-content/uploads/qa-2.jpg" alt="two" width="300" height="200" /></a></p>
+<p>Between two and three Delta india bravo golf lima echo juliet charlie hotel.</p>
+[caption id="attachment_3" align="aligncenter" width="300"]<img src="https://example.org/wp-content/uploads/qa-3.jpg" alt="three" width="300" height="200" /> Caption three[/caption]
+<p>Between three and four Echo juliet charlie hotel alpha foxtrot kilo delta.</p>
+<p><IMG SRC="https://example.org/wp-content/uploads/qa-4.jpg" ALT="four" WIDTH="300" HEIGHT="200"></p>
+<p>Between four and five Foxtrot kilo delta india bravo golf lima echo juliet.</p>
+<p><a href="https://example.org/qa-5-full.jpg"><IMG src="https://example.org/wp-content/uploads/qa-5.jpg" alt="five" width="300" height="200"></A></p>
+<p>Closing paragraph Golf lima echo juliet charlie hotel alpha foxtrot kilo delta india bravo.</p><div class="dab521de65f9250b4cca7383feef67dc" data-index="2" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- QAFX:onpost-2 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111" crossorigin="anonymous"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1111111111111111" data-ad-slot="0200000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<div style="font-size: 0px; height: 0px; line-height: 0px; margin: 0; padding: 0; clear: both;"></div>
+== notices ==
+(none)
+== state ==
+engine: {"displayed":0,"ids":[],"begin_end":0}
+settings: unchanged
+stats: {"ad_1":{"keys":"not dmY dates any more (array_shift renumbers numeric keys)","entries":[{"i":129,"c":29},{"i":128,"c":28},{"i":127,"c":27},{"i":126,"c":26},{"i":125,"c":25},{"i":124,"c":24},{"i":123,"c":23},{"i":122,"c":22},{"i":121,"c":21},{"i":120,"c":20},{"i":119,"c":19},{"i":118,"c":18},{"i":117,"c":17},{"i":116,"c":16},{"i":115,"c":15},{"i":114,"c":14},{"i":113,"c":13},{"i":112,"c":12},{"i":111,"c":11},{"i":110,"c":10},{"i":109,"c":9},{"i":108,"c":8},{"i":107,"c":7},{"i":106,"c":6},{"i":105,"c":5},{"i":104,"c":4},{"i":103,"c":3},{"i":102,"c":2},{"i":101,"c":1},{"i":1,"c":0}]},"ad_2":{"keys":"not dmY dates any more (array_shift renumbers numeric keys)","entries":[{"i":387,"c":87},{"i":384,"c":84},{"i":381,"c":81},{"i":378,"c":78},{"i":375,"c":75},{"i":372,"c":72},{"i":369,"c":69},{"i":366,"c":66},{"i":363,"c":63},{"i":360,"c":60},{"i":357,"c":57},{"i":354,"c":54},{"i":351,"c":51},{"i":348,"c":48},{"i":345,"c":45},{"i":342,"c":42},{"i":339,"c":39},{"i":336,"c":36},{"i":333,"c":33},{"i":330,"c":30},{"i":327,"c":27},{"i":324,"c":24},{"i":321,"c":21},{"i":318,"c":18},{"i":315,"c":15},{"i":312,"c":12},{"i":309,"c":9},{"i":306,"c":6},{"i":303,"c":3},{"i":1,"c":0}]},"ad_3":{"D-0":{"i":1,"c":0}}}
