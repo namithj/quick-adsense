@@ -1,5 +1,85 @@
+var quick_adsense_i18n = wp.i18n;
+
+/**
+ * Open a native modal <dialog>. It is removed from the page when it closes.
+ *
+ * Escape, the close button and a click on the backdrop close it; focus is
+ * trapped and restored by the browser.
+ *
+ * @param {Object}   args            Dialog arguments.
+ * @param {string}   args.title      Title text.
+ * @param {string}   args.content    Body HTML (admin-ajax output or a loader).
+ * @param {string}   [args.className] Extra class for the dialog.
+ * @param {Object[]} [args.buttons]  Footer buttons: { label }. Each closes the dialog.
+ * @return {HTMLDialogElement} The open dialog.
+ */
+function quick_adsense_open_dialog(args) {
+	var dialog = document.createElement('dialog');
+	var titleId = 'qa-dialog-title-' + Date.now();
+	dialog.className = 'qa-dialog' + (args.className ? ' ' + args.className : '');
+	dialog.setAttribute('aria-labelledby', titleId);
+
+	var header = document.createElement('header');
+	header.className = 'qa-dialog__header';
+	var title = document.createElement('h2');
+	title.className = 'qa-dialog__title';
+	title.id = titleId;
+	title.textContent = args.title;
+	var close = document.createElement('button');
+	close.type = 'button';
+	close.className = 'qa-dialog__close';
+	close.setAttribute('aria-label', quick_adsense_i18n.__('Close', 'quick-adsense'));
+	close.innerHTML = '<span class="dashicons dashicons-no-alt" aria-hidden="true"></span>';
+	close.addEventListener('click', function () {
+		dialog.close();
+	});
+	header.appendChild(title);
+	header.appendChild(close);
+
+	var content = document.createElement('div');
+	content.className = 'qa-dialog__content';
+	// Focus the body on open (not the close button), as Material dialogs do; screen readers still get the title via aria-labelledby.
+	content.tabIndex = -1;
+	content.autofocus = true;
+	jQuery(content).html(args.content);
+
+	dialog.appendChild(header);
+	dialog.appendChild(content);
+
+	if (args.buttons && args.buttons.length) {
+		var actions = document.createElement('div');
+		actions.className = 'qa-dialog__actions';
+		args.buttons.forEach(function (button) {
+			var element = document.createElement('button');
+			element.type = 'button';
+			element.className = 'qa-btn qa-btn--text';
+			element.textContent = button.label;
+			element.addEventListener('click', function () {
+				dialog.close();
+			});
+			actions.appendChild(element);
+		});
+		dialog.appendChild(actions);
+	}
+
+	// The dialog has no padding, so a click whose target is the dialog itself landed on the backdrop.
+	dialog.addEventListener('click', function (event) {
+		if (event.target === dialog) {
+			dialog.close();
+		}
+	});
+	dialog.addEventListener('close', function () {
+		dialog.remove();
+	});
+
+	document.body.appendChild(dialog);
+	dialog.showModal();
+	return dialog;
+}
+
 jQuery(document).ready(function () {
 	jQuery("#quick_adsense_settings_tabs").tabs();
+	jQuery('body').removeClass('qa-js-loading');
 	jQuery('#quick_adsense_settings_reset_to_default').click(quick_adsense_settings_reset_to_default);
 
 	jQuery('#quick_adsense_settings_enable_position_beginning_of_post').click(quick_adsense_settings_enable_position_beginning_of_post);
@@ -54,22 +134,24 @@ jQuery(document).ready(function () {
 	quick_adsense_settings_onpost_enable_global_style();
 
 	jQuery('#quick_adsense_onpost_content_adunits_showall_button').click(function () {
-		if (jQuery('#quick_adsense_onpost_content_adunits_showall_button').text() == ' Show All') {
+		var button = jQuery(this);
+		if (!button.data('expanded')) {
 			jQuery('#quick_adsense_onpost_content_adunits_all_wrapper').slideDown();
-			jQuery('#quick_adsense_onpost_content_adunits_showall_button').html('<span class="dashicons dashicons-arrow-up"></span> <b>Show Less</b>');
+			button.data('expanded', true).html('<span class="dashicons dashicons-arrow-up"></span> <b></b>').find('b').text(quick_adsense_i18n.__('Show Less', 'quick-adsense'));
 		} else {
 			jQuery('#quick_adsense_onpost_content_adunits_all_wrapper').slideUp();
-			jQuery('#quick_adsense_onpost_content_adunits_showall_button').html('<span class="dashicons dashicons-arrow-down"></span> <b>Show All</b>');
+			button.data('expanded', false).html('<span class="dashicons dashicons-arrow-down"></span> <b></b>').find('b').text(quick_adsense_i18n.__('Show All', 'quick-adsense'));
 		}
 	});
 
 	jQuery('#quick_adsense_widget_adunits_showall_button').click(function () {
-		if (jQuery('#quick_adsense_widget_adunits_showall_button').text() == ' Show All') {
+		var button = jQuery(this);
+		if (!button.data('expanded')) {
 			jQuery('#quick_adsense_widget_adunits_all_wrapper').slideDown();
-			jQuery('#quick_adsense_widget_adunits_showall_button').html('<span class="dashicons dashicons-arrow-up"></span> <b>Show Less</b>');
+			button.data('expanded', true).html('<span class="dashicons dashicons-arrow-up"></span> <b></b>').find('b').text(quick_adsense_i18n.__('Show Less', 'quick-adsense'));
 		} else {
 			jQuery('#quick_adsense_widget_adunits_all_wrapper').slideUp();
-			jQuery('#quick_adsense_widget_adunits_showall_button').html('<span class="dashicons dashicons-arrow-down"></span> <b>Show All</b>');
+			button.data('expanded', false).html('<span class="dashicons dashicons-arrow-down"></span> <b></b>').find('b').text(quick_adsense_i18n.__('Show All', 'quick-adsense'));
 		}
 	});
 
@@ -81,10 +163,8 @@ jQuery(document).ready(function () {
 		});
 	});
 
-	jQuery('#quick_adsense_settings_tabs').fadeIn();
-
 	jQuery('.quick_adsense_backup_restore_form').on('submit', function () {
-		return window.confirm('Restore this backup? Your current settings are backed up first.');
+		return window.confirm(quick_adsense_i18n.__('Restore this backup? Your current settings are backed up first.', 'quick-adsense'));
 	});
 	if (window.location.href.indexOf('#quick_adsense_adstxt_adsense_auto_update') > -1) {
 		quick_adsense_adstxt_adsense_auto_update();
@@ -103,37 +183,41 @@ jQuery(document).ready(function () {
 	});
 
 	jQuery('.quick_adsense_onpost_ad_show_stats').click(function () {
-		jQuery('<div id="quick_adsense_onpost_ad_show_stats_dialog" data-index="' + jQuery(this).attr('data-index') + '"></div>').html('<div class="quick_adsense_ajaxloader"></div>').dialog({
-			'modal': true,
-			'resizable': false,
-			'width': jQuery("body").width() * 0.5,
-			'maxWidth': jQuery("body").width() * 0.5,
-			'maxHeight': jQuery("body").height() * 0.9,
-			'title': 'Ad' + jQuery(this).attr('data-index') + ' Performance Stats (30 Days)',
-			position: { my: 'center', at: 'center', of: window },
-			open: function (event, ui) {
-				jQuery('.ui-dialog').css({ 'z-index': 999999, 'max-width': '90%' });
-				jQuery('.ui-widget-overlay').css({ 'z-index': 999998, 'opacity': 0.8, 'background': '#000000' });
-				wp.ajax.post('quick_adsense_onpost_ad_get_stats_chart', {
-					nonce: quick_adsense.nonce,
-					index: jQuery('#quick_adsense_onpost_ad_show_stats_dialog').attr('data-index'),
-				}).done(function (result) {
-					jQuery('.quick_adsense_ajaxloader').hide();
-					jQuery('#quick_adsense_onpost_ad_show_stats_dialog').html(result);
-					jQuery('.ui-accordion .ui-accordion-content').css('max-height', (jQuery("body").height() * 0.45));
-					jQuery('.ui-dialog').css({ 'position': 'fixed' });
-					jQuery('#quick_adsense_onpost_ad_show_stats_dialog').delay(500).dialog({ position: { my: 'center', at: 'center', of: window } });
+		var index = jQuery(this).attr('data-index');
+		var quick_adsense_ad_stats_chart = null;
+		var dialog = quick_adsense_open_dialog({
+			className: 'qa-dialog--stats',
+			title: quick_adsense_i18n.sprintf(
+				/* translators: %s: ad number, for example Ad1. */
+				quick_adsense_i18n.__('%s Performance Stats (30 Days)', 'quick-adsense'),
+				'Ad' + index
+			),
+			content: '<div class="quick_adsense_ajaxloader"></div>'
+		});
+		dialog.addEventListener('close', function () {
+			if (quick_adsense_ad_stats_chart) {
+				quick_adsense_ad_stats_chart.destroy();
+			}
+		});
+		wp.ajax.post('quick_adsense_onpost_ad_get_stats_chart', {
+			nonce: quick_adsense.nonce,
+			index: index,
+		}).done(function (result) {
+				if (!dialog.open) {
+					return;
+				}
+				jQuery(dialog).find('.qa-dialog__content').html(result);
 
 					jQuery('#quick_adsense_ad_stats_chart_wrapper canvas').attr('width', jQuery('#quick_adsense_ad_stats_chart_wrapper').width() + 'px');
 					jQuery('#quick_adsense_ad_stats_chart_wrapper canvas').attr('height', jQuery('#quick_adsense_ad_stats_chart_wrapper').height() + 'px');
 					if (jQuery('#quick_adsense_ad_stats_chart_data').length) {
 						const quick_adsense_ad_stats_chart_data = JSON.parse(jQuery('#quick_adsense_ad_stats_chart_data').val());
-						var quick_adsense_ad_stats_chart = new Chart(jQuery('#quick_adsense_ad_stats_chart'), {
+						quick_adsense_ad_stats_chart = new Chart(jQuery('#quick_adsense_ad_stats_chart'), {
 							type: 'line',
 							responsive: false,
 							data: {
 								datasets: [{
-									label: 'Impressions',
+									label: quick_adsense_i18n.__('Impressions', 'quick-adsense'),
 									data: quick_adsense_ad_stats_chart_data.map(function (item) {
 										return {
 											x: item.x,
@@ -146,7 +230,7 @@ jQuery(document).ready(function () {
 									yAxisID: 'y',
 								},
 								{
-									label: 'Clicks',
+									label: quick_adsense_i18n.__('Clicks', 'quick-adsense'),
 									data: quick_adsense_ad_stats_chart_data.map(function (item) {
 										return {
 											x: item.x,
@@ -200,10 +284,34 @@ jQuery(document).ready(function () {
 									displayColors: false,
 									callbacks: {
 										label: function (tooltipItem, data) {
-											return ['Impressions: ' + parseInt(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]['y'], 10), 'Clicks: ' + parseInt(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]['y1'], 10)];
+											return [
+												quick_adsense_i18n.sprintf(
+													/* translators: %d: number of ad impressions. */
+													quick_adsense_i18n.__('Impressions: %d', 'quick-adsense'),
+													parseInt(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]['y'], 10)
+												),
+												quick_adsense_i18n.sprintf(
+													/* translators: %d: number of ad clicks. */
+													quick_adsense_i18n.__('Clicks: %d', 'quick-adsense'),
+													parseInt(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]['y1'], 10)
+												)
+											];
 										},
 										title: function (tooltipItem, data) {
-											var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+											var monthNames = [
+												quick_adsense_i18n._x('Jan', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('Feb', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('Mar', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('Apr', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('May', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('Jun', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('Jul', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('Aug', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('Sep', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('Oct', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('Nov', 'month abbreviation', 'quick-adsense'),
+												quick_adsense_i18n._x('Dec', 'month abbreviation', 'quick-adsense')
+											];
 											var dateParts = tooltipItem[0].xLabel.split('/');
 											var date = new Date(dateParts[2], dateParts[0] - 1, dateParts[1]);
 											return monthNames[date.getMonth()] + ' ' + date.getDate();
@@ -214,45 +322,23 @@ jQuery(document).ready(function () {
 						});
 					}
 				});
-			},
-			buttons: {},
-			close: function () {
-				jQuery(this).dialog('destroy');
-			}
-		})
 	});
 });
 
 function quick_adsense_adstxt_adsense_auto_update() {
 	wp.ajax.post('quick_adsense_adstxt_adsense_auto_update', {
 		nonce: quick_adsense_adstxt_adsense.nonce,
-	}).done(function (result) {
+	}).done(function () {
 		jQuery('.quick_adsense_adstxt_adsense_notice').hide();
-	}.fail(function (result) {
-		if ("undefined" !== typeof result) {
-			jQuery(result).dialog({
-				'modal': true,
-				'resizable': false,
-				'title': 'Ads.txt Auto Updation Failed',
-				'width': jQuery("body").width() * 0.5,
-				'maxWidth': jQuery("body").width() * 0.5,
-				'maxHeight': jQuery("body").height() * 0.9,
-				position: { my: 'center', at: 'center', of: window },
-				open: function (event, ui) {
-					jQuery('.ui-dialog').css({ 'z-index': 999999, 'max-width': '90%' });
-					jQuery('.ui-widget-overlay').css({ 'z-index': 999998, 'opacity': 0.8, 'background': '#000000' });
-				},
-				buttons: {
-					'Cancel': function () {
-						jQuery(this).dialog("close");
-					}
-				},
-				close: function () {
-					jQuery(this).dialog('destroy');
-				}
+	}).fail(function (result) {
+		if ('undefined' !== typeof result) {
+			quick_adsense_open_dialog({
+				title: quick_adsense_i18n.__('Ads.txt Auto Updation Failed', 'quick-adsense'),
+				content: result,
+				buttons: [{ label: quick_adsense_i18n.__('Cancel', 'quick-adsense') }]
 			});
 		}
-	}));
+	});
 }
 
 function quick_adsense_settings_reset_to_default() {

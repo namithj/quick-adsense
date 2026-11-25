@@ -26,6 +26,7 @@
 		<properties>
 			<property name="customEscapingFunctions" type="array">
 				<element value="quick_adsense_echo_ad_code"/>
+				<element value="quick_adsense_kses_inline"/>
 			</property>
 		</properties>
 	</rule>

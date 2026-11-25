@@ -86,6 +86,7 @@ done
 
 if [[ $# -eq 0 ]]; then
 	run_filter "[--/${total}] run-wide checks (hooks, guards, independence)" '/::test_run_wide_contract$/'
+	run_filter "[--/${total}] fake-locale safety (C-4.1, C-5.2)" '/QuickAdsenseI18nSafetyTest::/'
 fi
 
 echo

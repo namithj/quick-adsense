@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div id="quick_adsense_top_sections_wrapper">
 	<div class="quick_adsense_block">
-		<label>Header Embed Code</label>
+		<label><?php esc_html_e( 'Header Embed Code', 'quick-adsense' ); ?></label>
 		<div>
 			<?php
 			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			?>
 		</div>
 		<div class="clear"></div>
-		<label>Footer Embed Code</label>
+		<label><?php esc_html_e( 'Footer Embed Code', 'quick-adsense' ); ?></label>
 		<div>
 			<?php
 			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped

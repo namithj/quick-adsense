@@ -1,0 +1,8 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/wp-admin/admin.php?page=quick-adsense",
+  "login": true,
+  "steps": [
+    { "step": "activatePlugin", "pluginPath": "quick-adsense/quick-adsense.php" }
+  ]
+}

@@ -48,6 +48,11 @@ jobs:
           ref: ${{ inputs.tag }}
           fetch-depth: 0
 
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -83,6 +88,19 @@ jobs:
       - name: Verify coding standards
         run: composer lint:release
 
+      # .wordpress-org/ in the repo is the complete source of SVN assets/: the
+      # 10up action mirrors ASSETS_DIR there with --delete, so anything missing
+      # here is deleted from the listing. Check it is complete and that the
+      # Live Preview blueprint matches its generator.
+      - name: Verify the WordPress.org listing assets
+        run: |
+          node scripts/playground-blueprint.mjs wporg "${RUNNER_TEMP}/blueprint.json"
+          cmp "${RUNNER_TEMP}/blueprint.json" .wordpress-org/blueprints/blueprint.json \
+            || { echo "::error::.wordpress-org/blueprints/blueprint.json is stale. Run: node scripts/playground-blueprint.mjs wporg" >&2; exit 1; }
+          for f in banner-772x250.png banner-1544x500.png icon-128x128.png icon-256x256.png screenshot-1.png; do
+            test -s ".wordpress-org/${f}" || { echo "::error::.wordpress-org/${f} is missing; deploying would delete it from the listing." >&2; exit 1; }
+          done
+
       - name: Deploy to WordPress.org
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:
@@ -90,6 +108,7 @@ jobs:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: quick-adsense
           VERSION: ${{ env.DEPLOY_VERSION }}
+          ASSETS_DIR: .wordpress-org
         with:
           dry-run: ${{ inputs.dry-run }}
 

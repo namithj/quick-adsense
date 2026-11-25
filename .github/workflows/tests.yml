@@ -163,3 +163,71 @@ jobs:
 
       - name: Smoke test Playground bundle
         run: node scripts/test-playground.mjs "${RUNNER_TEMP}/quick-adsense-playground.zip"
+
+      # The committed wp.org Live Preview blueprint must equal the generator
+      # output; this boots it against the zip built above (the wordpress.org
+      # plugin resource swapped for the local build) and checks the settings
+      # page loads and the demo page shows a placeholder ad.
+      - name: Smoke test wp.org Live Preview blueprint
+        run: |
+          ZIP="$(find "${RUNNER_TEMP}/dist" -name 'quick-adsense-*.zip' | head -n 1)"
+          node scripts/test-playground.mjs --wporg "${ZIP}"
+
+  e2e:
+    name: Playwright e2e (Playground)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install e2e dependencies
+        working-directory: tests/e2e
+        run: npm install --no-audit --no-fund
+
+      - name: Install Chromium
+        working-directory: tests/e2e
+        run: npx playwright install --with-deps chromium
+
+      # Playwright starts `@wp-playground/cli server` itself (see
+      # tests/e2e/playwright.config.mjs) with this checkout mounted as the plugin.
+      - name: Run e2e suite
+        working-directory: tests/e2e
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            tests/e2e/playwright-report
+            tests/e2e/test-results
+          retention-days: 7
+
+  make-pot:
+    name: Translation template (make-pot)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: wp-cli
+          coverage: none
+
+      # Check only: no .pot is committed. Language packs come from wordpress.org.
+      - name: Generate the translation template
+        run: wp i18n make-pot . "${RUNNER_TEMP}/quick-adsense.pot" --exclude=vendor,tests,.cache,node_modules --slug=quick-adsense
+
+      - name: Check the template has strings
+        run: test "$(grep -c '^msgid' "${RUNNER_TEMP}/quick-adsense.pot")" -gt 100

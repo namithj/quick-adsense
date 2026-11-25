@@ -1,42 +1,86 @@
-#quick_adsense_settings_tabs.ui-tabs .ui-tabs-nav {
-	background: none;
-	border-radius: 0;
-	border-top: none;
-	border-left: none;
-	border-right: none;
+/*
+ * Settings tabs: jQuery UI tabs (behaviour, ARIA and keyboard) dressed as core nav tabs.
+ * jQuery UI adds role tablist/tab/tabpanel, aria-selected, aria-controls and the roving tabindex itself.
+ */
+.qa-js-loading #quick_adsense_settings_tabs {
+	display: none;
 }
 
 #quick_adsense_settings_tabs {
 	background: none;
 	border: none;
+	padding: 0;
 }
 
-#quick_adsense_settings_tabs .ui-tabs-nav li {
-	background: #F1F1F1;
-	border-radius: 0;
-	margin-left: 4px;
-	margin-right: 4px;
+#quick_adsense_settings_tabs > .nav-tab-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	margin: 0;
+	padding: 9px 0 0;
+	border-bottom: 1px solid #c3c4c7;
 }
 
-#quick_adsense_settings_tabs .ui-tabs-nav li a {
-	background: #E5E5E5;
-	border-bottom: none;
-	font-weight: 600;
+/* Tabs row: the jQuery UI tab list, then plain links to other pages (Backups -> Tools). */
+#quick_adsense_settings_tabs {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+}
+
+#quick_adsense_settings_tabs > .nav-tab-wrapper {
+	flex: 0 1 auto;
+}
+
+#quick_adsense_settings_tabs > .qa-nav-links {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: flex-end;
+	padding-top: 9px;
+	border-bottom: 1px solid #c3c4c7;
+}
+
+#quick_adsense_settings_tabs > .qa-nav-links .nav-tab {
+	float: none;
+	margin: 0 0 -1px 0.5em;
+}
+
+#quick_adsense_settings_tabs > form {
+	flex: 0 0 100%;
+	min-width: 0;
+}
+
+#quick_adsense_settings_tabs > .nav-tab-wrapper > li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#quick_adsense_settings_tabs > .nav-tab-wrapper .nav-tab {
+	float: none;
+	display: block;
+	margin: 0 0 -1px 0.5em;
+	outline: none;
+}
+
+#quick_adsense_settings_tabs > .nav-tab-wrapper .nav-tab:focus-visible {
+	box-shadow: 0 0 0 2px #2271b1;
+	outline: 2px solid transparent;
+}
+
+#quick_adsense_settings_tabs > .nav-tab-wrapper > li.ui-tabs-active .nav-tab {
+	border-bottom: 1px solid #f0f0f1;
+	background: #f0f0f1;
 	color: #000;
-	padding: 7px 25px 8px 25px;
 }
 
-#quick_adsense_settings_tabs .ui-tabs-nav li a:focus {
-    border: none;
-    box-shadow: none;
+#quick_adsense_settings_tabs > .ui-tabs-panel {
+	padding: 0;
+	background: none;
 }
 
-#quick_adsense_settings_tabs .ui-tabs-nav li.ui-tabs-active a { 
-	background: #F1F1F1;
-}
-
-.ui-button-icon-only {
-	text-indent: -9999px;
+#quick_adsense_settings_tabs > form > .ui-tabs-panel {
+	padding: 0;
 }
 
 #quick_adsense_top_sections_wrapper {
@@ -322,5 +366,225 @@
 	#quick_adsense_onpost_content_adunits_wrapper a.button-secondary,
 	#quick_adsense_widget_adunits_wrapper a.button-secondary {
 		margin-left: 0;
+	}
+}
+
+/* Backups: Material-style action buttons (Tools page). */
+.qa-backup-actions {
+	--qa-primary: var(--wp-admin-theme-color, #2271b1);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 8px 12px;
+}
+
+.qa-stats-actions {
+	--qa-primary: var(--wp-admin-theme-color, #2271b1);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 8px 12px;
+	margin: 4px 0 1em;
+}
+
+.qa-btn--danger {
+	--qa-primary: #d63638;
+}
+
+.qa-backup-restore {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 6px;
+}
+
+.qa-backup-option {
+	font-size: 12px;
+	color: #50575e;
+}
+
+.qa-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 36px;
+	margin: 0;
+	padding: 6px 16px;
+	border: 0;
+	border-radius: 4px;
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.75;
+	letter-spacing: 0.02857em;
+	text-transform: uppercase;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.qa-btn .dashicons {
+	width: 18px;
+	height: 18px;
+	margin-left: -4px;
+	font-size: 18px;
+}
+
+.qa-btn:focus-visible {
+	outline: 2px solid var(--qa-primary);
+	outline-offset: 2px;
+}
+
+.qa-btn--contained {
+	color: #fff;
+	background-color: var(--qa-primary);
+	box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.qa-btn--contained:hover {
+	background-color: color-mix(in srgb, var(--qa-primary) 85%, #000);
+	box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.qa-btn--contained:active {
+	box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.qa-btn--outlined {
+	padding: 5px 15px;
+	color: var(--qa-primary);
+	background-color: transparent;
+	border: 1px solid color-mix(in srgb, var(--qa-primary) 50%, transparent);
+}
+
+.qa-btn--outlined:hover {
+	background-color: color-mix(in srgb, var(--qa-primary) 6%, transparent);
+	border-color: var(--qa-primary);
+}
+
+.qa-btn:disabled,
+.qa-btn:disabled:hover {
+	color: rgba(0, 0, 0, 0.26);
+	background-color: rgba(0, 0, 0, 0.12);
+	border-color: transparent;
+	box-shadow: none;
+	cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.qa-btn {
+		transition: none;
+	}
+}
+
+/* Native <dialog> (stats chart, ads.txt failure): Material-style modal. */
+.qa-dialog {
+	--qa-primary: var(--wp-admin-theme-color, #2271b1);
+	box-sizing: border-box;
+	width: min(90vw, 960px);
+	max-width: 90vw;
+	max-height: 90vh;
+	padding: 0;
+	border: 0;
+	border-radius: 4px;
+	background: #fff;
+	color: #1d2327;
+	box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+.qa-dialog[open] {
+	display: flex;
+	flex-direction: column;
+	animation: qa-dialog-in 225ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.qa-dialog::backdrop {
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.qa-dialog__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 12px 12px 4px 24px;
+}
+
+.qa-dialog__title {
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	font-weight: 500;
+	line-height: 1.6;
+	letter-spacing: 0.0075em;
+}
+
+.qa-dialog__close {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: #50575e;
+	cursor: pointer;
+	transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.qa-dialog__close:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+.qa-dialog__close:focus-visible {
+	outline: 2px solid var(--qa-primary);
+	outline-offset: 2px;
+}
+
+.qa-dialog__content {
+	padding: 8px 24px 20px;
+	overflow: auto;
+	color: rgba(0, 0, 0, 0.7);
+}
+
+.qa-dialog__content:focus {
+	outline: none;
+}
+
+.qa-dialog__actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	padding: 8px;
+}
+
+.qa-btn--text {
+	padding: 6px 8px;
+	color: var(--qa-primary);
+	background-color: transparent;
+}
+
+.qa-btn--text:hover {
+	background-color: color-mix(in srgb, var(--qa-primary) 6%, transparent);
+}
+
+@keyframes qa-dialog-in {
+	from {
+		opacity: 0;
+		transform: scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.qa-dialog[open] {
+		animation: none;
 	}
 }

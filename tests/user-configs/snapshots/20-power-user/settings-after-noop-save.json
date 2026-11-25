@@ -59,6 +59,7 @@
     "onpost_ad_7_margin": "21",
     "onpost_ad_8_alignment": "2",
     "onpost_ad_8_content": "<!-- QAFX:adsense-auto-ads -->\r\n<script async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3333333333333333\" crossorigin=\"anonymous\"></script>",
+    "onpost_ad_8_hide_device_mobile": "1",
     "onpost_ad_8_margin": "24",
     "onpost_ad_9_alignment": "3",
     "onpost_ad_9_content": "<!-- QAFX:onpost-9 -->\r\n<script async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1111111111111111\" crossorigin=\"anonymous\"></script>\r\n<ins class=\"adsbygoogle\" style=\"display:block\" data-ad-client=\"ca-pub-1111111111111111\" data-ad-slot=\"0900000000\" data-ad-format=\"auto\" data-full-width-responsive=\"true\"></ins>\r\n<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>",

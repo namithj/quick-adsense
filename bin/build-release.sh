@@ -49,6 +49,13 @@ while IFS= read -r relative_path; do
 	fi
 done < <( cd "${ROOT}" && find includes assets -type f | sort )
 
+# .wordpress-org/ holds the WordPress.org listing assets (banners, icons,
+# screenshots, Live Preview blueprint). It must not ship inside the plugin.
+if grep -q "^${PLUGIN_SLUG}/\.wordpress-org/" <<< "${ZIP_ENTRIES}"; then
+	echo ".wordpress-org leaked into the release zip — check .distignore." >&2
+	exit 1
+fi
+
 if (( MISSING > 0 )); then
 	echo "${MISSING} runtime file(s) were dropped during packaging — check .distignore." >&2
 	exit 1

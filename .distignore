@@ -9,6 +9,7 @@
 /.git
 /.github
 /.vscode
+/.wordpress-org
 /.cache
 /.distignore
 /.gitattributes

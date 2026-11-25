@@ -7,15 +7,15 @@ $quick_adsense_adunit_index = quick_adsense_get_value( $quick_adsense_template_a
 $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_args, 'location' );
 ?>
 <p class="quick_adsense_<?php echo esc_attr( $quick_adsense_location ); ?>_adunits_device_controls">
-	<b>Hide by Device Type:</b><br />
+	<b><?php esc_html_e( 'Hide by Device Type:', 'quick-adsense' ); ?></b><br />
 	<?php
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Mobile',
+			__( 'Mobile', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_mobile',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_mobile]',
-			quick_adsense_get_value( $quick_adsense_template_args, '_ad_' . $quick_adsense_adunit_index . '_hide_device_mobile' ),
+			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_mobile' ),
 			null,
 			'input',
 			'margin: -1px 5px 0 0;'
@@ -25,7 +25,7 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Tablet',
+			__( 'Tablet', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_tablet',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_tablet]',
 			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_tablet' ),
@@ -38,7 +38,7 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Desktop',
+			__( 'Desktop', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_desktop',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_desktop]',
 			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_desktop' ),
@@ -51,12 +51,12 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	?>
 </p>
 <p class="quick_adsense_<?php echo esc_attr( $quick_adsense_location ); ?>_adunits_device_controls">
-	<b>Hide by Visitor Source:</b><br />
+	<b><?php esc_html_e( 'Hide by Visitor Source:', 'quick-adsense' ); ?></b><br />
 	<?php
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Search Engine',
+			__( 'Search Engine', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_searchengine',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_searchengine]',
 			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_searchengine' ),
@@ -69,7 +69,7 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Indirect',
+			__( 'Indirect', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_indirect',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_indirect]',
 			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_indirect' ),
@@ -82,7 +82,7 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Direct',
+			__( 'Direct', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_direct',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_direct]',
 			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_direct' ),
@@ -95,12 +95,12 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	?>
 </p>
 <p class="quick_adsense_<?php echo esc_attr( $quick_adsense_location ); ?>_adunits_device_controls">
-	<b>Hide by Visitor Type:</b><br />
+	<b><?php esc_html_e( 'Hide by Visitor Type:', 'quick-adsense' ); ?></b><br />
 	<?php
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Bots',
+			__( 'Bots', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_bot',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_bot]',
 			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_bot' ),
@@ -113,7 +113,7 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Known Browser',
+			__( 'Known Browser', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_knownbrowser',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_knownbrowser]',
 			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_knownbrowser' ),
@@ -126,7 +126,7 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Unknown Browser',
+			__( 'Unknown Browser', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_unknownbrowser',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_unknownbrowser]',
 			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_unknownbrowser' ),
@@ -142,7 +142,7 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Guest',
+			__( 'Guest', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_guest',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_guest]',
 			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_visitor_guest' ),
@@ -168,7 +168,7 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	?>
 </p>
 <p class="quick_adsense_<?php echo esc_attr( $quick_adsense_location ); ?>_adunits_device_controls">
-	<b>Limit by Visitor Countries:</b><br />
+	<b><?php esc_html_e( 'Limit by Visitor Countries:', 'quick-adsense' ); ?></b><br />
 	<?php
 	echo wp_kses(
 		quickadsense_get_control(
@@ -184,12 +184,12 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 	?>
 </p>
 <p class="quick_adsense_<?php echo esc_attr( $quick_adsense_location ); ?>_adunits_device_controls">
-	<b>Ad Stats:</b><br />
+	<b><?php esc_html_e( 'Ad Stats:', 'quick-adsense' ); ?></b><br />
 	<?php
 	echo wp_kses(
 		quickadsense_get_control(
 			'checkbox',
-			'Enable Stats',
+			__( 'Enable Stats', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_enable_stats',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_enable_stats]',
 			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_enable_stats' ),
@@ -200,7 +200,8 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 		quick_adsense_get_allowed_html()
 	);
 	?>
-	<br />
-	<input class="quick_adsense_<?php echo esc_attr( $quick_adsense_location ); ?>_ad_show_stats input button-secondary" data-index="<?php echo esc_attr( $quick_adsense_adunit_index ); ?>" type="button" value="View Stats" />&nbsp;
-	<input class="quick_adsense_<?php echo esc_attr( $quick_adsense_location ); ?>_ad_reset_stats input button-secondary right" data-index="<?php echo esc_attr( $quick_adsense_adunit_index ); ?>" type="button" value="Reset Stats" />
 </p>
+<div class="qa-stats-actions">
+	<button type="button" class="quick_adsense_<?php echo esc_attr( $quick_adsense_location ); ?>_ad_show_stats qa-btn qa-btn--outlined" data-index="<?php echo esc_attr( $quick_adsense_adunit_index ); ?>"><span class="dashicons dashicons-chart-line" aria-hidden="true"></span><?php esc_html_e( 'View Stats', 'quick-adsense' ); ?></button>
+	<button type="button" class="quick_adsense_<?php echo esc_attr( $quick_adsense_location ); ?>_ad_reset_stats qa-btn qa-btn--outlined qa-btn--danger" data-index="<?php echo esc_attr( $quick_adsense_adunit_index ); ?>"><span class="dashicons dashicons-trash" aria-hidden="true"></span><?php esc_html_e( 'Reset Stats', 'quick-adsense' ); ?></button>
+</div>

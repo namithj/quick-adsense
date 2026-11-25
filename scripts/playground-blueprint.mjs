@@ -5,9 +5,17 @@
  *   bundle <output-path>                     Blueprint referencing a bundled zip.
  *   release-url <owner/repo> <tag>           Playground URL for a published release.
  *   branch-url <owner/repo> <branch>         Playground URL for a branch / PR head.
+ *   wporg [output-path]                      WordPress.org Live Preview blueprint
+ *                                            (default .wordpress-org/blueprints/blueprint.json).
  */
 
-import { writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const REPO_ROOT = resolve( dirname( fileURLToPath( import.meta.url ) ), '..' );
+export const WPORG_BLUEPRINT_PATH = resolve( REPO_ROOT, '.wordpress-org/blueprints/blueprint.json' );
+export const SETTINGS_LANDING_PAGE = '/wp-admin/admin.php?page=quick-adsense';
 
 const PLUGIN_SLUG = 'quick-adsense';
 
@@ -146,7 +154,7 @@ update_option( 'show_on_front', 'page' );
 update_option( 'page_on_front', (int) $demo_id );
 `;
 
-export function createBlueprint( { pluginResource } ) {
+export function createBlueprint( { pluginResource, landingPage = '/' } ) {
 	return {
 		$schema: 'https://playground.wordpress.net/blueprint-schema.json',
 		meta: {
@@ -162,7 +170,7 @@ export function createBlueprint( { pluginResource } ) {
 		features: {
 			networking: true,
 		},
-		landingPage: '/',
+		landingPage,
 		login: true,
 		steps: [
 			{
@@ -214,6 +222,20 @@ async function main() {
 		return;
 	}
 
+	if ( command === 'wporg' ) {
+		// The wp.org Live Preview button reads SVN assets/blueprints/blueprint.json
+		// (from the repo's .wordpress-org/ folder). It installs the published plugin, so no zip is bundled. Every demo
+		// creative is a self-contained coloured box: no publisher ID, no ad network.
+		const outputPath = args[ 0 ] ? resolve( args[ 0 ] ) : WPORG_BLUEPRINT_PATH;
+		const blueprint = createBlueprint( {
+			pluginResource: { resource: 'wordpress.org/plugins', slug: PLUGIN_SLUG },
+			landingPage: SETTINGS_LANDING_PAGE,
+		} );
+		await mkdir( dirname( outputPath ), { recursive: true } );
+		await writeFile( outputPath, `${ JSON.stringify( blueprint, null, 2 ) }\n` );
+		return;
+	}
+
 	if ( command === 'release-url' ) {
 		const [ repository, tag ] = args;
 		if ( ! repository || ! tag ) {
@@ -237,7 +259,7 @@ async function main() {
 		return;
 	}
 
-	throw new Error( 'Usage: playground-blueprint.mjs <bundle|release-url|branch-url> [arguments]' );
+	throw new Error( 'Usage: playground-blueprint.mjs <bundle|wporg|release-url|branch-url> [arguments]' );
 }
 
 if ( import.meta.url === `file://${ process.argv[ 1 ] }` ) {
