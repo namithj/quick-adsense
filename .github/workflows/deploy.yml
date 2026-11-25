@@ -88,24 +88,18 @@ jobs:
       - name: Verify coding standards
         run: composer lint:release
 
-      # The Live Preview blueprint is generated, tracked in assets/blueprints/
-      # and kept out of the plugin zip by .distignore. WordPress.org reads it
-      # from SVN assets/blueprints/blueprint.json, so stage it in the 10up
-      # action's ASSETS_DIR, whose contents are synced to SVN assets/.
-      - name: Stage the WordPress.org Live Preview blueprint
+      # .wordpress-org/ in the repo is the complete source of SVN assets/: the
+      # 10up action mirrors ASSETS_DIR there with --delete, so anything missing
+      # here is deleted from the listing. Check it is complete and that the
+      # Live Preview blueprint matches its generator.
+      - name: Verify the WordPress.org listing assets
         run: |
           node scripts/playground-blueprint.mjs wporg "${RUNNER_TEMP}/blueprint.json"
-          cmp "${RUNNER_TEMP}/blueprint.json" assets/blueprints/blueprint.json \
-            || { echo "::error::assets/blueprints/blueprint.json is stale. Run: node scripts/playground-blueprint.mjs wporg" >&2; exit 1; }
-          # The 10up action mirrors ASSETS_DIR to SVN assets/ with --delete, so
-          # start from the live SVN assets (banners, icons, screenshots) and
-          # only add or replace the blueprint; never ship a partial folder.
-          rm -rf .wordpress-org
-          svn export --quiet --force https://plugins.svn.wordpress.org/quick-adsense/assets .wordpress-org
-          test -n "$(ls .wordpress-org | grep -v '^blueprints$')" \
-            || { echo "::error::Live SVN assets could not be fetched; refusing to deploy a blueprint-only assets folder." >&2; exit 1; }
-          mkdir -p .wordpress-org/blueprints
-          cp assets/blueprints/blueprint.json .wordpress-org/blueprints/blueprint.json
+          cmp "${RUNNER_TEMP}/blueprint.json" .wordpress-org/blueprints/blueprint.json \
+            || { echo "::error::.wordpress-org/blueprints/blueprint.json is stale. Run: node scripts/playground-blueprint.mjs wporg" >&2; exit 1; }
+          for f in banner-772x250.png banner-1544x500.png icon-128x128.png icon-256x256.png screenshot-1.png; do
+            test -s ".wordpress-org/${f}" || { echo "::error::.wordpress-org/${f} is missing; deploying would delete it from the listing." >&2; exit 1; }
+          done
 
       - name: Deploy to WordPress.org
         uses: 10up/action-wordpress-plugin-deploy@stable

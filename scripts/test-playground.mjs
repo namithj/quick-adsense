@@ -5,7 +5,7 @@
  *   node scripts/test-playground.mjs <bundle-zip>
  *   node scripts/test-playground.mjs --wporg <release-zip>
  *
- * The --wporg mode checks assets/blueprints/blueprint.json equals the generator
+ * The --wporg mode checks .wordpress-org/blueprints/blueprint.json equals the generator
  * output, swaps its wordpress.org plugin resource for the locally built release
  * zip, boots it with @wp-playground/cli and asserts the settings page loads and
  * the demo page shows a placeholder ad.
@@ -85,7 +85,7 @@ async function testWporgBlueprint( releaseZip ) {
 	} );
 	const committedText = readFileSync( WPORG_BLUEPRINT_PATH, 'utf8' );
 	if ( committedText !== `${ JSON.stringify( expected, null, 2 ) }\n` ) {
-		fail( 'assets/blueprints/blueprint.json is stale. Run: node scripts/playground-blueprint.mjs wporg' );
+		fail( '.wordpress-org/blueprints/blueprint.json is stale. Run: node scripts/playground-blueprint.mjs wporg' );
 	}
 	if ( /ca-pub-|pub-\d{6,}/.test( committedText ) ) {
 		fail( 'wp.org blueprint contains something that looks like a real AdSense publisher ID' );

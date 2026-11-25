@@ -64,9 +64,14 @@ Quick Adsense 2.10 needs WordPress 6.7 or newer. Sites on older versions of Word
 
 == Screenshots ==
 
-1. Screen shot showing the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
-2. The Settings page from Quick Adsense plugin. There are many ways to configure your Ads display, specifically or randomly as you wish.
-3. The Tools page: export your settings to a file and import them on another site, with a preview of every change before it is applied.
+1. A post with an ad placed automatically at the start of the content, and an ad in a sidebar widget.
+2. The Settings tab: choose where ads appear (beginning, middle, end, after a paragraph or image) and on which kinds of pages.
+3. Ads on Post Body: paste the ad code and set device, visitor and country rules for each ad.
+4. The 30-day stats chart for a single ad, showing impressions and clicks.
+5. The Sidebar Widget tab: ad codes for the sidebar widgets.
+6. The Header / Footer Codes tab: add scripts to the site header and footer.
+7. The Tools page: review every change from an imported settings file before it is applied.
+8. The Backups list on the Tools page, with Restore and Download JSON for each backup.
 
 == Installation ==
 
@@ -119,6 +124,7 @@ Please send feedback through the [Quick Adsense support forum](https://wordpress
 * The settings page is usable without JavaScript, and its tabs look like WordPress tabs.
 * The ad statistics and ads.txt pop-ups are now native browser dialogs (keyboard and screen-reader friendly); the old jQuery UI theme is gone.
 * Fix: the message shown when the automatic ads.txt update fails never appeared.
+* Fix: "Hide by Device Type: Mobile" now shows as ticked, so saving the settings no longer switches it off. If you had hidden an ad on mobile, check that slot and tick Mobile again.
 
 = 2.10.0 =
 * New: automatic settings backups and one-click restore.

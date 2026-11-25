@@ -3,7 +3,8 @@
   "private": true,
   "description": "Playwright end-to-end tests for Quick Adsense, run against WordPress Playground.",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "wporg-assets": "playwright test --config=playwright.wporg.config.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.65.1",

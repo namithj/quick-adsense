@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b3a67"/><stop offset=".45" stop-color="#e58f6a"/><stop offset=".75" stop-color="#f7d6a0"/><stop offset="1" stop-color="#fbe9c9"/></linearGradient>
+<linearGradient id="mist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".7"/></linearGradient>
+</defs>
+<rect width="1200" height="560" fill="url(#sky)"/>
+<circle cx="840" cy="300" r="62" fill="#fff3d1" opacity=".95"/>
+<path d="M0 360 L120 290 L210 330 L340 230 L470 320 L560 280 L700 360 L820 300 L960 350 L1080 270 L1200 330 V560 H0Z" fill="#7a7fa6" opacity=".75"/>
+<rect y="330" width="1200" height="110" fill="url(#mist)"/>
+<path d="M0 420 L90 370 L200 410 L330 330 L450 400 L610 340 L760 420 L900 360 L1040 410 L1200 370 V560 H0Z" fill="#4d5b82"/>
+<rect y="400" width="1200" height="90" fill="url(#mist)" opacity=".8"/>
+<path d="M0 500 L140 450 L280 490 L430 440 L600 495 L760 450 L930 495 L1070 455 L1200 490 V560 H0Z" fill="#2c3a4f"/>
+<path d="M-10 560 L-10 520 C200 500 360 530 560 520 C760 510 980 535 1210 515 V560Z" fill="#1f2b3b"/>
+<g fill="#1a2433"><path d="M90 540 l16 -60 l16 60z M120 540 l14 -48 l14 48z M1030 545 l18 -66 l18 66z M1066 545 l14 -50 l14 50z"/></g>
+</svg>

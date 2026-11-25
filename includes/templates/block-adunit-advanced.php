@@ -15,7 +15,7 @@ $quick_adsense_location     = quick_adsense_get_value( $quick_adsense_template_a
 			__( 'Mobile', 'quick-adsense' ),
 			'quick_adsense_settings_' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_mobile',
 			'quick_adsense_settings[' . $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_mobile]',
-			quick_adsense_get_value( $quick_adsense_template_args, '_ad_' . $quick_adsense_adunit_index . '_hide_device_mobile' ),
+			quick_adsense_get_value( $quick_adsense_template_args, $quick_adsense_location . '_ad_' . $quick_adsense_adunit_index . '_hide_device_mobile' ),
 			null,
 			'input',
 			'margin: -1px 5px 0 0;'

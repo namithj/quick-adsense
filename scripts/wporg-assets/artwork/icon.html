@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quick Adsense icon</title>
+<!-- Render with ?size=256 or ?size=128. Each size is drawn natively (128 uses fewer, thicker shapes). -->
+<style>
+	html, body { margin: 0; background: transparent; }
+	svg { display: block; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const size = Number( new URLSearchParams( location.search ).get( 'size' ) ) || 256;
+const small = size <= 128;
+
+// Lightning bolt, drawn in a 100 x 110 box. Three tones: base, light left facet, dark right facet.
+const bolt = ( x, y, scale, stroke ) => `
+<g transform="translate(${ x } ${ y }) scale(${ scale })">
+	<path d="M62 0 L6 62 L40 62 L28 110 L94 38 L58 38 L82 0 Z" fill="#FFD600" stroke="#16191D" stroke-width="${ stroke }" stroke-linejoin="round"/>
+	<path d="M62 0 L6 62 L40 62 L36 78 L52 40 L40 40 Z" fill="#FFE57F"/>
+	<path d="M82 0 L58 38 L94 38 L28 110 L40 62 L56 62 L70 26 Z" fill="#FFC400" opacity=".0"/>
+	<path d="M58 38 L94 38 L28 110 L34 82 L64 52 Z" fill="#FFC400"/>
+</g>`;
+
+let card;
+if ( ! small ) {
+	card = `
+	<rect x="46" y="34" width="150" height="178" rx="14" fill="#000" opacity=".18" transform="translate(0 7)" filter="url(#blur)"/>
+	<rect x="46" y="34" width="150" height="178" rx="14" fill="#fff"/>
+	<rect x="62" y="52" width="88" height="12" rx="6" fill="#90A4AE"/>
+	<rect x="62" y="76" width="118" height="8" rx="4" fill="#CFD8DC"/>
+	<rect x="62" y="92" width="100" height="8" rx="4" fill="#CFD8DC"/>
+	<rect x="62" y="112" width="118" height="46" rx="7" fill="#FFD600"/>
+	<rect x="70" y="120" width="30" height="30" rx="4" fill="#FFE57F"/>
+	<rect x="108" y="124" width="60" height="7" rx="3.5" fill="#16191D" opacity=".75"/>
+	<rect x="108" y="138" width="42" height="7" rx="3.5" fill="#16191D" opacity=".4"/>
+	<rect x="62" y="172" width="86" height="8" rx="4" fill="#CFD8DC"/>`;
+} else {
+	card = `
+	<rect x="24" y="16" width="76" height="90" rx="8" fill="#000" opacity=".2" transform="translate(0 4)" filter="url(#blur)"/>
+	<rect x="24" y="16" width="76" height="90" rx="8" fill="#fff"/>
+	<rect x="33" y="26" width="42" height="9" rx="4.5" fill="#90A4AE"/>
+	<rect x="33" y="42" width="58" height="7" rx="3.5" fill="#CFD8DC"/>
+	<rect x="33" y="56" width="58" height="26" rx="5" fill="#FFD600"/>
+	<rect x="40" y="63" width="30" height="5" rx="2.5" fill="#16191D" opacity=".7"/>
+	<rect x="33" y="90" width="38" height="7" rx="3.5" fill="#CFD8DC"/>`;
+}
+
+const vb = small ? 128 : 256;
+const mark = small ? bolt( 66, 54, 0.62, 9 ) : bolt( 130, 108, 1.1, 8 );
+document.getElementById( 'root' ).innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" width="${ size }" height="${ size }" viewBox="0 0 ${ vb } ${ vb }">
+	<defs>
+		<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+			<stop offset="0" stop-color="#2A2F36"/>
+			<stop offset="1" stop-color="#16191D"/>
+		</linearGradient>
+		<filter id="blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="${ small ? 3 : 6 }"/></filter>
+	</defs>
+	<rect width="${ vb }" height="${ vb }" rx="${ vb * 0.22 }" fill="url(#bg)"/>
+	${ card }
+	${ mark }
+</svg>`;
+document.fonts.ready.then( () => { document.body.dataset.ready = '1'; } );
+</script>
+</body>
+</html>

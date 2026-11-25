@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quick Adsense banner</title>
+<!-- 772 x 250 CSS px. The 1544 x 500 file is the same page rendered at deviceScaleFactor 2. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;800&display=swap" rel="stylesheet">
+<style>
+	html, body { margin: 0; width: 772px; height: 250px; overflow: hidden; }
+	body { position: relative; font-family: 'Inter', 'Segoe UI', Roboto, Arial, sans-serif; background: linear-gradient(115deg, #16191D 0%, #1E2227 55%, #2A2F36 100%); }
+	  .light { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.09) 1.2px, transparent 1.4px); background-size: 18px 18px; -webkit-mask-image: linear-gradient(115deg, transparent 40%, #000 75%); mask-image: linear-gradient(115deg, transparent 40%, #000 75%); }
+	.circle { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255,214,0,.22), rgba(255,214,0,0) 70%); }
+	.c1 { width: 300px; height: 300px; right: -20px; top: -90px; }
+	.c2 { width: 190px; height: 190px; right: 150px; bottom: -110px; opacity: .7; }
+	.c3 { width: 120px; height: 120px; left: 330px; top: 110px; opacity: .35; }
+	.brand { position: absolute; left: 40px; top: 40px; width: 420px; }
+	.row { display: flex; align-items: center; gap: 16px; }
+	.mark { width: 76px; height: 76px; flex: none; }
+	h1 { margin: 0; white-space: nowrap; font-size: 44px; line-height: 1; font-weight: 800; letter-spacing: -.02em; color: #fff; }
+	.tag { margin: 18px 0 0; font-size: 16px; line-height: 1.45; font-weight: 500; color: #D6D3CE; }
+	.tag b { font-weight: 600; color: #fff; }
+	.card { position: absolute; left: 470px; top: 26px; width: 250px; height: 300px; border-radius: 16px; background: #fff; padding: 20px 22px; box-sizing: border-box; transform: rotate(5deg); transform-origin: 30% 20%; box-shadow: 0 2px 4px rgba(0,0,0,.2), 0 10px 20px rgba(0,0,0,.35), 0 24px 48px rgba(0,0,0,.3); }
+	.t { height: 13px; border-radius: 7px; background: #90A4AE; width: 62%; margin-bottom: 14px; }
+	.l { height: 8px; border-radius: 4px; background: #CFD8DC; margin-bottom: 8px; }
+	.slot { position: relative; margin: 14px 0 16px; height: 52px; border-radius: 8px; background: #FFD600; display: flex; align-items: center; padding: 0 12px; gap: 10px; }
+	.slot i { display: block; width: 32px; height: 32px; border-radius: 6px; background: #FFE57F; flex: none; }
+	.slot span { display: block; flex: 1; }
+	.slot span em { display: block; height: 7px; border-radius: 4px; background: rgba(22,25,29,.7); margin-bottom: 6px; width: 90%; }
+	.slot span em + em { width: 60%; background: rgba(22,25,29,.4); margin: 0; }
+	.slot .ad { position: absolute; right: 8px; top: -8px; background: #16191D; color: #fff; font-size: 10px; font-weight: 800; letter-spacing: .06em; padding: 3px 7px; border-radius: 9px; border: 2px solid #fff; line-height: 1; }
+	.bolt { position: absolute; left: 440px; top: 128px; width: 78px; height: 86px; transform: rotate(-4deg); filter: drop-shadow(0 6px 8px rgba(0,0,0,.45)); }
+</style>
+</head>
+<body>
+	<div class="light"></div>
+	<div class="circle c1"></div><div class="circle c2"></div><div class="circle c3"></div>
+
+	<div class="brand">
+		<div class="row">
+			<svg class="mark" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+				<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#444B55"/><stop offset="1" stop-color="#262A30"/></linearGradient></defs>
+				<rect width="256" height="256" rx="56" fill="url(#g)"/>
+				<rect x="46" y="34" width="150" height="178" rx="14" fill="#fff"/>
+				<rect x="62" y="52" width="88" height="12" rx="6" fill="#90A4AE"/>
+				<rect x="62" y="76" width="118" height="8" rx="4" fill="#CFD8DC"/>
+				<rect x="62" y="92" width="100" height="8" rx="4" fill="#CFD8DC"/>
+				<rect x="62" y="112" width="118" height="46" rx="7" fill="#FFD600"/>
+				<rect x="62" y="172" width="86" height="8" rx="4" fill="#CFD8DC"/>
+				<g transform="translate(130 108) scale(1.1)">
+					<path d="M62 0 L6 62 L40 62 L28 110 L94 38 L58 38 L82 0 Z" fill="#FFD600" stroke="#16191D" stroke-width="8" stroke-linejoin="round"/>
+					<path d="M62 0 L6 62 L40 62 L36 78 L52 40 L40 40 Z" fill="#FFE57F"/>
+					<path d="M58 38 L94 38 L28 110 L34 82 L64 52 Z" fill="#FFC400"/>
+				</g>
+			</svg>
+			<h1>Quick Adsense</h1>
+		</div>
+		<p class="tag">Ads in the right place in every post.<br><b>Fast, free, no upsells.</b></p>
+	</div>
+
+	<div class="card">
+		<div class="t"></div>
+		<div class="l" style="width:100%"></div><div class="l" style="width:92%"></div><div class="l" style="width:78%"></div>
+		<div class="slot"><i></i><span><em></em><em></em></span><div class="ad">Ad</div></div>
+		<div class="l" style="width:100%"></div><div class="l" style="width:88%"></div><div class="l" style="width:96%"></div>
+		<div class="slot"><i></i><span><em></em><em></em></span><div class="ad">Ad</div></div>
+		<div class="l" style="width:70%"></div>
+	</div>
+
+	<svg class="bolt" viewBox="-6 -6 108 122" xmlns="http://www.w3.org/2000/svg">
+		<path d="M62 0 L6 62 L40 62 L28 110 L94 38 L58 38 L82 0 Z" fill="#FFD600" stroke="#16191D" stroke-width="7" stroke-linejoin="round"/>
+		<path d="M62 0 L6 62 L40 62 L36 78 L52 40 L40 40 Z" fill="#FFE57F"/>
+		<path d="M58 38 L94 38 L28 110 L34 82 L64 52 Z" fill="#FFC400"/>
+	</svg>
+<script>document.fonts.ready.then( () => { document.body.dataset.ready = '1'; } );</script>
+</body>
+</html>
