@@ -5,10 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div id="quick_adsense_block_bottom" class="quick_adsense_block" style="margin: 30px 0 0;">
 	<div class="quick_adsense_block_labels" style="width: auto;">
-		<span>Adsense Codes - Ads on Post Body</span>
+		<span><?php esc_html_e( 'Adsense Codes - Ads on Post Body', 'quick-adsense' ); ?></span>
 	</div>
 	<div class="clear"></div>
-	<p>Paste up to 10 Ads codes on Post Body as assigned above. Ads codes provided must not be identical, repeated codes may result the Ads not being display correctly. Ads will never displays more than once in a page.</p>
+	<p><?php esc_html_e( 'Paste up to 10 Ads codes on Post Body as assigned above. Ads codes provided must not be identical, repeated codes may result the Ads not being display correctly. Ads will never displays more than once in a page.', 'quick-adsense' ); ?></p>
 </div>
 
 <div id="quick_adsense_onpost_content_controls_wrapper">
@@ -29,8 +29,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				quick_adsense_get_allowed_html()
 			);
 			?>
-			<span>Use for all</span>
-			<wbr />Alignment
+			<span><?php esc_html_e( 'Use for all', 'quick-adsense' ); ?></span>
+			<wbr /><?php esc_html_e( 'Alignment', 'quick-adsense' ); ?>
 			<?php
 			echo wp_kses(
 				quickadsense_get_control(
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				quick_adsense_get_allowed_html()
 			);
 			?>
-			<wbr />margin
+			<wbr /><?php esc_html_e( 'margin', 'quick-adsense' ); ?>
 			<?php
 			echo wp_kses(
 				quickadsense_get_control(
@@ -90,7 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			?>
 		</div>
 		<a id="quick_adsense_onpost_content_adunits_showall_button" class="input button-secondary">
-			<span class="dashicons dashicons-arrow-down"></span> <b>Show All</b>
+			<span class="dashicons dashicons-arrow-down"></span> <b><?php esc_html_e( 'Show All', 'quick-adsense' ); ?></b>
 		</a>
 	</div>
 </div>

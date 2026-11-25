@@ -21,13 +21,13 @@ class SnapshotsAdmin {
 	 */
 	public static function handle_create( array $request ) {
 		if ( ! self::nonce_ok( $request, 'quick-adsense-backup-create' ) ) {
-			return new \WP_Error( 'quick_adsense_bad_nonce', 'The security check failed.' );
+			return new \WP_Error( 'quick_adsense_bad_nonce', __( 'The security check failed.', 'quick-adsense' ) );
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return new \WP_Error( 'quick_adsense_denied', 'You are not allowed to do that.' );
+			return new \WP_Error( 'quick_adsense_denied', __( 'You are not allowed to do that.', 'quick-adsense' ) );
 		}
 		if ( false === Snapshots::create( 'manual' ) ) {
-			return new \WP_Error( 'quick_adsense_backup_failed', 'The backup could not be saved.' );
+			return new \WP_Error( 'quick_adsense_backup_failed', __( 'The backup could not be saved.', 'quick-adsense' ) );
 		}
 		return true;
 	}
@@ -41,11 +41,11 @@ class SnapshotsAdmin {
 	public static function handle_restore( array $request ) {
 		$name = self::field( $request, 'backup' );
 		if ( ! self::nonce_ok( $request, 'quick-adsense-backup-restore_' . $name ) ) {
-			return new \WP_Error( 'quick_adsense_bad_nonce', 'The security check failed.' );
+			return new \WP_Error( 'quick_adsense_bad_nonce', __( 'The security check failed.', 'quick-adsense' ) );
 		}
 		// Same gate as the ad-code fields (C-6.3): restore writes without the sanitizer.
 		if ( ! current_user_can( 'manage_options' ) || ! current_user_can( 'unfiltered_html' ) ) {
-			return new \WP_Error( 'quick_adsense_denied', 'You are not allowed to do that.' );
+			return new \WP_Error( 'quick_adsense_denied', __( 'You are not allowed to do that.', 'quick-adsense' ) );
 		}
 		return Snapshots::restore( $name, '1' === self::field( $request, 'restore_widgets' ) );
 	}
@@ -59,14 +59,14 @@ class SnapshotsAdmin {
 	public static function handle_download( array $request ) {
 		$name = self::field( $request, 'backup' );
 		if ( ! self::nonce_ok( $request, 'quick-adsense-backup-download_' . $name ) ) {
-			return new \WP_Error( 'quick_adsense_bad_nonce', 'The security check failed.' );
+			return new \WP_Error( 'quick_adsense_bad_nonce', __( 'The security check failed.', 'quick-adsense' ) );
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return new \WP_Error( 'quick_adsense_denied', 'You are not allowed to do that.' );
+			return new \WP_Error( 'quick_adsense_denied', __( 'You are not allowed to do that.', 'quick-adsense' ) );
 		}
 		$payload = Snapshots::get( $name );
 		if ( null === $payload ) {
-			return new \WP_Error( 'quick_adsense_backup_invalid', 'That backup does not exist.' );
+			return new \WP_Error( 'quick_adsense_backup_invalid', __( 'That backup does not exist.', 'quick-adsense' ) );
 		}
 		return array_merge( [ 'backup' => $name ], $payload );
 	}
@@ -119,12 +119,12 @@ class SnapshotsAdmin {
 	}
 
 	/**
-	 * Redirect back to the settings page and stop.
+	 * Redirect back to the Tools page and stop.
 	 *
 	 * @param string $status One of created, restored, error, denied.
 	 */
 	private static function redirect( $status ) {
-		wp_safe_redirect( add_query_arg( 'qa_backup', $status, admin_url( 'admin.php?page=quick-adsense' ) ) . '#tabs-backups' );
+		wp_safe_redirect( add_query_arg( 'qa_backup', $status, admin_url( 'admin.php?page=quick-adsense-tools' ) ) . '#qa-backups' );
 		exit;
 	}
 

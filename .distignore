@@ -9,6 +9,7 @@
 /.git
 /.github
 /.vscode
+/.wordpress-org
 /.cache
 /.distignore
 /.gitattributes
@@ -21,6 +22,7 @@
 /phpcs.xml
 /phpcs.xml.dist
 /.phpunit.result.cache
+/assets/blueprints
 /phpunit.xml
 /phpunit.xml.dist
 /scripts

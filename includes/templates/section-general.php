@@ -4,9 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="quick_adsense_block">
-	<div class="quick_adsense_block_labels"><span>Options</span></div>
+	<div class="quick_adsense_block_labels"><span><?php esc_html_e( 'Options', 'quick-adsense' ); ?></span></div>
 	<div class="quick_adsense_block_controls">
-		<a id="quick_adsense_settings_reset_to_default" href="javascript:;">Reset to Default Settings</a>
+		<a id="quick_adsense_settings_reset_to_default" href="javascript:;"><?php esc_html_e( 'Reset to Default Settings', 'quick-adsense' ); ?></a>
 	</div>
 	<div class="clear"></div>
 </div>

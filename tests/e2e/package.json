@@ -1,0 +1,12 @@
+{
+  "name": "quick-adsense-e2e",
+  "private": true,
+  "description": "Playwright end-to-end tests for Quick Adsense, run against WordPress Playground.",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "@wp-playground/cli": "3.1.66"
+  }
+}

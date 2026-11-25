@@ -47,7 +47,14 @@ while IFS= read -r relative_path; do
 		echo "Missing from the release zip: ${relative_path}" >&2
 		MISSING=$(( MISSING + 1 ))
 	fi
-done < <( cd "${ROOT}" && find includes assets -type f | sort )
+done < <( cd "${ROOT}" && find includes assets -type f -not -path 'assets/blueprints/*' | sort )
+
+# assets/blueprints/blueprint.json is for the WordPress.org Live Preview, which
+# reads it from SVN assets/. It must not ship inside the plugin itself.
+if grep -q "^${PLUGIN_SLUG}/assets/blueprints/" <<< "${ZIP_ENTRIES}"; then
+	echo "assets/blueprints leaked into the release zip — check .distignore." >&2
+	exit 1
+fi
 
 if (( MISSING > 0 )); then
 	echo "${MISSING} runtime file(s) were dropped during packaging — check .distignore." >&2

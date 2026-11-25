@@ -13,7 +13,7 @@ class QuickAdsenseAdWidget extends WP_Widget {
 	 * @param mixed $id The widget id.
 	 */
 	public function __construct( $id ) {
-		parent::__construct( sanitize_title( str_replace( [ '(', ')' ], '', 'AdsWidget' . $id . ' (Quick Adsense)' ) ), 'AdsWidget' . $id . ' (Quick Adsense)', [ 'description' => 'Quick Adsense on Sidebar Widget' ] );
+		parent::__construct( sanitize_title( str_replace( [ '(', ')' ], '', 'AdsWidget' . $id . ' (Quick Adsense)' ) ), 'AdsWidget' . $id . ' (Quick Adsense)', [ 'description' => __( 'Quick Adsense on Sidebar Widget', 'quick-adsense' ) ] );
 	}
 
 	/**
@@ -55,7 +55,7 @@ class QuickAdsenseAdWidget extends WP_Widget {
 	 * @return string — Default return is 'noform'.
 	 */
 	public function form( $instance ) {
-		return '<p>There are no options for this widget.</p>';
+		return '<p>' . esc_html__( 'There are no options for this widget.', 'quick-adsense' ) . '</p>';
 	}
 }
 

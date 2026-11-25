@@ -1,0 +1,42 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "Quick Adsense demo",
+    "description": "Quick Adsense with dummy ads configured across automatic, manual, widget, header and footer paths.",
+    "author": "namithjawahar",
+    "categories": [
+      "demo"
+    ]
+  },
+  "preferredVersions": {
+    "php": "8.2",
+    "wp": "latest"
+  },
+  "features": {
+    "networking": true
+  },
+  "landingPage": "/wp-admin/admin.php?page=quick-adsense",
+  "login": true,
+  "steps": [
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "wordpress.org/plugins",
+        "slug": "quick-adsense"
+      },
+      "options": {
+        "activate": true,
+        "targetFolderName": "quick-adsense"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/mu-plugins/quick-adsense-playground-demo.php",
+      "data": "<?php\n/** Quick Adsense Playground helper. */\nadd_filter(\n\t'the_content',\n\tstatic function ( $content ) {\n\t\tif ( ! is_page( 'quick-adsense-demo' ) || ! in_the_loop() || ! is_main_query() || ! class_exists( 'QuickAdsenseAdWidget' ) ) {\n\t\t\treturn $content;\n\t\t}\n\n\t\tob_start();\n\t\t$widget = new QuickAdsenseAdWidget( 1 );\n\t\t$widget->widget(\n\t\t\tarray(\n\t\t\t\t'widget_name'  => 'AdsWidget1 (Quick Adsense)',\n\t\t\t\t'before_widget' => '<div class=\"quick-adsense-demo-widget\">',\n\t\t\t\t'after_widget'  => '</div>',\n\t\t\t),\n\t\t\tarray()\n\t\t);\n\t\t$widget_output = ob_get_clean();\n\n\t\treturn $content . '<h2>Widget rendering path</h2><p>This final creative is rendered through the plugin widget class.</p>' . $widget_output;\n\t},\n\t20\n);\n"
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php\nrequire_once '/wordpress/wp-load.php';\n\n$banner = static function ( $label, $colour, $slot ) {\n\treturn '<div data-quick-adsense-demo-slot=\"' . $slot . '\" style=\"background:' . $colour\n\t\t. ';color:#fff;font:600 16px/1.4 system-ui,sans-serif;padding:18px;margin:14px 0;'\n\t\t. 'text-align:center;border-radius:6px;\">' . $label\n\t\t. '<br><span style=\"font-weight:400;font-size:13px;opacity:.85;\">Demo creative &mdash; your real HTML or JavaScript goes here</span></div>';\n};\n\n$settings = function_exists( 'quick_adsense_get_defaults' ) ? quick_adsense_get_defaults() : array();\n\n// The visitor is logged in because Playground opens wp-admin automatically.\n// This option is presence-based in legacy Quick Adsense, so remove it entirely.\nunset( $settings['disable_for_loggedin_users'] );\n\n$settings['max_ads_per_page']                  = '10';\n$settings['enable_on_pages']                   = '1';\n$settings['enable_position_beginning_of_post'] = '1';\n$settings['ad_beginning_of_post']              = '1';\n$settings['enable_position_middle_of_post']    = '1';\n$settings['ad_middle_of_post']                 = '2';\n$settings['enable_position_end_of_post']       = '1';\n$settings['ad_end_of_post']                    = '3';\n$settings['enable_position_before_last_para']  = '1';\n$settings['ad_before_last_para']               = '4';\n\nfor ( $index = 1; $index <= 3; $index++ ) {\n\t$settings[ 'enable_position_after_para_option_' . $index ] = '1';\n\t$settings[ 'ad_after_para_option_' . $index ]              = (string) ( $index + 4 );\n\t$settings[ 'position_after_para_option_' . $index ]        = (string) ( $index * 2 );\n}\n\n$settings['enable_position_after_image_option_1'] = '1';\n$settings['ad_after_image_option_1']              = '8';\n$settings['position_after_image_option_1']        = '1';\n\n$labels = array(\n\t1  => 'Beginning of page',\n\t2  => 'Middle of page',\n\t3  => 'End of page',\n\t4  => 'Before the last paragraph',\n\t5  => 'After paragraph 2',\n\t6  => 'After paragraph 4',\n\t7  => 'After paragraph 6',\n\t8  => 'After the first image',\n\t9  => 'Manual Ads9 quicktag',\n\t10 => 'Manual Ads10 quicktag with inline script',\n);\n\n$colours = array( '#2271b1', '#3858e9', '#8c1a5c', '#0a4b78', '#008a20' );\nforeach ( $labels as $index => $label ) {\n\t$creative = $banner( $label, $colours[ ( $index - 1 ) % count( $colours ) ], $index );\n\t$settings[ 'onpost_ad_' . $index . '_content' ]   = $creative;\n\t$settings[ 'onpost_ad_' . $index . '_alignment' ] = '4';\n\t$settings[ 'onpost_ad_' . $index . '_margin' ]    = '0';\n}\n$settings['onpost_ad_10_content'] .= '<script>document.documentElement.dataset.quickAdsenseInlineAd=\"executed\";</script>';\n\n$settings['widget_ad_1_content'] = $banner( 'Sidebar widget ad', '#d63638', 'widget-1' );\n$settings['header_embed_code']   = '<script id=\"quick-adsense-demo-header\">document.documentElement.dataset.quickAdsenseHeader=\"executed\";</script>';\n$settings['footer_embed_code']   = '<div data-quick-adsense-demo-slot=\"footer\" style=\"background:#1d2327;color:#fff;padding:12px;text-align:center;\">Footer embed-code path</div>';\n\nupdate_option( 'quick_adsense_settings', $settings );\n\n$content = \"<!-- wp:paragraph --><p>This page exercises Quick Adsense with self-contained dummy creatives. Open <strong>Quick Adsense</strong> in wp-admin to edit the same values.</p><!-- /wp:paragraph -->\n\n\"\n\t. \"<!-- wp:paragraph --><p>The first automatic paragraph placement follows this paragraph.</p><!-- /wp:paragraph -->\n\n\"\n\t. \"<!-- wp:image --><figure class='wp-block-image'><img src='https://s.w.org/images/core/5.3/MtBlanc1.jpg' alt='Quick Adsense placement test' /></figure><!-- /wp:image -->\n\n\"\n\t. \"<!-- wp:paragraph --><p>The image placement is inserted immediately after the image element.</p><!-- /wp:paragraph -->\n\n\"\n\t. \"<!-- wp:paragraph --><p>Additional paragraphs make midpoint and numbered placement behavior visible.</p><!-- /wp:paragraph -->\n\n\"\n\t. \"<!-- wp:paragraph --><p>The next coloured creative comes from another configured paragraph rule.</p><!-- /wp:paragraph -->\n\n\"\n\t. \"<!-- wp:paragraph --><p>Every creative identifies the insertion path and stored ad slot.</p><!-- /wp:paragraph -->\n\n\"\n\t. \"<!-- wp:html --><!--Ads9--><!-- /wp:html -->\n\n\"\n\t. \"<!-- wp:paragraph --><p>The previous creative uses the manual Ads9 editor quicktag.</p><!-- /wp:paragraph -->\n\n\"\n\t. \"<!-- wp:html --><!--Ads10--><!-- /wp:html -->\n\n\"\n\t. \"<!-- wp:paragraph --><p>The Ads10 creative also runs a harmless inline script, proving executable ad code remains supported.</p><!-- /wp:paragraph -->\n\n\"\n\t. \"<!-- wp:paragraph --><p>This is the final paragraph used by the before-last-paragraph placement.</p><!-- /wp:paragraph -->\";\n\n$existing = get_page_by_path( 'quick-adsense-demo', OBJECT, 'page' );\n$demo_id  = $existing instanceof WP_Post ? $existing->ID : 0;\n$postarr  = array(\n\t'post_title'   => 'Quick Adsense Playground demo',\n\t'post_name'    => 'quick-adsense-demo',\n\t'post_content' => $content,\n\t'post_status'  => 'publish',\n\t'post_type'    => 'page',\n);\n\nif ( $demo_id ) {\n\t$postarr['ID'] = $demo_id;\n\t$demo_id       = wp_update_post( $postarr, true );\n} else {\n\t$demo_id = wp_insert_post( $postarr, true );\n}\n\nif ( is_wp_error( $demo_id ) ) {\n\tthrow new RuntimeException( 'Could not create the Quick Adsense demo page: ' . $demo_id->get_error_message() );\n}\n\nupdate_option( 'show_on_front', 'page' );\nupdate_option( 'page_on_front', (int) $demo_id );\n"
+    }
+  ]
+}

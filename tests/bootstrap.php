@@ -103,6 +103,26 @@ function esc_textarea( $text ) {
 	return htmlspecialchars( $text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8' );
 }
 
+function __( $text, $domain = 'default' ) {
+	return $text;
+}
+
+function esc_html__( $text, $domain = 'default' ) {
+	return esc_html( $text );
+}
+
+function esc_attr__( $text, $domain = 'default' ) {
+	return esc_attr( $text );
+}
+
+function esc_html_e( $text, $domain = 'default' ) {
+	echo esc_html( $text );
+}
+
+function esc_attr_e( $text, $domain = 'default' ) {
+	echo esc_attr( $text );
+}
+
 function checked( $checked, $current = true, $display = true ) {
 	$result = $checked == $current ? 'checked="checked"' : '';
 	if ( $display ) {

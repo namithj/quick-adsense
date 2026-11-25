@@ -19,7 +19,7 @@ $quick_adsense_adunit_index = quick_adsense_get_value( $quick_adsense_template_a
 			null,
 			'input',
 			'display: block; margin: 0 0 10px 0;',
-			'Enter Code'
+			__( 'Enter Code', 'quick-adsense' )
 		);
 		// phpcs:enable
 		?>

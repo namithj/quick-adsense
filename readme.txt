@@ -4,7 +4,7 @@ Tags: adsense, ads, ad manager, ads.txt, advertising
 Requires at least: 6.7
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 2.10.0
+Stable tag: 2.11.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,7 @@ Quick Adsense 2.10 needs WordPress 6.7 or newer. Sites on older versions of Word
 
 1. Screen shot showing the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
 2. The Settings page from Quick Adsense plugin. There are many ways to configure your Ads display, specifically or randomly as you wish.
+3. The Tools page: export your settings to a file and import them on another site, with a preview of every change before it is applied.
 
 == Installation ==
 
@@ -102,7 +103,7 @@ Quick Adsense sends no telemetry or site data to its authors, and the ad statist
 
 = How do backups and restore work? =
 
-Quick Adsense saves a copy of its settings before every plugin update and before every restore. You can also create a backup at any time. They are listed in the Backups tab of the Quick Adsense page, where you can restore or download them. The five most recent backups are kept. A restore first saves your current settings, then puts the chosen backup back exactly as it was. Widget placements are only restored if you tick "Also restore widget placements". Restoring needs an administrator account that is allowed to edit unfiltered HTML.
+Quick Adsense saves a copy of its settings before every plugin update and before every restore. You can also create a backup at any time. They are listed on the Tools page (Quick Adsense > Tools), where you can restore or download them. The five most recent backups are kept. A restore first saves your current settings, then puts the chosen backup back exactly as it was. Widget placements are only restored if you tick "Also restore widget placements". Restoring needs an administrator account that is allowed to edit unfiltered HTML.
 
 = Is it really free? =
 
@@ -111,6 +112,14 @@ Yes, 100%. There is no Pro version, no locked feature and no upsell, and the plu
 Please send feedback through the [Quick Adsense support forum](https://wordpress.org/support/plugin/quick-adsense/) for any bug you find or suggestion you would like to add.
 
 == Changelog ==
+= 2.11.0 =
+* New: Export/import settings (Tools).
+* Plugin is now fully translatable.
+* Live Preview on WordPress.org.
+* The settings page is usable without JavaScript, and its tabs look like WordPress tabs.
+* The ad statistics and ads.txt pop-ups are now native browser dialogs (keyboard and screen-reader friendly); the old jQuery UI theme is gone.
+* Fix: the message shown when the automatic ads.txt update fails never appeared.
+
 = 2.10.0 =
 * New: automatic settings backups and one-click restore.
 * Updated listing.
@@ -265,6 +274,9 @@ Please send feedback through the [Quick Adsense support forum](https://wordpress
 * Date: 21-Sep-2009
 
 == Upgrade Notice ==
+
+= 2.11.0 =
+Adds settings export/import and translations. Your settings are backed up automatically before the update.
 
 = 2.10.0 =
 Requires WordPress 6.7 or newer. Adds automatic settings backups and one-click restore.

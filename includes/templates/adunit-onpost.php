@@ -19,12 +19,12 @@ $quick_adsense_adunit_index = quick_adsense_get_value( $quick_adsense_template_a
 			null,
 			'input',
 			'display: block; margin: 0 0 10px 0',
-			'Enter Code'
+			__( 'Enter Code', 'quick-adsense' )
 		);
 		// phpcs:enable
 		?>
 		<p class="quick_adsense_onpost_adunits_styling_controls">
-			Alignment
+			<?php esc_html_e( 'Alignment', 'quick-adsense' ); ?>
 			<?php
 			echo wp_kses(
 				quickadsense_get_control(
@@ -40,7 +40,7 @@ $quick_adsense_adunit_index = quick_adsense_get_value( $quick_adsense_template_a
 				quick_adsense_get_allowed_html()
 			);
 			?>
-			<wbr />margin
+			<wbr /><?php esc_html_e( 'margin', 'quick-adsense' ); ?>
 			<?php
 			echo wp_kses(
 				quickadsense_get_control(
@@ -59,7 +59,8 @@ $quick_adsense_adunit_index = quick_adsense_get_value( $quick_adsense_template_a
 			px
 		</p>
 		<?php
-		quick_adsense_load_file( 'templates/block-adunit-advanced.php', $quick_adsense_template_args, true );
+		// Admin-only block: its stats buttons need <button>, which the shared (front-end) list does not allow.
+		echo wp_kses( quick_adsense_load_file( 'templates/block-adunit-advanced.php', $quick_adsense_template_args ), quick_adsense_get_allowed_admin_html() );
 		?>
 	</div>
 	<div class="clear"></div>

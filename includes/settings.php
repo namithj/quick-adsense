@@ -119,12 +119,9 @@ function quick_adsense_sanitize_settings( $input ) {
 			continue;
 		}
 
-		if ( 'max_ads_per_page' === $field || 0 === strpos( $field, 'ad_' ) ) {
-			$sanitized[ $field ] = (string) min( 10, absint( $value ) );
-		} elseif ( false !== strpos( $field, '_alignment' ) ) {
-			$sanitized[ $field ] = (string) max( 1, min( 4, absint( $value ) ) );
-		} elseif ( false !== strpos( $field, '_margin' ) || 0 === strpos( $field, 'position_' ) ) {
-			$sanitized[ $field ] = (string) min( 10000, absint( $value ) );
+		$range = quick_adsense_get_setting_range( $field );
+		if ( null !== $range ) {
+			$sanitized[ $field ] = (string) max( $range[0], min( $range[1], absint( $value ) ) );
 		} else {
 			$sanitized[ $field ] = sanitize_text_field( $value );
 		}
@@ -143,13 +140,175 @@ function quick_adsense_sanitize_settings( $input ) {
 }
 
 /**
+ * Return the allowed integer range of a numeric settings key (C-2.2).
+ *
+ * @param string $field Settings key.
+ * @return int[]|null Array of minimum and maximum, or null when the key is not numeric.
+ */
+function quick_adsense_get_setting_range( $field ) {
+	if ( 'max_ads_per_page' === $field || 0 === strpos( $field, 'ad_' ) ) {
+		return [ 0, 10 ];
+	}
+	if ( false !== strpos( $field, '_alignment' ) ) {
+		return [ 1, 4 ];
+	}
+	if ( false !== strpos( $field, '_margin' ) || 0 === strpos( $field, 'position_' ) ) {
+		return [ 0, 10000 ];
+	}
+	return null;
+}
+
+/**
+ * Validate an imported settings array, preserving its shape (C-2.3, C-10.8).
+ *
+ * Unlike quick_adsense_sanitize_settings() this never turns a '0' switch on and
+ * never rewrites a value that is already valid. Unknown keys are dropped, numeric
+ * keys are clamped, country lists keep only valid codes and ad code is kept byte
+ * for byte, but only for a user with manage_options and unfiltered_html. For any
+ * other user the stored code is kept.
+ *
+ * @param array $settings Decoded settings from an export file.
+ * @return array {
+ *     @type array $settings Validated settings, ready for Snapshots::write_settings().
+ *     @type array $report   List of entries with 'type' (unknown, clamped, converted, countries, dropped,
+ *                           code_kept), 'key' and, for clamped and converted values, 'from' and 'to'.
+ * }
+ */
+function quick_adsense_import_validate( array $settings ) {
+	$allowed         = quick_adsense_get_allowed_setting_fields();
+	$code_fields     = quick_adsense_get_ad_code_fields();
+	$existing        = get_option( 'quick_adsense_settings', [] );
+	$existing        = is_array( $existing ) ? $existing : [];
+	$may_update_code = current_user_can( 'manage_options' ) && current_user_can( 'unfiltered_html' );
+	$valid           = [];
+	$report          = [];
+
+	foreach ( $settings as $field => $value ) {
+		if ( ! is_string( $field ) || ! isset( $allowed[ $field ] ) ) {
+			$report[] = [
+				'type' => 'unknown',
+				'key'  => (string) $field,
+			];
+			continue;
+		}
+
+		if ( in_array( $field, $code_fields, true ) ) {
+			if ( ! is_string( $value ) ) {
+				$report[] = [
+					'type' => 'dropped',
+					'key'  => $field,
+				];
+			} elseif ( $may_update_code ) {
+				$valid[ $field ] = $value;
+			} elseif ( ! array_key_exists( $field, $existing ) || $existing[ $field ] !== $value ) {
+				$report[] = [
+					'type' => 'code_kept',
+					'key'  => $field,
+				];
+			}
+			continue;
+		}
+
+		if ( preg_match( '/_limit_visitor_country$/', $field ) ) {
+			if ( ! is_array( $value ) ) {
+				$report[] = [
+					'type' => 'dropped',
+					'key'  => $field,
+				];
+				continue;
+			}
+			$codes = [];
+			foreach ( $value as $code ) {
+				if ( is_string( $code ) && 1 === preg_match( '/^[A-Z]{2}$/', $code ) && ! in_array( $code, $codes, true ) ) {
+					$codes[] = $code;
+				}
+			}
+			if ( array_values( $value ) !== $codes || array_keys( $value ) !== array_keys( $codes ) ) {
+				$report[] = [
+					'type' => 'countries',
+					'key'  => $field,
+				];
+			}
+			$valid[ $field ] = $codes;
+			continue;
+		}
+
+		if ( ! is_scalar( $value ) ) {
+			$report[] = [
+				'type' => 'dropped',
+				'key'  => $field,
+			];
+			continue;
+		}
+
+		if ( preg_match( '/(^enable_|^disable_|_enable_|_hide_)/', $field ) ) {
+			// Switches keep their stored string: '0' stays '0' (shape 1).
+			if ( is_string( $value ) ) {
+				$valid[ $field ] = $value;
+			} else {
+				$valid[ $field ] = (string) $value;
+				$report[]        = [
+					'type' => 'converted',
+					'key'  => $field,
+					'from' => var_export( $value, true ), // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export -- Display value for the report.
+					'to'   => (string) $value,
+				];
+			}
+			continue;
+		}
+
+		$range = quick_adsense_get_setting_range( $field );
+		if ( null !== $range ) {
+			$fixed = (string) max( $range[0], min( $range[1], absint( $value ) ) );
+			if ( is_string( $value ) && ctype_digit( $value ) && (int) $value >= $range[0] && (int) $value <= $range[1] ) {
+				$fixed = $value;
+			}
+			if ( $fixed !== $value ) {
+				$report[] = [
+					'type' => is_int( $value ) && (string) $value === $fixed ? 'converted' : 'clamped',
+					'key'  => $field,
+					'from' => is_string( $value ) ? $value : var_export( $value, true ), // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export -- Display value for the report.
+					'to'   => $fixed,
+				];
+			}
+			$valid[ $field ] = $fixed;
+			continue;
+		}
+
+		$clean = is_string( $value ) ? sanitize_text_field( $value ) : (string) $value;
+		if ( $clean !== $value ) {
+			$report[] = [
+				'type' => 'converted',
+				'key'  => $field,
+				'from' => is_string( $value ) ? $value : var_export( $value, true ), // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export -- Display value for the report.
+				'to'   => $clean,
+			];
+		}
+		$valid[ $field ] = $clean;
+	}
+
+	if ( ! $may_update_code ) {
+		foreach ( $code_fields as $field ) {
+			if ( array_key_exists( $field, $existing ) ) {
+				$valid[ $field ] = $existing[ $field ];
+			}
+		}
+	}
+
+	return [
+		'settings' => $valid,
+		'report'   => $report,
+	];
+}
+
+/**
  * Add a settings page link to the plugin listing in the plugins admin page.
  */
 add_action(
 	'plugin_action_links_quick-adsense/quick-adsense.php',
 	function ( $links ) {
 		$links = array_merge(
-			[ '<a href="' . esc_url( admin_url( '/admin.php?page=quick-adsense' ) ) . '">Settings</a>' ],
+			[ '<a href="' . esc_url( admin_url( '/admin.php?page=quick-adsense' ) ) . '">' . esc_html__( 'Settings', 'quick-adsense' ) . '</a>' ],
 			$links
 		);
 		return $links;
@@ -163,8 +322,8 @@ add_action(
 	'admin_menu',
 	function () {
 		add_menu_page(
-			'Quick Adsense Options',
-			'Quick Adsense',
+			__( 'Quick Adsense Options', 'quick-adsense' ),
+			'Quick Adsense', // Brand name: not translated, because core derives admin page hook suffixes from it.
 			'manage_options',
 			'quick-adsense',
 			function () {
@@ -174,6 +333,8 @@ add_action(
 				// phpcs:enable
 			}
 		);
+		// Explicit first submenu so the top-level entry keeps opening the settings page (C-8).
+		add_submenu_page( 'quick-adsense', __( 'Quick Adsense Options', 'quick-adsense' ), __( 'Settings', 'quick-adsense' ), 'manage_options', 'quick-adsense' );
 	}
 );
 
@@ -185,10 +346,10 @@ add_action(
 	function ( $hook ) {
 		global $wp_scripts;
 		if ( ( 'toplevel_page_quick-adsense' === $hook ) && ( current_user_can( 'manage_options' ) ) ) {
-			wp_enqueue_script( 'quick-adsense-chart-scripts', plugins_url( '../assets/js/chart.min.js', __FILE__ ), [ 'jquery', 'jquery-ui-core', 'jquery-ui-accordion', 'jquery-ui-dialog' ], '3.7.1', false );
-			wp_enqueue_style( 'quick-adsense-jquery-ui-styles', plugins_url( '../assets/css/jquery-ui.min.css', __FILE__ ), [], '1.9.1' );
+			wp_enqueue_script( 'quick-adsense-chart-scripts', plugins_url( '../assets/js/chart.min.js', __FILE__ ), [], '3.7.1', false );
 			wp_enqueue_style( 'quick-adsense-admin-styles', plugins_url( '../assets/css/admin.css', __FILE__ ), [], QUICK_ADSENSE_VERSION );
-			wp_enqueue_script( 'quick-adsense-admin-scripts', plugins_url( '../assets/js/admin.js', __FILE__ ), [ 'jquery', 'jquery-ui-core', 'jquery-ui-tabs', 'wp-util' ], QUICK_ADSENSE_VERSION, false );
+			wp_enqueue_script( 'quick-adsense-admin-scripts', plugins_url( '../assets/js/admin.js', __FILE__ ), [ 'jquery', 'jquery-ui-core', 'jquery-ui-tabs', 'wp-util', 'wp-i18n' ], QUICK_ADSENSE_VERSION, false );
+			wp_set_script_translations( 'quick-adsense-admin-scripts', 'quick-adsense' );
 			wp_localize_script(
 				'quick-adsense-admin-scripts',
 				'quick_adsense',
@@ -197,6 +358,36 @@ add_action(
 					'nonce'    => wp_create_nonce( 'quick-adsense-nonce' ),
 				]
 			);
+		}
+	}
+);
+
+/**
+ * Hide the tabs until admin.js has built them, so a visitor with JavaScript never sees the unstyled form.
+ * Without JavaScript the noscript rule below shows the form.
+ *
+ * @param string $classes Space-separated body classes.
+ * @return string
+ */
+add_filter(
+	'admin_body_class',
+	function ( $classes ) {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( $screen && 'toplevel_page_quick-adsense' === $screen->id && current_user_can( 'manage_options' ) ) {
+			$classes .= ' qa-js-loading';
+		}
+		return $classes;
+	}
+);
+
+/**
+ * Show the form when JavaScript is off (the qa-js-loading class is only removed by admin.js).
+ */
+add_action(
+	'admin_head-toplevel_page_quick-adsense',
+	function () {
+		if ( current_user_can( 'manage_options' ) ) {
+			echo '<noscript><style>.qa-js-loading #quick_adsense_settings_tabs{display:flex}</style></noscript>' . "\n";
 		}
 	}
 );
@@ -216,22 +407,26 @@ add_action(
 					'sanitize_callback' => 'quick_adsense_sanitize_settings',
 				]
 			);
-			$settings                      = get_option( 'quick_adsense_settings' );
+			$settings = get_option( 'quick_adsense_settings' );
+			if ( false === $settings ) {
+				// A missing option row: start from an empty array instead of PHP's deprecated false-to-array conversion.
+				$settings = [];
+			}
 			$settings['alignment_options'] = [
 				[
-					'text'  => 'Left',
+					'text'  => __( 'Left', 'quick-adsense' ),
 					'value' => '1',
 				],
 				[
-					'text'  => 'Center',
+					'text'  => __( 'Center', 'quick-adsense' ),
 					'value' => '2',
 				],
 				[
-					'text'  => 'Right',
+					'text'  => __( 'Right', 'quick-adsense' ),
 					'value' => '3',
 				],
 				[
-					'text'  => 'None',
+					'text'  => __( 'None', 'quick-adsense' ),
 					'value' => '4',
 				],
 			];

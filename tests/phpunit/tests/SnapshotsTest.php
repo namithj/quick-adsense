@@ -121,7 +121,11 @@ class QuickAdsenseSnapshotsTest extends WP_UnitTestCase {
 		remove_action( 'admin_init', 'wp_admin_headers' );
 		// Core's privacy-policy helper complains about being called from a bare do_action().
 		$this->setExpectedIncorrectUsage( 'wp_add_privacy_policy_content' );
+		// core's admin_init asks api.wordpress.org for plugin updates; a failed request raises a PHP warning and made this test flaky.
+		add_filter( 'pre_http_request', '__return_true' );
+		set_site_transient( 'update_plugins', (object) [ 'last_checked' => time() ] );
 		do_action( 'admin_init' );
+		remove_filter( 'pre_http_request', '__return_true' );
 		$this->assertNotFalse( has_filter( 'sanitize_option_quick_adsense_settings', 'quick_adsense_sanitize_settings' ) );
 		delete_option( 'quick_adsense_settings' );
 

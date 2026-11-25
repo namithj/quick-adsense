@@ -226,3 +226,41 @@ function quick_adsense_get_allowed_html() {
 	];
 	return $common_html_tags;
 }
+
+/**
+ * Allowed HTML for admin-only templates: the shared list plus buttons and
+ * hidden icons. Never use it for front-end output (widget wrappers use the
+ * shared list, which must not change; see the data contract).
+ *
+ * @return array Allowed tags and attributes.
+ */
+function quick_adsense_get_allowed_admin_html() {
+	$allowed                        = quick_adsense_get_allowed_html();
+	$allowed['button']              = $allowed['input'];
+	$allowed['span']['aria-hidden'] = [];
+	return $allowed;
+}
+
+/**
+ * Escape a translated string that may contain simple inline markup.
+ *
+ * @param string $html Translated string.
+ * @return string String limited to basic inline tags.
+ */
+function quick_adsense_kses_inline( $html ) {
+	return wp_kses(
+		$html,
+		[
+			'a'    => [
+				'href'   => [],
+				'target' => [],
+				'rel'    => [],
+			],
+			'b'    => [],
+			'i'    => [],
+			'br'   => [],
+			'wbr'  => [],
+			'code' => [],
+		]
+	);
+}

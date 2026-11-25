@@ -4,12 +4,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="quick_adsense_block">
-	<div class="quick_adsense_block_labels">Assign position<br />(Default)</div>
+	<div class="quick_adsense_block_labels"><?php echo quick_adsense_kses_inline( __( 'Assign position<br />(Default)', 'quick-adsense' ) ); ?></div>
 	<div class="quick_adsense_block_controls">
 		<?php
 		$quick_adsense_ad_positions = [
 			[
-				'text'  => 'Random Ads',
+				'text'  => __( 'Random Ads', 'quick-adsense' ),
 				'value' => '0',
 			],
 		];
@@ -57,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				quick_adsense_get_allowed_html()
 			);
 			?>
-			<b style="width: 120px; display: inline-block;">Beginning of Post</b>
+			<b style="width: 120px; display: inline-block;"><?php esc_html_e( 'Beginning of Post', 'quick-adsense' ); ?></b>
 		</p>
 		<p>
 			<?php
@@ -88,7 +88,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				quick_adsense_get_allowed_html()
 			);
 			?>
-			<b style="width: 120px; display: inline-block;">Middle of Post</b>
+			<b style="width: 120px; display: inline-block;"><?php esc_html_e( 'Middle of Post', 'quick-adsense' ); ?></b>
 		</p>
 		<p>
 			<?php
@@ -119,7 +119,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				quick_adsense_get_allowed_html()
 			);
 			?>
-			<b>End of Post</b>
+			<b><?php esc_html_e( 'End of Post', 'quick-adsense' ); ?></b>
 		</p>
 		<div class="clear"></div>
 		<p>
@@ -151,7 +151,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				quick_adsense_get_allowed_html()
 			);
 			?>
-			right after <b>the &lt;!--more--&gt; tag</b>
+			<?php echo quick_adsense_kses_inline( __( 'right after <b>the &lt;!--more--&gt; tag</b>', 'quick-adsense' ) ); ?>
 		</p>
 		<p>
 			<?php
@@ -182,7 +182,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				quick_adsense_get_allowed_html()
 			);
 			?>
-			right before <b>the last Paragraph</b>
+			<?php echo quick_adsense_kses_inline( __( 'right before <b>the last Paragraph</b>', 'quick-adsense' ) ); ?>
 		</p>
 		<div class="clear"></div>
 		<?php for ( $quick_adsense_i = 1; $quick_adsense_i <= 3; $quick_adsense_i++ ) { ?>
@@ -215,7 +215,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					quick_adsense_get_allowed_html()
 				);
 				?>
-				<span style="width: 110px;display: inline-block;"><b>after Paragraph</b></span>
+				<span style="width: 110px;display: inline-block;"><b><?php esc_html_e( 'after Paragraph', 'quick-adsense' ); ?></b></span>
 				<?php
 				echo wp_kses(
 					quickadsense_get_control(
@@ -231,7 +231,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					quick_adsense_get_allowed_html()
 				);
 				?>
-				repeat
+				<?php esc_html_e( 'repeat', 'quick-adsense' ); ?>
 				<?php
 				echo wp_kses(
 					quickadsense_get_control(
@@ -247,7 +247,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					quick_adsense_get_allowed_html()
 				);
 				?>
-				<b>to End of Post</b> if fewer paragraphs are found
+				<?php echo quick_adsense_kses_inline( __( '<b>to End of Post</b> if fewer paragraphs are found', 'quick-adsense' ) ); ?>
 			</p>
 		<?php } ?>
 		<div class="clear"></div>
@@ -281,7 +281,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					quick_adsense_get_allowed_html()
 				);
 				?>
-				<span style="width: 110px;display: inline-block;">after Image</span>
+				<span style="width: 110px;display: inline-block;"><?php esc_html_e( 'after Image', 'quick-adsense' ); ?></span>
 				<?php
 				echo wp_kses(
 					quickadsense_get_control(
@@ -297,7 +297,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					quick_adsense_get_allowed_html()
 				);
 				?>
-				repeat
+				<?php esc_html_e( 'repeat', 'quick-adsense' ); ?>
 				<?php
 				echo wp_kses(
 					quickadsense_get_control(
@@ -313,7 +313,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					quick_adsense_get_allowed_html()
 				);
 				?>
-				after <b>Image\'s outer &lt;div&gt; wp-caption</b> if any
+				<?php echo quick_adsense_kses_inline( __( 'after <b>Image\'s outer &lt;div&gt; wp-caption</b> if any', 'quick-adsense' ) ); ?>
 			</p>
 		<?php } ?>
 	</div>

@@ -4,9 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="quick_adsense_block">
-	<div class="quick_adsense_block_labels">Adsense</div>
+	<div class="quick_adsense_block_labels"><?php esc_html_e( 'Adsense', 'quick-adsense' ); ?></div>
 	<div class="quick_adsense_block_controls">
-		Place up to
+		<?php esc_html_e( 'Place up to', 'quick-adsense' ); ?>
 		<?php
 		$quick_adsense_max_ads_count = [];
 		for ( $quick_adsense_i = 0; $quick_adsense_i <= 10; $quick_adsense_i++ ) {
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			quick_adsense_get_allowed_html()
 		);
 		?>
-		Ads on a page
+		<?php esc_html_e( 'Ads on a page', 'quick-adsense' ); ?>
 	</div>
 	<div class="clear"></div>
 </div>

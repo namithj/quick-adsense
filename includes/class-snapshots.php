@@ -54,22 +54,13 @@ class Snapshots {
 			++$n;
 		}
 
-		$instances = [];
-		for ( $i = 1; $i <= 10; $i++ ) {
-			$option = 'widget_adswidget' . $i . '-quick-adsense';
-			$value  = get_option( $option );
-			if ( false !== $value ) {
-				$instances[ $option ] = $value;
-			}
-		}
-
 		$payload = [
 			'plugin_version'   => QUICK_ADSENSE_VERSION,
 			'created_at'       => gmdate( 'Y-m-d H:i:s' ),
 			'reason'           => $reason,
 			'settings'         => get_option( 'quick_adsense_settings' ),
 			'widgets'          => self::collect_widgets(),
-			'widget_instances' => $instances,
+			'widget_instances' => self::collect_instances(),
 			'notice_dismissed' => get_option( 'quick_adsense_adstxt_adsense_admin_notice_dismissed' ),
 		];
 
@@ -185,15 +176,15 @@ class Snapshots {
 		// Load first: the pre-restore snapshot may prune the very backup being restored.
 		$payload = self::get( $name );
 		if ( null === $payload || ! is_array( $payload['settings'] ) ) {
-			return new \WP_Error( 'quick_adsense_backup_invalid', 'That backup cannot be restored.' );
+			return new \WP_Error( 'quick_adsense_backup_invalid', __( 'That backup cannot be restored.', 'quick-adsense' ) );
 		}
 
 		if ( false === self::create( 'pre-restore' ) ) {
-			return new \WP_Error( 'quick_adsense_backup_failed', 'The current settings could not be backed up, so nothing was restored.' );
+			return new \WP_Error( 'quick_adsense_backup_failed', __( 'The current settings could not be backed up, so nothing was restored.', 'quick-adsense' ) );
 		}
 
 		if ( ! self::write_settings( $payload['settings'] ) ) {
-			return new \WP_Error( 'quick_adsense_restore_failed', 'The settings could not be written.' );
+			return new \WP_Error( 'quick_adsense_restore_failed', __( 'The settings could not be written.', 'quick-adsense' ) );
 		}
 
 		$dismissed = $payload['notice_dismissed'] ?? false;
@@ -229,11 +220,28 @@ class Snapshots {
 	}
 
 	/**
+	 * Collect the stored widget instance options of this plugin's widgets.
+	 *
+	 * @return array<string, mixed> Option name => value.
+	 */
+	public static function collect_instances() {
+		$instances = [];
+		for ( $i = 1; $i <= 10; $i++ ) {
+			$option = 'widget_adswidget' . $i . '-quick-adsense';
+			$value  = get_option( $option );
+			if ( false !== $value ) {
+				$instances[ $option ] = $value;
+			}
+		}
+		return $instances;
+	}
+
+	/**
 	 * Collect this plugin's placements from sidebars_widgets.
 	 *
 	 * @return array<string, array<int, string>> Sidebar id => widget ids, keyed by position.
 	 */
-	private static function collect_widgets() {
+	public static function collect_widgets() {
 		$sidebars = get_option( 'sidebars_widgets' );
 		$found    = [];
 		if ( ! is_array( $sidebars ) ) {
@@ -261,7 +269,7 @@ class Snapshots {
 	 *
 	 * @param array $payload Snapshot payload.
 	 */
-	private static function restore_widgets( array $payload ) {
+	public static function restore_widgets( array $payload ) {
 		$instances = isset( $payload['widget_instances'] ) && is_array( $payload['widget_instances'] ) ? $payload['widget_instances'] : [];
 		foreach ( $instances as $option => $value ) {
 			if ( is_string( $option ) && 1 === preg_match( '/^widget_adswidget([1-9]|10)-quick-adsense$/', $option ) ) {
